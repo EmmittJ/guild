@@ -138,6 +138,18 @@ When subagents complete:
 
 ---
 
+## File Output Discipline
+
+Agents must only create files that are a **deliverable of their assigned role** — not notes, summaries, scratch files, or analysis artifacts.
+
+When briefing any agent that will research, explore, or analyze:
+
+> Do not write findings to files. Use the `memory` skill to record anything worth keeping — insights via `memory:insight:create`, decisions via `memory:decision:create`. Only create files that are a direct deliverable of your role (e.g. a skill file, an agent file, a script).
+
+If a spawned agent produces stray files, delete them and re-capture the content through the appropriate skill before the session ends.
+
+---
+
 ## Quick Reference
 
 | Task | What to do |
@@ -148,6 +160,7 @@ When subagents complete:
 | No specialist available | Implement directly, trigger `memory:decision:create` |
 | Repeated failure | Cap at 3 attempts, escalate |
 | End of session | Trigger `memory:context:update`; trigger `inbox:message:create` if handoff needed |
+| Stray files found in repo | Delete them; re-capture content via `memory:insight:create` |
 
 
 
