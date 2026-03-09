@@ -1,0 +1,6 @@
+res/
+
+# guild-managed
+.guild/memory/context/
+.guild/inbox/
+# end guild-managed

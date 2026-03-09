@@ -1,0 +1,21 @@
+{
+  "name": "guild",
+  "owner": "EmmittJ",
+  "plugins": [
+    {
+      "name": "core",
+      "description": "Guild Master orchestrator agent + orchestrate, train-agent, and train-skill core skills.",
+      "install": "core@guild"
+    },
+    {
+      "name": "markdown-memory",
+      "description": "File-based team memory: decisions, insights, per-agent context, inbox.",
+      "install": "markdown-memory@guild"
+    },
+    {
+      "name": "markdown-tasks",
+      "description": "File-based task store: open/in_progress/closed directories as task status.",
+      "install": "markdown-tasks@guild"
+    }
+  ]
+}

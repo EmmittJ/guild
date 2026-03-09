@@ -1,0 +1,17 @@
+{
+  "name": "guild",
+  "description": "A self-managing AI team for any repo. Drop in a Guild Master and a set of skills — works in Copilot CLI, VS Code, and Claude Code.",
+  "plugins": [
+    {
+      "name": "core",
+      "description": "Guild Master orchestrator + orchestrate, train-agent, train-skill, and setup-markdown skills.",
+      "agents": [".github/agents/guild-master.agent.md"],
+      "skills": [
+        ".github/skills/orchestrate",
+        ".github/skills/train-agent",
+        ".github/skills/train-skill",
+        ".github/skills/setup-markdown"
+      ]
+    }
+  ]
+}
