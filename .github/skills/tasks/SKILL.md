@@ -1,54 +1,62 @@
 ---
 name: tasks
 description: >
-  File-based task store for a team of agents. Tasks live as Markdown files in
-  .guild/tasks/open/, in_progress/, and closed/ — the directory is the status, moving a file
-  is the state transition. No write conflicts, no shared status fields.
-  Activate when: `task:item:create` — work needs tracking across sessions; `task:item:update` —
-  claiming, unclaiming, or completing a task; `task:item:read` — checking available or in-progress work.
+  GitHub Issues task store for a team of agents. Tasks are issues — status via labels, closed
+  issue = completed task. No write conflicts, no shared files.
+  Activate when: task:item:create — work needs tracking; task:item:update — claiming, unclaiming,
+  blocking, or completing a task; task:item:read — checking available or in-progress work.
   DO NOT USE FOR: decisions, insights, or context — use the memory skill. Inbox messages — use the inbox skill.
 license: MIT
 metadata:
-  version: "0.2"
-  asset: .github/skills/guild-setup-markdown/assets/skills/tasks/SKILL.md
+  version: "0.1"
+  asset: .github/skills/guild-setup-github/assets/skills/tasks/SKILL.md
 ---
 
 ## Overview
 
-The tasks root for this repo is `.guild/tasks` (relative to repo root).
+Tasks are GitHub Issues in `EmmittJ/guild`. Status is tracked via labels; a closed issue is a
+completed task.
 
-```
-.guild/tasks/
-  open/          ← unclaimed work
-  in_progress/   ← claimed; agent name in frontmatter
-  closed/        ← completed; audit trail, never delete
-```
+**Label scheme:**
+
+| Label | Meaning |
+|-------|---------|
+| `open` | Unclaimed, available work |
+| `in-progress` | Claimed by an agent (this session) |
+| `blocked` | Cannot proceed — blocking issue referenced in body |
+| `priority:high` | Urgent |
+| `priority:medium` | Normal priority |
+| `priority:low` | Nice-to-have |
+
+**State model:**
+- Open issue + `open` label → available
+- Open issue + `in-progress` label → claimed
+- Open issue + `blocked` label → blocked
+- Closed issue → done (archive)
+
+> **Note (v1):** Agent identity is not tracked via assignees in this version. Claimed work is
+> identified by the `in-progress` label only. Assignee mapping is deferred to a future version.
 
 ---
 
 ## Session Start
 
-1. `.guild/tasks/in_progress/` — tasks you claimed in a prior session (resume or unclaim)
-2. `.guild/tasks/open/` — available work (check here before creating new tasks)
+Run these two commands at the top of each session:
+
+```sh
+gh issue list -R EmmittJ/guild -l in-progress   # tasks claimed in a prior session (resume or unclaim)
+gh issue list -R EmmittJ/guild -l open           # available work
+```
 
 ---
 
-## Task Format `task:item:create` `task:item:update` `task:item:read`
+## Task Format `task:item:create`
 
-Filename: `{slug}.md` — short and descriptive, e.g. `add-auth-tests.md`
+Create an issue with a descriptive title, a structured body, and at least one status label.
+
+**Required body structure:**
 
 ```markdown
----
-priority: high | medium | low
-agent: {assigned agent name, or empty if unclaimed}
-created: YYYY-MM-DD
-blocked-by:
-  - {slug of blocking task}
-  - {slug of another blocking task}
----
-
-# {Task title}
-
 ## What
 {What needs to be done. Specific enough that an agent can start without asking.}
 
@@ -59,23 +67,84 @@ blocked-by:
 {Links to relevant decisions, files, insights, or other tasks.}
 ```
 
+**Example:**
+
+```sh
+gh issue create -R EmmittJ/guild \
+  -t "add-auth-tests: add unit tests for authentication flow" \
+  -b "## What
+Add unit tests covering login, logout, and token refresh.
+
+## Done when
+All three flows have passing tests with >80% branch coverage.
+
+## Context
+See decisions/use-jwt.md. Related to issue #12." \
+  -l open \
+  -l priority:high
+```
+
 ---
 
 ## State Transitions `task:item:update`
 
+| Transition | Command |
+|------------|---------|
+| Create (open) | `gh issue create -R EmmittJ/guild -t "..." -b "..." -l open` |
+| Claim (open → in-progress) | `gh issue edit -R EmmittJ/guild {number} --add-label in-progress --remove-label open` |
+| Unclaim (in-progress → open) | `gh issue edit -R EmmittJ/guild {number} --add-label open --remove-label in-progress` |
+| Block | `gh issue edit -R EmmittJ/guild {number} --add-label blocked --remove-label open --remove-label in-progress` |
+| Complete | `gh issue close -R EmmittJ/guild {number}` |
+
+---
+
+## Read Commands `task:item:read`
+
+```sh
+gh issue list -R EmmittJ/guild -l open           # available work
+gh issue list -R EmmittJ/guild -l in-progress    # claimed work
+gh issue list -R EmmittJ/guild -l blocked        # blocked work
+gh issue view -R EmmittJ/guild {number}          # full issue detail
 ```
-open/ → in_progress/    claim: set agent: field, move file
-in_progress/ → open/    unclaim: clear agent: field, move file back
-in_progress/ → closed/  complete: append outcome note, move file
+
+---
+
+## Blocked-by
+
+GitHub Issues has no native blocking relationship. Use the `blocked` label to signal state and
+document the dependency in the issue body:
+
+```markdown
+## Context
+Blocked by #42.
 ```
+
+Before claiming a task, check whether any referenced blocking issues are still open:
+
+```sh
+gh issue view -R EmmittJ/guild 42   # check if still open
+```
+
+---
+
+## Priority
+
+Add one priority label at create time. Omit if no prioritization is needed.
+
+```sh
+-l priority:high    # urgent
+-l priority:medium  # normal
+-l priority:low     # nice-to-have
+```
+
+---
 
 ## Rules
 
-- Check `open/` before creating new tasks — avoid duplicates
-- When claiming: update `agent:` and move in the same operation
-- Check `blocked-by:` before claiming — don't start blocked work
-- `blocked-by:` accepts a list of slugs — all listed tasks must be closed before this one can start
-- When you complete a task, check whether any other task was `blocked-by` it — those tasks are now unblocked
-- `closed/` is an archive — never delete, never edit
-- One file per task — never append to another agent's task file
+- Check open issues before creating — avoid duplicates (`gh issue list -R EmmittJ/guild -l open`)
+- When claiming: add `in-progress` and remove `open` in the same `gh issue edit` call
+- Check the issue body for "Blocked by #N" before claiming — don't start blocked work
+- To block a task: add `blocked`, remove both `open` and `in-progress` in one call
+- Closed issues are an archive — never reopen to edit; create a new issue if work resumes
+- One issue per task
 
