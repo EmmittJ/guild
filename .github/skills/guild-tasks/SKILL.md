@@ -22,7 +22,6 @@ completed task.
 
 | Label | Meaning | When used |
 |-------|---------|-----------|
-| `open` | Optional marker for unclaimed work | Historical/optional — not required |
 | `in-progress` | Claimed by an agent this session | Add when claiming work |
 | `blocked` | Cannot proceed — see body for blocker | Add when a blocker is discovered |
 | `priority:high` | Urgent | Optional; at create time |
@@ -126,8 +125,6 @@ $body = @"
 gh issue create -R EmmittJ/guild -t "{Task title}" -b $body -l priority:medium
 ```
 
-> **Note:** The `open` label is optional. New issues without labels are immediately actionable.
-
 ---
 
 ## State Transitions `task:item:update`
@@ -135,9 +132,9 @@ gh issue create -R EmmittJ/guild -t "{Task title}" -b $body -l priority:medium
 | Transition | Command |
 |------------|---------|
 | Create (ready) | `gh issue create -R EmmittJ/guild -t "..." -b "..." -l priority:medium` |
-| Claim (→ in-progress) | `gh issue edit -R EmmittJ/guild {number} --add-label in-progress --remove-label open` (omit `--remove-label open` if issue has no `open` label) |
+| Claim (→ in-progress) | `gh issue edit -R EmmittJ/guild {number} --add-label in-progress` |
 | Unclaim (→ ready) | `gh issue edit -R EmmittJ/guild {number} --remove-label in-progress` |
-| Block | `gh issue edit -R EmmittJ/guild {number} --add-label blocked --remove-label open --remove-label in-progress` |
+| Block | `gh issue edit -R EmmittJ/guild {number} --add-label blocked --remove-label in-progress` |
 | Complete | `gh issue close -R EmmittJ/guild {number}` |
 
 ---
@@ -163,7 +160,7 @@ Returns open, unblocked tasks regardless of status labels, sorted by priority (h
 gh issue list -R EmmittJ/guild --state open --search "-label:blocked"
 ```
 
-This catches unlabeled issues, priority-only issues, and issues with historical `open` labels.
+This catches unlabeled issues, priority-only issues.
 
 > Agents should sort results by `priority:` label after retrieving — high before medium before low. Unset priority = lowest.
 
@@ -204,8 +201,7 @@ Add one priority label at create time. Omit if no prioritization is needed.
 - **Ground truth is GitHub issue state (open/closed), not labels.** Labels are optional workflow markers.
 - **New issues without labels are immediately actionable.** No intake ceremony required.
 - Check open issues before creating — avoid duplicates (`gh issue list -R EmmittJ/guild --state open`)
-- When claiming: add `in-progress` and remove `open` in the same `gh issue edit` call
 - Check the issue body for "Blocked by #N" before claiming — don't start blocked work
-- To block a task: add `blocked`, remove both `open` and `in-progress` in one call
+- To block a task: add `blocked`, remove `in-progress` in one call
 - Closed issues are an archive — never reopen to edit; create a new issue if work resumes
 - One issue per task

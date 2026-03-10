@@ -163,7 +163,7 @@ Returns open, unblocked tasks regardless of status labels, sorted by priority (h
 gh issue list -R ${github_repo} --state open --search "-label:blocked"
 ```
 
-This catches unlabeled issues, priority-only issues, and issues with historical `open` labels.
+This catches unlabeled issues, priority-only issues.
 
 > Agents should sort results by `priority:` label after retrieving — high before medium before low. Unset priority = lowest.
 
@@ -205,8 +205,7 @@ Add one priority label at create time. Omit if no prioritization is needed.
 - **Ground truth is GitHub issue state (open/closed), not labels.** Labels are optional workflow markers.
 - **New issues without labels are immediately actionable.** No intake ceremony required.
 - Check open issues before creating — avoid duplicates (`gh issue list -R ${github_repo} --state open`)
-- When claiming: add `in-progress` and remove `open` in the same `gh issue edit` call
 - Check the issue body for "Blocked by #N" before claiming — don't start blocked work
-- To block a task: add `blocked`, remove both `open` and `in-progress` in one call
+- To block a task: add `blocked`, remove `in-progress` in one call
 - Closed issues are an archive — never reopen to edit; create a new issue if work resumes
 - One issue per task
