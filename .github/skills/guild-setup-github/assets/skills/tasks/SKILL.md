@@ -53,11 +53,13 @@ gh issue list -R ${github_repo} -l open           # available work
 
 ## Task Format `task:item:create`
 
+> **Shell note:** Always use `--body-file` or a heredoc for issue bodies. Inline `-b "text with \n"` passes literal backslash-n characters, not newlines.
+
 Create an issue with a descriptive title, a structured body, and at least one status label.
 
 **Required body structure:**
 
-```markdown
+````markdown
 ## What
 {What needs to be done. Specific enough that an agent can start without asking.}
 
@@ -66,25 +68,64 @@ Create an issue with a descriptive title, a structured body, and at least one st
 
 ## Context
 {Links to relevant decisions, files, insights, or other tasks.}
+````
+
+**Pattern 1 — `--body-file` (recommended):**
+
+```sh
+cat > /tmp/guild-issue.md << 'EOF'
+## What
+{description}
+
+## Done when
+{acceptance criteria}
+
+## Context
+{links, related issues, notes}
+EOF
+
+gh issue create -R ${github_repo} \
+  -t "{Task title}" \
+  --body-file /tmp/guild-issue.md \
+  -l open \
+  -l priority:medium
 ```
 
-**Example:**
+**Pattern 2 — heredoc inline (bash/sh):**
 
 ```sh
 gh issue create -R ${github_repo} \
-  -t "add-auth-tests: add unit tests for authentication flow" \
-  -b "## What
-Add unit tests covering login, logout, and token refresh.
+  -t "{Task title}" \
+  -b "$(cat << 'EOF'
+## What
+{description}
 
 ## Done when
-All three flows have passing tests with >80% branch coverage.
+{acceptance criteria}
 
 ## Context
-See decisions/use-jwt.md. Related to issue #12." \
+{links, related issues, notes}
+EOF
+)" \
   -l open \
-  -l priority:high
+  -l priority:medium
 ```
 
+**Pattern 3 — PowerShell here-string:**
+
+```powershell
+$body = @"
+## What
+{description}
+
+## Done when
+{acceptance criteria}
+
+## Context
+{links, related issues, notes}
+"@
+gh issue create -R ${github_repo} -t "{Task title}" -b $body -l open -l priority:medium
+```
 ---
 
 ## State Transitions `task:item:update`
