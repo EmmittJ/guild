@@ -237,10 +237,10 @@ Old → New:
 When a skill version increments (e.g., orchestrate v0.3 → v0.4):
 
 **In the skill itself (SKILL.md):**
-- Frontmatter ersion: field updated
-- A changelog section at the bottom documenting version history
+- Frontmatter version: field updated
+- No changelog section in SKILL.md (see rationale below)
 
-`yaml
+yaml
 ---
 name: orchestrate
 description: Orchestrate work and delegate to specialists
@@ -250,30 +250,22 @@ updated: 2026-03-13
 
 # ... skill content ...
 
----
 
-## Changelog
+**Skill version history is tracked via:**
+- Git log (commit history for the skill file)
+- Root CHANGELOG.md (summarizes all version changes by release)
+- docs/releases/vX.Y.Z/CHANGELOG.md (technical details per release)
 
-### v0.4 (2026-03-13)
-- Added Issue Lifecycle Management section (5 steps, 5 checkpoints, escalation rules)
-- New quick reference card and implementation guide
-- Default SLAs for monitoring checkpoints (small/medium/large issues)
-
-### v0.3 (2026-02-15)
-- Initial release with delegation patterns
-
-### v0.2 (2026-02-01)
-- Early prototype
-`
-
-**In the release folder (optional):**
-- skill-updates/orchestrate-v0.4.md for detailed changelog (if significant)
+**In the release folder (required for significant changes):**
+- docs/releases/vX.Y.Z/skill-updates/orchestrate-v0.4.md for detailed changelog (if skill changed)
 - Links from RELEASE_NOTES.md
 
 **Rationale:**
-- Version is immutable once released
-- Changelog is discoverable in the skill file itself
-- Release notes can reference skill-specific changes
+- Skill files are loaded as agent context during execution — changelog tables waste context tokens
+- Agents do not need version history; they only need the current skill definition
+- Version history is maintained in CHANGELOG.md (permanent, queryable record)
+- Git log provides full commit history for any skill version
+- Release notes link to detailed change logs for user reference
 
 ### 6. Artifact Cleanup: What Stays, What Goes
 
@@ -282,7 +274,7 @@ updated: 2026-03-13
 - CHANGELOG.md (root)
 - BREAKING_CHANGES.md (root) — now a redirect/summary
 - Decision documents in .guild/memory/decisions/
-- Skill SKILL.md files (with changelog sections)
+- Skill SKILL.md files (without changelog sections)
 - .guild/memory/insights/ (domain knowledge)
 
 **TEMPORARY (deleted after release):**
@@ -359,7 +351,7 @@ Examples:
 - [ ] docs/releases/ folder structure created
 - [ ] CHANGELOG.md created at root with entry format and links to versioned releases
 - [ ] Versioned release folders exist for v0.2.0, v0.3.0, v0.4.0 (with RELEASE_NOTES.md, BREAKING_CHANGES.md, DECISIONS.md)
-- [ ] Each SKILL.md has a changelog section with version history
+- [ ] SKILL.md files do NOT contain changelog sections; version history is in git log and root CHANGELOG.md
 - [ ] README.md updated to link to latest release and CHANGELOG.md
 - [ ] Decision: breaking changes are documented in docs/releases/vX.Y.Z/BREAKING_CHANGES.md
 - [ ] Decision: release notes are curated by Charter (not auto-generated)
@@ -382,7 +374,7 @@ Examples:
 ### When A New Version is Ready
 
 1. Engineer updates skill ersion: field
-2. Engineer adds entry to skill's changelog section
+2. Engineer updates root CHANGELOG.md with a summary entry for the release (no changelog section in SKILL.md)
 3. Charter updates docs/releases/vX.Y.Z/CHANGELOG.md with technical details
 4. Charter updates root CHANGELOG.md with summary + link
 5. GitHub release is created (tag vX.Y.Z)
@@ -441,4 +433,5 @@ After implementation:
 - [ ] Release notes are discoverable from README.md
 - [ ] No temporary documents are left in root after release
 - [ ] Version history is clear and complete
+
 

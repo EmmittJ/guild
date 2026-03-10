@@ -224,6 +224,12 @@ Guild uses itself. The agents and skills in this repo are the team that works on
 
 ---
 
+## Releases
+
+See [CHANGELOG.md](CHANGELOG.md) for version history and release notes.
+
+---
+
 ## Contributing
 
 Open an issue. The Guild Master will route it.
