@@ -2,7 +2,7 @@
 
 ## Platform
 
-GitHub. Use `gh` CLI for platform operations. `main` is protected — all work goes through PRs.
+GitHub. Use `gh` CLI for platform operations. Commit directly to `main` — no PR required unless explicitly requested.
 
 ## Memory
 
