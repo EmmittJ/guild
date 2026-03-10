@@ -5,7 +5,8 @@ description: >
   ${tasks_root}/open/, in_progress/, and closed/ — the directory is the status, moving a file
   is the state transition. No write conflicts, no shared status fields.
   Activate when: `task:item:create` — work needs tracking across sessions; `task:item:update` —
-  claiming, unclaiming, or completing a task; `task:item:read` — checking available or in-progress work.
+  claiming, unclaiming, or completing a task; `task:item:read` — checking available or in-progress work;
+  `task:ready` — finding actionable work at session start or before planning.
   DO NOT USE FOR: decisions, insights, or context — use the memory skill. Inbox messages — use the inbox skill.
 license: MIT
 metadata:
@@ -67,6 +68,33 @@ open/ → in_progress/    claim: set agent: field, move file
 in_progress/ → open/    unclaim: clear agent: field, move file back
 in_progress/ → closed/  complete: append outcome note, move file
 ```
+
+---
+
+## Ready Work `task:ready`
+
+Returns open, unblocked tasks sorted by priority (high → medium → low → unset).
+
+**"Ready" means:** in `${tasks_root}/open/` directory — NOT blocked (all `blocked-by:` slugs exist in `closed/`).
+
+**Implementation — three-step process:**
+
+1. List all files in `${tasks_root}/open/`
+2. For each, read `blocked-by:` frontmatter — skip any task where a referenced slug is **not** in `closed/`
+3. Sort remaining by `priority:` field: `high` → `medium` → `low` → unset
+
+```sh
+# Pseudo-implementation — agents use their read/search tools for this
+for f in ${tasks_root}/open/*.md; do
+  blocked_by=$(grep "^blocked-by:" "$f" | sed 's/blocked-by://')
+  # check each slug exists in closed/
+done
+# sort remaining by priority: high → medium → low → unset
+```
+
+> **Note:** This is pseudocode for illustration. Agents implement this using their read/search tools directly on the filesystem.
+
+---
 
 ## Rules
 

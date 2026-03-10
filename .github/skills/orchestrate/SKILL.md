@@ -51,7 +51,7 @@ Apply this sequence at the start of every session. Each step delegates to a skil
 | Step | Skill | What it does |
 |------|-------|--------------|
 | 1 | `memory` | Follow the memory skill's session start checklist — reads context, decisions summary, and your per-agent insight file |
-| 2 | `tasks` | Follow the tasks skill's session start checklist — scans in-progress and open tasks |
+| 2 | `tasks` | Follow the tasks skill's session start checklist — use `task:ready` to surface actionable work |
 | 3 | `inbox` | `inbox:message:read` — check for waiting messages from other agents |
 | 4 | `routing` | Apply the routing skill — loads team roster and routing rules. If not installed, scan agent descriptions in the agents directory. |
 
@@ -214,6 +214,7 @@ When this situation arises, invoke the `inbox` skill:
 
 When these situations arise, invoke the `tasks` skill:
 
+- `task:ready` — at session start and before planning new work, call this first to get actionable tasks sorted by priority
 - `task:item:create` — work needs to be tracked across sessions
 - `task:item:update` — claiming, unclaiming, or completing a task
 - `task:item:read` — checking available or in-progress work

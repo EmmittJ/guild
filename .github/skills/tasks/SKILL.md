@@ -1,10 +1,11 @@
----
+﻿---
 name: tasks
 description: >
   GitHub Issues task store for a team of agents. Tasks are issues — status via labels, closed
   issue = completed task. No write conflicts, no shared files.
   Activate when: task:item:create — work needs tracking; task:item:update — claiming, unclaiming,
-  blocking, or completing a task; task:item:read — checking available or in-progress work.
+  blocking, or completing a task; task:item:read — checking available or in-progress work;
+  task:ready — finding actionable work at session start or before planning.
   DO NOT USE FOR: decisions, insights, or context — use the memory skill. Inbox messages — use the inbox skill.
 license: MIT
 metadata:
@@ -106,6 +107,22 @@ gh issue list -R EmmittJ/guild -l in-progress    # claimed work
 gh issue list -R EmmittJ/guild -l blocked        # blocked work
 gh issue view -R EmmittJ/guild {number}          # full issue detail
 ```
+
+---
+
+## Ready Work `task:ready`
+
+Returns open, unclaimed, unblocked tasks sorted by priority (high → medium → low → unset).
+
+**"Ready" means:** has `open` label — does NOT have `in-progress` or `blocked` label.
+
+```sh
+gh issue list -R EmmittJ/guild -l open
+```
+
+> Agents should sort results by `priority:` label after retrieving — high before medium before low.
+
+Use this at session start and before planning new work to surface actionable tasks sorted by priority.
 
 ---
 
