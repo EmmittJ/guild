@@ -13,9 +13,9 @@
       "install": "markdown-memory@guild"
     },
     {
-      "name": "markdown-tasks",
-      "description": "File-based task store: open/in_progress/closed directories as task status.",
-      "install": "markdown-tasks@guild"
+      "name": "guild-setup-github",
+      "description": "Bootstraps GitHub Issues-backed task tracking: creates required labels and installs the guild-tasks skill with the repo slug baked in.",
+      "install": "guild-setup-github@guild"
     }
   ]
 }
