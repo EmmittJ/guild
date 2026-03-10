@@ -161,6 +161,49 @@ The guild's current flow (Guild Master → specialist → Reviewer → Scribe) i
 
 For guild tasks that fit this model, store task state in `.guild/tasks/` (already exists) using the YAML schema above. Use `blocked_by` and `blocking` arrays — the tasks skill doesn't currently model dependencies explicitly.
 
+## Delegate and Track Pattern
+
+**Guild Master always creates tracking issues for delegated work.** This ensures:
+- Work is visible and queryable
+- Progress can be monitored
+- Blockers surface early
+- Next agent can claim immediately
+
+**Pattern:**
+1. Identify work to delegate
+2. Brief the specialist (engineer, smith, invoker, etc.) with clear acceptance criteria
+3. **Create a GitHub Issue** to track the work with a priority label
+4. Agent claims the issue (adds `in-progress` label) when ready
+5. Agent completes and closes issue
+6. Scribe commits (issue closure links to commit automatically)
+
+**Exception:** Very small clarifications or requests that don't require tracking (e.g., "read this decision") can be asked directly. But anything that results in artifacts (code, skills, documentation, decisions) gets an issue.
+
+**Benefits:**
+- No invisible work — everything is on the board
+- Agents can prioritize across requests
+- Guild Master can see what's queued and prioritize
+- Issues become a narrative of decisions and work (useful for onboarding)
+
+## Guild Master Monitoring Responsibility
+
+Guild Master's orchestration task is **not complete until the issue is closed**. The full lifecycle is:
+
+1. **Create** — Define work and create tracking issue
+2. **Delegate** — Brief specialist with acceptance criteria
+3. **Monitor** — Track progress; flag blockers; escalate if stuck
+4. **Review** — Auditor checks artifact (if applicable)
+5. **Commit** — Scribe commits; issue auto-closes
+
+**Guild Master owns the lifecycle.** If any step stalls, Guild Master must intervene:
+- Specialist stuck? → Ask what's blocking and escalate
+- Auditor didn't review? → Nudge and summarize what needs checking
+- Scribe waiting? → Verify changes are ready and initiate commit
+
+**Anti-pattern:** Delegating and then saying "let me know when done." That's not orchestration; that's abandonment.
+
+**Good pattern:** Poll the issue status until it's closed. Check in if in-progress label stays too long without a close.
+
 ## Key Quotes
 
 > "Break complex requirements into atomic, executable tasks with clear success criteria, appropriate granularity, minimal dependencies, and optimal parallelization potential." — task-coordinator.md
