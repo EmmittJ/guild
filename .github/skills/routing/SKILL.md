@@ -15,6 +15,7 @@ metadata:
 | Agent | File | Use for |
 |-------|------|---------|
 | Guild Master | `guild-master` | Default — orchestrates everything |
+| Product Owner | `product-owner` | Requirements, user stories, backlog, acceptance criteria, PRDs |
 | Engineer | `engineer` | File creation, editing, script implementation |
 | Skill Writer | `skill-writer` | Writing or reviewing SKILL.md files |
 | Copilot CLI | `copilot-cli` | Plugin manifests, marketplace, CLI compatibility |
@@ -27,6 +28,7 @@ metadata:
 
 | Pattern | Agent |
 |---------|-------|
+| requirements, user stories, PRD, acceptance criteria, backlog, prioritization | product-owner |
 | file creation, editing, scripts, implementation | engineer |
 | skill write, skill review, SKILL.md | skill-writer |
 | manifest, plugin.json, marketplace | copilot-cli |
@@ -38,7 +40,7 @@ metadata:
 ## Default Flow
 
 ```
-Guild Master → Engineer / Skill Writer / Copilot CLI → Reviewer → Scribe
+Guild Master → Product Owner → Engineer / Skill Writer / Copilot CLI → Reviewer → Scribe
 ```
 
 ---

@@ -9,7 +9,19 @@ GitHub. Use `gh` CLI for platform operations. `main` is protected — all work g
 Skills installed in this repo: `.github/skills/memory`, `.github/skills/tasks`, `.github/skills/inbox`
 Roots: `.guild/memory`, `.guild/tasks`, `.guild/inbox`
 
-## Ground Rules
+## Team
+
+| Agent | File | Use for |
+|-------|------|---------|
+| Guild Master | `.github/agents/guild-master.agent.md` | Default — orchestrates everything |
+| Product Owner | `.github/agents/product-owner.agent.md` | Requirements, user stories, backlog, acceptance criteria |
+| Engineer | `.github/agents/engineer.agent.md` | File creation, editing, script implementation |
+| Skill Writer | `.github/agents/skill-writer.agent.md` | Writing or reviewing SKILL.md files |
+| Copilot CLI | `.github/agents/copilot-cli.agent.md` | Plugin manifests, marketplace, CLI compatibility |
+| Reviewer | `.github/agents/reviewer.agent.md` | Quality gate before committing |
+| Scribe | `.github/agents/scribe.agent.md` | Commits, branches, pull requests |
+
+
 
 - Guild Master orchestrates; specialists implement
 - Reviewer signs off before Scribe commits — never skip the gate
