@@ -35,13 +35,13 @@ plugin.json                        ← publisher manifest
     train-agent/
     train-skill/
     routing/
-    memory/
-    tasks/
-    inbox/
+    guild-memory/
+    guild-tasks/
+    guild-inbox/
     guild-setup/
     guild-setup-markdown/
     guild-setup-github/
-      assets/skills/tasks/         ← tasks skill template installed by setup script
+      assets/skills/guild-tasks/         ← tasks skill template installed by setup script
       scripts/                     ← setup.sh + setup.ps1
 .guild/
   memory/                          ← team memory (decisions, insights, context)

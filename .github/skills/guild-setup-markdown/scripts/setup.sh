@@ -2,7 +2,7 @@
 # setup.sh — interactive Guild markdown backend setup
 # Usage: sh setup.sh <repo-root> [-y]
 #   repo-root   absolute path to the repository root (required)
-# With -y: reads GUILD_COMPONENTS (memory|tasks|inbox|all) and GUILD_SKILLS_DIR from env
+# With -y: reads GUILD_COMPONENTS (guild-memory|guild-tasks|guild-inbox|all) and GUILD_SKILLS_DIR from env
 
 set -e
 
@@ -39,9 +39,9 @@ else
   printf "Select [1/2/3/4]: "
   read -r choice
   case "$choice" in
-    1) COMPONENTS="memory" ;;
-    2) COMPONENTS="tasks" ;;
-    3) COMPONENTS="inbox" ;;
+    1) COMPONENTS="guild-memory" ;;
+    2) COMPONENTS="guild-tasks" ;;
+    3) COMPONENTS="guild-inbox" ;;
     *) COMPONENTS="all" ;;
   esac
 fi
@@ -107,7 +107,7 @@ gitignore_add() {
 
 # ── Install memory ───────────────────────────────────────────────────────────
 
-install_memory() {
+install_guild_memory() {
   echo ""
   echo "Installing memory..."
   if [ "$NON_INTERACTIVE" = "1" ]; then
@@ -117,33 +117,33 @@ install_memory() {
     read -r input
     MEMORY_ROOT="${input:-.guild/memory}"
   fi
-  ensure_dir "$REPO_ROOT/$MEMORY_ROOT/decisions"
-  ensure_dir "$REPO_ROOT/$MEMORY_ROOT/insights"
-  ensure_dir "$REPO_ROOT/$MEMORY_ROOT/context"
-  ensure_dir "$REPO_ROOT/$MEMORY_ROOT/inbox"
+  ensure_dir "$REPO_ROOT/$GUILD_MEMORY_ROOT/decisions"
+  ensure_dir "$REPO_ROOT/$GUILD_MEMORY_ROOT/insights"
+  ensure_dir "$REPO_ROOT/$GUILD_MEMORY_ROOT/context"
+  ensure_dir "$REPO_ROOT/$GUILD_MEMORY_ROOT/inbox"
 
   # Keep dirs in git
   for dir in decisions insights inbox; do
-    local keep="$REPO_ROOT/$MEMORY_ROOT/$dir/.gitkeep"
-    [ -f "$keep" ] || { touch "$keep" && echo "  created $MEMORY_ROOT/$dir/.gitkeep"; }
+    local keep="$REPO_ROOT/$GUILD_MEMORY_ROOT/$dir/.gitkeep"
+    [ -f "$keep" ] || { touch "$keep" && echo "  created $GUILD_MEMORY_ROOT/$dir/.gitkeep"; }
   done
 
   # Context files are ephemeral — keep out of git
-  gitignore_add "$MEMORY_ROOT/context/"
+  gitignore_add "$GUILD_MEMORY_ROOT/context/"
 
   # Seed _summary.md if not present
-  local summary="$REPO_ROOT/$MEMORY_ROOT/decisions/_summary.md"
+  local summary="$REPO_ROOT/$GUILD_MEMORY_ROOT/decisions/_summary.md"
   if [ ! -f "$summary" ]; then
     printf '# Decision Summary\n\n_No decisions recorded yet._\n' > "$summary"
-    echo "  created $MEMORY_ROOT/decisions/_summary.md"
+    echo "  created $GUILD_MEMORY_ROOT/decisions/_summary.md"
   fi
 
-  copy_skill "memory" "$MEMORY_ROOT"
+  copy_skill "guild-memory" "$GUILD_MEMORY_ROOT"
 }
 
 # ── Install tasks ────────────────────────────────────────────────────────────
 
-install_tasks() {
+install_guild_tasks() {
   echo ""
   echo "Installing tasks..."
   if [ "$NON_INTERACTIVE" = "1" ]; then
@@ -153,22 +153,22 @@ install_tasks() {
     read -r input
     TASKS_ROOT="${input:-.guild/tasks}"
   fi
-  ensure_dir "$REPO_ROOT/$TASKS_ROOT/open"
-  ensure_dir "$REPO_ROOT/$TASKS_ROOT/in_progress"
-  ensure_dir "$REPO_ROOT/$TASKS_ROOT/closed"
+  ensure_dir "$REPO_ROOT/$GUILD_TASKS_ROOT/open"
+  ensure_dir "$REPO_ROOT/$GUILD_TASKS_ROOT/in_progress"
+  ensure_dir "$REPO_ROOT/$GUILD_TASKS_ROOT/closed"
 
   # Keep dirs in git
   for dir in open in_progress closed; do
-    local keep="$REPO_ROOT/$TASKS_ROOT/$dir/.gitkeep"
-    [ -f "$keep" ] || touch "$keep" && echo "  created $TASKS_ROOT/$dir/.gitkeep"
+    local keep="$REPO_ROOT/$GUILD_TASKS_ROOT/$dir/.gitkeep"
+    [ -f "$keep" ] || touch "$keep" && echo "  created $GUILD_TASKS_ROOT/$dir/.gitkeep"
   done
 
-  copy_skill "tasks" "$TASKS_ROOT"
+  copy_skill "guild-tasks" "$GUILD_TASKS_ROOT"
 }
 
 # ── Install inbox ────────────────────────────────────────────────────────────
 
-install_inbox() {
+install_guild_inbox() {
   echo ""
   echo "Installing inbox..."
   if [ "$NON_INTERACTIVE" = "1" ]; then
@@ -178,40 +178,42 @@ install_inbox() {
     read -r input
     INBOX_ROOT="${input:-.guild/inbox}"
   fi
-  ensure_dir "$REPO_ROOT/$INBOX_ROOT"
+  ensure_dir "$REPO_ROOT/$GUILD_INBOX_ROOT"
 
   # Inbox messages are ephemeral — keep out of git
-  gitignore_add "$INBOX_ROOT/"
+  gitignore_add "$GUILD_INBOX_ROOT/"
 
-  copy_skill "inbox" "$INBOX_ROOT"
+  copy_skill "guild-inbox" "$GUILD_INBOX_ROOT"
 }
 
 # ── Run ──────────────────────────────────────────────────────────────────────
 
 case "$COMPONENTS" in
-  memory) install_memory ;;
-  tasks)  install_tasks ;;
-  inbox)  install_inbox ;;
-  *)      install_memory; install_tasks; install_inbox ;;
+  guild-memory) install_guild_memory ;;
+  guild-tasks)  install_guild_tasks ;;
+  guild-inbox)  install_guild_inbox ;;
+  *)      install_guild_memory; install_guild_tasks; install_guild_inbox ;;
 esac
 
 echo ""
 echo "Done. Next: add the installed skills to your plugin.json or AGENTS.md:"
 echo ""
 case "$COMPONENTS" in
-  memory) echo "  \"skills\": [\"$SKILLS_DIR/memory\"]"
+  guild-memory) echo "  \"skills\": [\"$SKILLS_DIR/guild-memory\"]"
           echo ""
-          echo "  Memory root: $MEMORY_ROOT" ;;
-  tasks)  echo "  \"skills\": [\"$SKILLS_DIR/tasks\"]"
+          echo "  Memory root: $GUILD_MEMORY_ROOT" ;;
+  guild-tasks)  echo "  \"skills\": [\"$SKILLS_DIR/guild-tasks\"]"
           echo ""
-          echo "  Tasks root:  $TASKS_ROOT" ;;
-  inbox)  echo "  \"skills\": [\"$SKILLS_DIR/inbox\"]"
+          echo "  Tasks root:  $GUILD_TASKS_ROOT" ;;
+  guild-inbox)  echo "  \"skills\": [\"$SKILLS_DIR/guild-inbox\"]"
           echo ""
-          echo "  Inbox root:  $INBOX_ROOT" ;;
-  *)      echo "  \"skills\": [\"$SKILLS_DIR/memory\", \"$SKILLS_DIR/tasks\", \"$SKILLS_DIR/inbox\"]"
+          echo "  Inbox root:  $GUILD_INBOX_ROOT" ;;
+  *)      echo "  \"skills\": [\"$SKILLS_DIR/guild-memory\", \"$SKILLS_DIR/guild-tasks\", \"$SKILLS_DIR/guild-inbox\"]"
           echo ""
-          echo "  Memory root: $MEMORY_ROOT"
-          echo "  Tasks root:  $TASKS_ROOT"
-          echo "  Inbox root:  $INBOX_ROOT" ;;
+          echo "  Memory root: $GUILD_MEMORY_ROOT"
+          echo "  Tasks root:  $GUILD_TASKS_ROOT"
+          echo "  Inbox root:  $GUILD_INBOX_ROOT" ;;
 esac
 echo ""
+
+

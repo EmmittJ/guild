@@ -7,7 +7,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$RepoRoot,
     [switch]$NonInteractive,
-    [ValidateSet("memory","tasks","inbox","all")]
+    [ValidateSet("guild-memory","guild-tasks","guild-inbox","all")]
     [string]$Components,
     [string]$SkillsDir
 )
@@ -25,16 +25,16 @@ if (-not $NonInteractive -and -not $Components) {
     Write-Host "Guild Markdown Setup"
     Write-Host "──────────────────────────────────"
     Write-Host "Which components do you want to install?"
-    Write-Host "  1) memory  — decisions, insights, context"
-    Write-Host "  2) tasks   — open/in_progress/closed task files"
-    Write-Host "  3) inbox   — async agent-to-agent messaging"
+    Write-Host "  1) guild-memory  — decisions, insights, context"
+    Write-Host "  2) guild-tasks   — open/in_progress/closed task files"
+    Write-Host "  3) guild-inbox   — async agent-to-agent messaging"
     Write-Host "  4) all     (default)"
     Write-Host ""
     $choice = Read-Host "Select [1/2/3/4]"
     $Components = switch ($choice) {
-        "1" { "memory" }
-        "2" { "tasks" }
-        "3" { "inbox" }
+        "1" { "guild-memory" }
+        "2" { "guild-tasks" }
+        "3" { "guild-inbox" }
         default { "all" }
     }
 } elseif (-not $Components) {
@@ -102,108 +102,110 @@ function Add-GitignoreEntry($entry) {
 
 # ── Install memory ───────────────────────────────────────────────────────────
 
-function Install-Memory {
+function Install-Guild-Memory {
     Write-Host "`nInstalling memory..."
     if (-not $NonInteractive) {
         $input = Read-Host "  Memory root [.guild/memory]"
-        $MemoryRoot = if ($input) { $input } else { ".guild/memory" }
+        $GuildMemoryRoot = if ($input) { $input } else { ".guild/memory" }
     } else {
-        $MemoryRoot = if ($env:GUILD_MEMORY_ROOT) { $env:GUILD_MEMORY_ROOT } else { ".guild/memory" }
+        $GuildMemoryRoot = if ($env:GUILD_MEMORY_ROOT) { $env:GUILD_MEMORY_ROOT } else { ".guild/memory" }
     }
-    Ensure-Dir (Join-Path $RepoRoot "$MemoryRoot\decisions")
-    Ensure-Dir (Join-Path $RepoRoot "$MemoryRoot\insights")
-    Ensure-Dir (Join-Path $RepoRoot "$MemoryRoot\context")
+    Ensure-Dir (Join-Path $RepoRoot "$GuildMemoryRoot\decisions")
+    Ensure-Dir (Join-Path $RepoRoot "$GuildMemoryRoot\insights")
+    Ensure-Dir (Join-Path $RepoRoot "$GuildMemoryRoot\context")
 
     # Keep dirs in git
     foreach ($dir in @("decisions","insights")) {
-        $keep = Join-Path $RepoRoot "$MemoryRoot\$dir\.gitkeep"
+        $keep = Join-Path $RepoRoot "$GuildMemoryRoot\$dir\.gitkeep"
         if (-not (Test-Path $keep)) {
             New-Item -ItemType File -Path $keep -Force | Out-Null
-            Write-Host "  created $MemoryRoot\$dir\.gitkeep"
+            Write-Host "  created $GuildMemoryRoot\$dir\.gitkeep"
         }
     }
 
     # Context files are ephemeral — keep out of git
-    Add-GitignoreEntry "$MemoryRoot/context/"
+    Add-GitignoreEntry "$GuildMemoryRoot/context/"
 
-    $summary = Join-Path $RepoRoot "$MemoryRoot\decisions\_summary.md"
+    $summary = Join-Path $RepoRoot "$GuildMemoryRoot\decisions\_summary.md"
     if (-not (Test-Path $summary)) {
         "# Decision Summary`n`n_No decisions recorded yet._" | Set-Content $summary -Encoding UTF8
-        Write-Host "  created $MemoryRoot\decisions\_summary.md"
+        Write-Host "  created $GuildMemoryRoot\decisions\_summary.md"
     }
 
-    $script:MemoryRootOut = $MemoryRoot
-    Copy-Skill "memory" $MemoryRoot
+    $script:GuildMemoryRootOut = $GuildMemoryRoot
+    Copy-Skill "guild-memory" $GuildMemoryRoot
 }
 
 # ── Install tasks ────────────────────────────────────────────────────────────
 
-function Install-Tasks {
+function Install-Guild-Tasks {
     Write-Host "`nInstalling tasks..."
     if (-not $NonInteractive) {
         $input = Read-Host "  Tasks root [.guild/tasks]"
-        $TasksRoot = if ($input) { $input } else { ".guild/tasks" }
+        $GuildTasksRoot = if ($input) { $input } else { ".guild/tasks" }
     } else {
-        $TasksRoot = if ($env:GUILD_TASKS_ROOT) { $env:GUILD_TASKS_ROOT } else { ".guild/tasks" }
+        $GuildTasksRoot = if ($env:GUILD_TASKS_ROOT) { $env:GUILD_TASKS_ROOT } else { ".guild/tasks" }
     }
     foreach ($dir in @("open","in_progress","closed")) {
-        $dirPath = Join-Path $RepoRoot "$TasksRoot\$dir"
+        $dirPath = Join-Path $RepoRoot "$GuildTasksRoot\$dir"
         Ensure-Dir $dirPath
         $keep = Join-Path $dirPath ".gitkeep"
         if (-not (Test-Path $keep)) {
             New-Item -ItemType File -Path $keep -Force | Out-Null
-            Write-Host "  created $TasksRoot\$dir\.gitkeep"
+            Write-Host "  created $GuildTasksRoot\$dir\.gitkeep"
         }
     }
-    $script:TasksRootOut = $TasksRoot
-    Copy-Skill "tasks" $TasksRoot
+    $script:GuildTasksRootOut = $GuildTasksRoot
+    Copy-Skill "guild-tasks" $GuildTasksRoot
 }
 
 # ── Install inbox ────────────────────────────────────────────────────────────
 
-function Install-Inbox {
+function Install-Guild-Inbox {
     Write-Host "`nInstalling inbox..."
     if (-not $NonInteractive) {
         $input = Read-Host "  Inbox root [.guild/inbox]"
-        $InboxRoot = if ($input) { $input } else { ".guild/inbox" }
+        $GuildInboxRoot = if ($input) { $input } else { ".guild/inbox" }
     } else {
-        $InboxRoot = if ($env:GUILD_INBOX_ROOT) { $env:GUILD_INBOX_ROOT } else { ".guild/inbox" }
+        $GuildInboxRoot = if ($env:GUILD_INBOX_ROOT) { $env:GUILD_INBOX_ROOT } else { ".guild/inbox" }
     }
-    $inboxDir = Join-Path $RepoRoot $InboxRoot
+    $inboxDir = Join-Path $RepoRoot $GuildInboxRoot
     Ensure-Dir $inboxDir
 
     # Inbox messages are ephemeral — keep out of git
-    Add-GitignoreEntry "$InboxRoot/"
+    Add-GitignoreEntry "$GuildInboxRoot/"
 
-    $script:InboxRootOut = $InboxRoot
-    Copy-Skill "inbox" $InboxRoot
+    $script:GuildInboxRootOut = $GuildInboxRoot
+    Copy-Skill "guild-inbox" $GuildInboxRoot
 }
 
 # ── Run ──────────────────────────────────────────────────────────────────────
 
 switch ($Components) {
-    "memory" { Install-Memory }
-    "tasks"  { Install-Tasks }
-    "inbox"  { Install-Inbox }
-    default  { Install-Memory; Install-Tasks; Install-Inbox }
+    "guild-memory" { Install-Guild-Memory }
+    "guild-tasks"  { Install-Guild-Tasks }
+    "guild-inbox"  { Install-Guild-Inbox }
+    default  { Install-Guild-Memory; Install-Guild-Tasks; Install-Guild-Inbox }
 }
 
 Write-Host "`nDone. Next: add the installed skills to your plugin.json or AGENTS.md:"
 Write-Host ""
 switch ($Components) {
-    "memory" { Write-Host "  `"skills`": [`"$SkillsDir/memory`"]"
+    "guild-memory" { Write-Host "  `"skills`": [`"$SkillsDir/guild-memory`"]"
                Write-Host ""
-               Write-Host "  Memory root: $script:MemoryRootOut" }
-    "tasks"  { Write-Host "  `"skills`": [`"$SkillsDir/tasks`"]"
+               Write-Host "  Memory root: $script:GuildMemoryRootOut" }
+    "guild-tasks"  { Write-Host "  `"skills`": [`"$SkillsDir/guild-tasks`"]"
                Write-Host ""
-               Write-Host "  Tasks root:  $script:TasksRootOut" }
-    "inbox"  { Write-Host "  `"skills`": [`"$SkillsDir/inbox`"]"
+               Write-Host "  Tasks root:  $script:GuildTasksRootOut" }
+    "guild-inbox"  { Write-Host "  `"skills`": [`"$SkillsDir/guild-inbox`"]"
                Write-Host ""
-               Write-Host "  Inbox root:  $script:InboxRootOut" }
-    default  { Write-Host "  `"skills`": [`"$SkillsDir/memory`", `"$SkillsDir/tasks`", `"$SkillsDir/inbox`"]"
+               Write-Host "  Inbox root:  $script:GuildInboxRootOut" }
+    default  { Write-Host "  `"skills`": [`"$SkillsDir/guild-memory`", `"$SkillsDir/guild-tasks`", `"$SkillsDir/guild-inbox`"]"
                Write-Host ""
-               Write-Host "  Memory root: $script:MemoryRootOut"
-               Write-Host "  Tasks root:  $script:TasksRootOut"
-               Write-Host "  Inbox root:  $script:InboxRootOut" }
+               Write-Host "  Memory root: $script:GuildMemoryRootOut"
+               Write-Host "  Tasks root:  $script:GuildTasksRootOut"
+               Write-Host "  Inbox root:  $script:GuildInboxRootOut" }
 }
 Write-Host ""
+
+

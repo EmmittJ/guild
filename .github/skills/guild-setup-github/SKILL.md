@@ -20,7 +20,7 @@ in this repo:
 
 | Installed skill | Source asset |
 |----------------|--------------|
-| `{skills-dir}/tasks/SKILL.md` | `.github/skills/tasks/SKILL.md` → asset copy at `guild-setup-github/assets/skills/tasks/SKILL.md` |
+| `{skills-dir}/guild-tasks/SKILL.md` | `.github/skills/guild-tasks/SKILL.md` → asset copy at `guild-setup-github/assets/skills/guild-tasks/SKILL.md` |
 
 **When editing the GitHub tasks skill:** also update the corresponding asset. The source skill's
 frontmatter has `metadata.asset:` pointing to its asset counterpart — use that as the sync signal.
@@ -93,7 +93,7 @@ GUILD_REPO=myorg/myrepo sh setup.sh /path/to/repo -y
 
 **Skill file:**
 ```
-{skills-dir}/tasks/SKILL.md   ← GitHub-backed tasks skill with repo slug baked in
+{skills-dir}/guild-tasks/SKILL.md   ← GitHub-backed tasks skill with repo slug baked in
 ```
 
 ---

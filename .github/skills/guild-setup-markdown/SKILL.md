@@ -21,9 +21,9 @@ Each installed skill has a corresponding source asset:
 
 | Installed skill | Source asset |
 |----------------|--------------|
-| `{skills-dir}/memory/SKILL.md` | `.github/skills/memory/SKILL.md` → asset copy at `guild-setup-markdown/assets/skills/memory/SKILL.md` |
-| `{skills-dir}/tasks/SKILL.md` | `.github/skills/tasks/SKILL.md` → asset copy at `guild-setup-markdown/assets/skills/tasks/SKILL.md` |
-| `{skills-dir}/inbox/SKILL.md` | `.github/skills/inbox/SKILL.md` → asset copy at `guild-setup-markdown/assets/skills/inbox/SKILL.md` |
+| `{skills-dir}/guild-memory/SKILL.md` | `.github/skills/guild-memory/SKILL.md` → asset copy at `guild-setup-markdown/assets/skills/guild-memory/SKILL.md` |
+| `{skills-dir}/guild-tasks/SKILL.md` | `.github/skills/guild-tasks/SKILL.md` → asset copy at `guild-setup-markdown/assets/skills/guild-tasks/SKILL.md` |
+| `{skills-dir}/guild-inbox/SKILL.md` | `.github/skills/guild-inbox/SKILL.md` → asset copy at `guild-setup-markdown/assets/skills/guild-inbox/SKILL.md` |
 
 The `routing` skill follows the same pattern but is scaffolded by `guild-setup` (not this script) — it is repo-specific and contains the actual team roster and routing rules for that repo.
 
@@ -74,7 +74,7 @@ Pass `-y` (sh) or `-NonInteractive` (ps1) with env vars to skip prompts in CI.
   decisions/_summary.md
   insights/
   context/
-{skills-dir}/memory/SKILL.md
+{skills-dir}/guild-memory/SKILL.md
 ```
 
 **Tasks component:**
@@ -83,13 +83,13 @@ Pass `-y` (sh) or `-NonInteractive` (ps1) with env vars to skip prompts in CI.
   open/
   in_progress/
   closed/
-{skills-dir}/tasks/SKILL.md
+{skills-dir}/guild-tasks/SKILL.md
 ```
 
 **Inbox component:**
 ```
 .guild/inbox/              ← agent subdirs created on first message
-{skills-dir}/inbox/SKILL.md
+{skills-dir}/guild-inbox/SKILL.md
 ```
 
 ---

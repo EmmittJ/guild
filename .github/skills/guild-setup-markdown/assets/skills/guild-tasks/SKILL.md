@@ -1,5 +1,5 @@
 ---
-name: tasks
+name: guild-tasks
 description: >
   File-based task store for a team of agents. Tasks live as Markdown files in
   ${tasks_root}/open/, in_progress/, and closed/ — the directory is the status, moving a file

@@ -1,5 +1,5 @@
 ---
-name: memory
+name: guild-memory
 description: >
   Persistent memory for this repo's AI team. Stores decisions (why we chose X), insights
   (what we know about this codebase), and context (what's in flight right now).
@@ -13,7 +13,7 @@ description: >
 license: MIT
 metadata:
   version: "0.2"
-  asset: .github/skills/guild-setup-markdown/assets/skills/memory/SKILL.md
+  asset: .github/skills/guild-setup-markdown/assets/skills/guild-memory/SKILL.md
 ---
 
 ## Overview

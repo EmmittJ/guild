@@ -26,11 +26,11 @@ curl -o .github/skills/orchestrate \
   https://raw.githubusercontent.com/EmmittJ/guild/main/.github/skills/orchestrate
 # (repeat for train-agent, train-skill)
 
-# optional: add markdown memory
-# copy plugins/markdown/skills/memory into your .github/skills/
+# optional: add memory and tasks
 mkdir -p .guild
-echo '{ "memory": ".agents/memory" }' > .guild/config.json
-mkdir -p .agents/memory/{context,decisions,insights,inbox,tasks/open,tasks/in_progress,tasks/closed}
+mkdir -p .guild/memory/{context,decisions,insights}
+mkdir -p .guild/tasks/{open,in_progress,closed}
+mkdir -p .guild/inbox
 ```
 
 **Option B — install as a Copilot CLI plugin**
@@ -39,16 +39,16 @@ mkdir -p .agents/memory/{context,decisions,insights,inbox,tasks/open,tasks/in_pr
 copilot plugin marketplace add EmmittJ/guild
 copilot plugin install core@guild             # Guild Master + orchestrate + train skills
 
-# pick your memory backend (mix and match)
-copilot plugin install markdown-memory@guild # file-based memory: decisions, insights, context, inbox
-copilot plugin install markdown-tasks@guild  # file-based tasks: open/in_progress/closed
+# add guild-setup to bootstrap memory and tasks
+copilot skill install guild-setup
+/guild-setup                                   # interactive setup for your repo
 
-# bootstrap Guild config in your repo
-mkdir -p .guild
-echo '{ "memory": ".agents/memory" }' > .guild/config.json
-mkdir -p .agents/memory/{context,decisions,insights,inbox}
-# if you installed markdown-tasks:
-mkdir -p .agents/memory/tasks/{open,in_progress,closed}
+# and use a specific setup variant
+copilot skill install guild-setup-markdown    # markdown-based setup
+/guild-setup-markdown
+
+copilot skill install guild-setup-github      # GitHub-aware setup
+/guild-setup-github
 ```
 
 Either way, create an `AGENTS.md` at your repo root to tell Guild Master how your repo works.
@@ -63,12 +63,15 @@ Guild Master reads this file first. It's where your repo's platform, conventions
 # AGENTS.md
 
 ## Platform
+
 GitHub. Use `gh` CLI for all platform operations.
 
 ## Branches
+
 `main` is protected. All work goes through PRs.
 
 ## Ground rules
+
 Flag blockers immediately. Factual accuracy over narrative flair.
 ```
 
@@ -93,66 +96,72 @@ Memory configuration lives in `.guild/config.json`, not in AGENTS.md. A repo on 
       SKILL.md
     train-skill/
       SKILL.md
-
-# markdown-memory@guild plugin
-plugins/markdown-memory/
-  plugin.json
-  skills/memory/
-    SKILL.md
-    scripts/
-      memory-root.sh
-      memory-root.ps1
-
-# markdown-tasks@guild plugin
-plugins/markdown-tasks/
-  plugin.json
-  skills/tasks/
-    SKILL.md
-    scripts/
-      memory-root.sh    # resolves $memory root same way
-      memory-root.ps1
+    guild-memory/
+      SKILL.md
+      scripts/
+        memory-root.sh
+        memory-root.ps1
+    guild-tasks/
+      SKILL.md
+      scripts/
+        memory-root.sh
+        memory-root.ps1
+    guild-inbox/
+      SKILL.md
+    guild-setup/
+      SKILL.md
+      scripts/
+        setup.sh
+        setup.ps1
+    guild-setup-markdown/
+      SKILL.md
+      scripts/
+        setup.sh
+        setup.ps1
 ```
 
 ```
 # repo artifact — created on first use, written by agents
-.agents/memory/
-  context/
-    {agent}.md
-  decisions/
-    _summary.md
-  insights/
-  inbox/
-  tasks/          # only present if markdown-tasks@guild is installed
+.guild/
+  memory/
+    context/
+      {agent}.md
+    decisions/
+      _summary.md
+    insights/
+  tasks/
     open/
     in_progress/
     closed/
+  inbox/
 ```
 
 ---
 
 ## Memory
 
-The `memory` skill ships read-only with the `markdown-memory@guild` plugin. It teaches agents the protocol.
-Agents write data to wherever `.guild/config.json` declares as the memory path — that's the part
-that persists as a repo artifact and travels with the code.
+The `guild-memory` skill ships with the core plugin. It teaches agents how to read and write memory.
+Agents write data to `.guild/memory/` — the persistent, version-controlled memory that travels with the code.
 
-```json
-// .guild/config.json
-{
-  "memory": ".agents/memory"
-}
+The `guild-tasks` skill manages procedural memory — what needs to be done, what's in progress, and what's closed.
+
+The `guild-inbox` skill manages agent-to-agent async messaging.
+
+```
+.guild/
+  memory/
+    context/         # Working memory: what each agent is doing
+    decisions/       # Episodic: why we chose X
+    insights/        # Semantic: what's true about this codebase
+  tasks/
+    open/            # Procedural: needs to be done
+    in_progress/     # Procedural: work in flight
+    closed/          # Procedural: completed work
+  inbox/             # Communication: agent-to-agent messages
 ```
 
-| Type | What it stores | Location |
-|------|---------------|----------|
-| Episodic | Why we chose X | `{memory}/decisions/*.md` |
-| Semantic | What's true about this codebase | `{memory}/insights/{domain}.md` |
-| Working | What's in flight for each agent | `{memory}/context/{agent}.md` |
-| Communication | Messages to specific agents | `{memory}/inbox/{agent}/*.md` |
-| Procedural | What needs to be done | `{memory}/tasks/{open,in_progress,closed}/` |
-
-Each agent owns its own context file — concurrent sessions don't conflict. The orchestrator
-reads all `context/` files to synthesize team-wide state when needed.
+Each agent owns its own `context/{agent}.md` file — concurrent sessions don't conflict. The orchestrator
+reads all context files to synthesize team-wide state when needed.
 
 ---
 
@@ -194,7 +203,7 @@ copilot plugin marketplace add EmmittJ/guild
 copilot plugin marketplace browse guild
 ```
 
-Available plugins: `core@guild`, `markdown-memory@guild`, `markdown-tasks@guild`.
+Available plugins: `core@guild` (includes guild-master, orchestrate, train-agent, train-skill, guild-memory, guild-tasks, guild-inbox).
 
 ---
 
@@ -207,6 +216,3 @@ Guild uses itself. The agents and skills in this repo are the team that works on
 ## Contributing
 
 Open an issue. The Guild Master will route it.
-
-
-

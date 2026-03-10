@@ -1,8 +1,8 @@
 ---
-name: inbox
+name: guild-inbox
 description: >
   Async agent-to-agent messaging for a team of AI agents. Messages are markdown files in
-  .guild/inbox/{agent}/ — one file per message, deleted after reading. No write conflicts.
+  ${inbox_root}/{agent}/ — one file per message, deleted after reading. No write conflicts.
   Activate when: `inbox:message:create` — another agent needs to act in a future session;
   `inbox:message:read` — checking for waiting messages at session start.
   DO NOT USE FOR: decisions, insights, or context — use the memory skill.
@@ -10,15 +10,14 @@ description: >
 license: MIT
 metadata:
   version: "0.1"
-  asset: .github/skills/guild-setup-markdown/assets/skills/inbox/SKILL.md
 ---
 
 ## Overview
 
-The inbox root for this repo is `.guild/inbox` (relative to repo root).
+The inbox root for this repo is `${inbox_root}` (relative to repo root).
 
 ```
-.guild/inbox/
+${inbox_root}/
   {agent}/
     {timestamp}-{slug}.md   ← one message per file, delete after reading
 ```
@@ -31,7 +30,7 @@ Timestamp format: `YYYYMMDD-HHMMSS`
 
 ## Session Start
 
-Check `.guild/inbox/{your-agent-name}/` for waiting messages. Process each, then delete the file.
+Check `${inbox_root}/{your-agent-name}/` for waiting messages. Process each, then delete the file.
 
 ---
 
@@ -62,4 +61,3 @@ Date: YYYY-MM-DD HH:MM
 - For urgent or blocking issues, prefer a context file over inbox — context is read first
 - Never edit another agent's inbox messages
 - One concern per message — don't bundle unrelated items
-

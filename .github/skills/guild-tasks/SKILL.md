@@ -1,5 +1,5 @@
-﻿---
-name: tasks
+---
+name: guild-tasks
 description: >
   GitHub Issues task store for a team of agents. Tasks are issues — status via labels, closed
   issue = completed task. No write conflicts, no shared files.
@@ -10,12 +10,12 @@ description: >
 license: MIT
 metadata:
   version: "0.1"
-  asset: .github/skills/guild-setup-github/assets/skills/tasks/SKILL.md
+  asset: .github/skills/guild-setup-github/assets/skills/guild-tasks/SKILL.md
 ---
 
 ## Overview
 
-Tasks are GitHub Issues in `${github_repo}`. Status is tracked via labels; a closed issue is a
+Tasks are GitHub Issues in `EmmittJ/guild`. Status is tracked via labels; a closed issue is a
 completed task.
 
 **Label scheme:**
@@ -45,8 +45,8 @@ completed task.
 Run these two commands at the top of each session:
 
 ```sh
-gh issue list -R ${github_repo} -l in-progress   # tasks claimed in a prior session (resume or unclaim)
-gh issue list -R ${github_repo} -l open           # available work
+gh issue list -R EmmittJ/guild -l in-progress   # tasks claimed in a prior session (resume or unclaim)
+gh issue list -R EmmittJ/guild -l open           # available work
 ```
 
 ---
@@ -84,7 +84,7 @@ cat > /tmp/guild-issue.md << 'EOF'
 {links, related issues, notes}
 EOF
 
-gh issue create -R ${github_repo} \
+gh issue create -R EmmittJ/guild \
   -t "{Task title}" \
   --body-file /tmp/guild-issue.md \
   -l open \
@@ -94,7 +94,7 @@ gh issue create -R ${github_repo} \
 **Pattern 2 — heredoc inline (bash/sh):**
 
 ```sh
-gh issue create -R ${github_repo} \
+gh issue create -R EmmittJ/guild \
   -t "{Task title}" \
   -b "$(cat << 'EOF'
 ## What
@@ -124,7 +124,7 @@ $body = @"
 ## Context
 {links, related issues, notes}
 "@
-gh issue create -R ${github_repo} -t "{Task title}" -b $body -l open -l priority:medium
+gh issue create -R EmmittJ/guild -t "{Task title}" -b $body -l open -l priority:medium
 ```
 ---
 
@@ -132,21 +132,21 @@ gh issue create -R ${github_repo} -t "{Task title}" -b $body -l open -l priority
 
 | Transition | Command |
 |------------|---------|
-| Create (open) | `gh issue create -R ${github_repo} -t "..." -b "..." -l open` |
-| Claim (open → in-progress) | `gh issue edit -R ${github_repo} {number} --add-label in-progress --remove-label open` |
-| Unclaim (in-progress → open) | `gh issue edit -R ${github_repo} {number} --add-label open --remove-label in-progress` |
-| Block | `gh issue edit -R ${github_repo} {number} --add-label blocked --remove-label open --remove-label in-progress` |
-| Complete | `gh issue close -R ${github_repo} {number}` |
+| Create (open) | `gh issue create -R EmmittJ/guild -t "..." -b "..." -l open` |
+| Claim (open → in-progress) | `gh issue edit -R EmmittJ/guild {number} --add-label in-progress --remove-label open` |
+| Unclaim (in-progress → open) | `gh issue edit -R EmmittJ/guild {number} --add-label open --remove-label in-progress` |
+| Block | `gh issue edit -R EmmittJ/guild {number} --add-label blocked --remove-label open --remove-label in-progress` |
+| Complete | `gh issue close -R EmmittJ/guild {number}` |
 
 ---
 
 ## Read Commands `task:item:read`
 
 ```sh
-gh issue list -R ${github_repo} -l open           # available work
-gh issue list -R ${github_repo} -l in-progress    # claimed work
-gh issue list -R ${github_repo} -l blocked        # blocked work
-gh issue view -R ${github_repo} {number}          # full issue detail
+gh issue list -R EmmittJ/guild -l open           # available work
+gh issue list -R EmmittJ/guild -l in-progress    # claimed work
+gh issue list -R EmmittJ/guild -l blocked        # blocked work
+gh issue view -R EmmittJ/guild {number}          # full issue detail
 ```
 
 ---
@@ -158,7 +158,7 @@ Returns open, unclaimed, unblocked tasks sorted by priority (high → medium →
 **"Ready" means:** has `open` label — does NOT have `in-progress` or `blocked` label.
 
 ```sh
-gh issue list -R ${github_repo} -l open
+gh issue list -R EmmittJ/guild -l open
 ```
 
 > Agents should sort results by `priority:` label after retrieving — high before medium before low.
@@ -180,7 +180,7 @@ Blocked by #42.
 Before claiming a task, check whether any referenced blocking issues are still open:
 
 ```sh
-gh issue view -R ${github_repo} 42   # check if still open
+gh issue view -R EmmittJ/guild 42   # check if still open
 ```
 
 ---
@@ -199,9 +199,10 @@ Add one priority label at create time. Omit if no prioritization is needed.
 
 ## Rules
 
-- Check open issues before creating — avoid duplicates (`gh issue list -R ${github_repo} -l open`)
+- Check open issues before creating — avoid duplicates (`gh issue list -R EmmittJ/guild -l open`)
 - When claiming: add `in-progress` and remove `open` in the same `gh issue edit` call
 - Check the issue body for "Blocked by #N" before claiming — don't start blocked work
 - To block a task: add `blocked`, remove both `open` and `in-progress` in one call
 - Closed issues are an archive — never reopen to edit; create a new issue if work resumes
 - One issue per task
+

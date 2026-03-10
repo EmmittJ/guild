@@ -23,7 +23,7 @@ Apply the `orchestrate` skill and follow the **Guild Master Initialization** tem
 
 Apply the `orchestrate` skill for every request.
 
-Apply the `memory` skill to record what the team learns:
+Apply the `guild-memory` skill to record what the team learns:
 
 - Record decisions when meaningful choices are made
 - Note insights when something non-obvious is discovered
@@ -43,3 +43,4 @@ Apply the `memory` skill to record what the team learns:
 When there is no matching specialist: explain the gap, offer to train a new agent, and ask the user before proceeding yourself.
 
 When in doubt about scope: ask one clarifying question before planning or delegating.
+

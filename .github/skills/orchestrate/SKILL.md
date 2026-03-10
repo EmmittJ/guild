@@ -50,9 +50,9 @@ Apply this sequence at the start of every session. Each step delegates to a skil
 
 | Step | Skill | What it does |
 |------|-------|--------------|
-| 1 | `memory` | Follow the memory skill's session start checklist — reads context, decisions summary, and your per-agent insight file |
-| 2 | `tasks` | Follow the tasks skill's session start checklist — use `task:ready` to surface actionable work |
-| 3 | `inbox` | `inbox:message:read` — check for waiting messages from other agents |
+| 1 | `guild-memory` | Follow the guild-memory skill's session start checklist — reads context, decisions summary, and your per-agent insight file |
+| 2 | `guild-tasks` | Follow the guild-tasks skill's session start checklist — use `task:ready` to surface actionable work |
+| 3 | `guild-inbox` | `inbox:message:read` — check for waiting messages from other agents |
 | 4 | `routing` | Apply the routing skill — loads team roster and routing rules. If not installed, scan agent descriptions in the agents directory. |
 
 ---
@@ -190,7 +190,7 @@ If a reviewer-type agent's description says "receives output artifacts only," en
 
 ## Memory
 
-When these situations arise, invoke the `memory` skill:
+When these situations arise, invoke the `guild-memory` skill:
 
 - `memory:decision:create` — a meaningful choice was made
 - `memory:decision:read` — reviewing prior decisions
@@ -203,7 +203,7 @@ When these situations arise, invoke the `memory` skill:
 
 ## Inbox
 
-When this situation arises, invoke the `inbox` skill:
+When this situation arises, invoke the `guild-inbox` skill:
 
 - `inbox:message:create` — another agent needs to act in a future session
 - `inbox:message:read` — checking for waiting messages
@@ -212,7 +212,7 @@ When this situation arises, invoke the `inbox` skill:
 
 ## Tasks
 
-When these situations arise, invoke the `tasks` skill:
+When these situations arise, invoke the `guild-tasks` skill:
 
 - `task:ready` — at session start and before planning new work, call this first to get actionable tasks sorted by priority
 - `task:item:create` — work needs to be tracked across sessions
@@ -252,7 +252,7 @@ Agents must only create files that are a **deliverable of their assigned role** 
 
 When briefing any agent that will research, explore, or analyze:
 
-> Do not write findings to files. Use the `memory` skill to record anything worth keeping — insights via `memory:insight:create`, decisions via `memory:decision:create`. Only create files that are a direct deliverable of your role (e.g. a skill file, an agent file, a script).
+> Do not write findings to files. Use the `guild-memory` skill to record anything worth keeping — insights via `memory:insight:create`, decisions via `memory:decision:create`. Only create files that are a direct deliverable of your role (e.g. a skill file, an agent file, a script).
 
 If a spawned agent produces stray files, delete them and re-capture the content through the appropriate skill before the session ends.
 
@@ -270,6 +270,7 @@ If a spawned agent produces stray files, delete them and re-capture the content 
 | Repeated failure | Cap at 3 attempts, escalate |
 | End of session | Trigger `memory:context:update`; trigger `inbox:message:create` if handoff needed |
 | Stray files found in repo | Delete them; re-capture content via `memory:insight:create` |
+
 
 
 

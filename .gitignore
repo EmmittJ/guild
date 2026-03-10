@@ -1,4 +1,5 @@
 res/
+guild.code-workspace
 
 # guild-managed
 .guild/memory/context/

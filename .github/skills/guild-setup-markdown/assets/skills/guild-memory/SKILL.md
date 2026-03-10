@@ -1,5 +1,5 @@
 ---
-name: memory
+name: guild-memory
 description: >
   Persistent memory for this repo's AI team. Stores decisions (why we chose X), insights
   (what we know about this codebase), and context (what's in flight right now).
