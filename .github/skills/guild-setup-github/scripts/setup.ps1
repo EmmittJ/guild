@@ -81,15 +81,16 @@ gh label create "priority:low"    --color "#cfd3d7" --force -R $GuildRepo | Out-
 
 Write-Host "`nInstalling tasks skill..."
 $dest = Join-Path $SkillsAbs "tasks\SKILL.md"
-if (Test-Path $dest) {
-    Write-Host "  skipped $SkillsDir\tasks\SKILL.md (already exists)"
+$destDir = Split-Path $dest
+New-Item -ItemType Directory -Path $destDir -Force | Out-Null
+$existed = Test-Path $dest
+$content = Get-Content (Join-Path $AssetsDir "tasks\SKILL.md") -Raw
+$content = $content.Replace('${github_repo}', $GuildRepo)
+Set-Content $dest $content -Encoding UTF8
+if ($existed) {
+    Write-Host "  replaced $SkillsDir\tasks\SKILL.md with GitHub Issues backend (repo: $GuildRepo)"
 } else {
-    $destDir = Split-Path $dest
-    New-Item -ItemType Directory -Path $destDir -Force | Out-Null
-    $content = Get-Content (Join-Path $AssetsDir "tasks\SKILL.md") -Raw
-    $content = $content.Replace('${github_repo}', $GuildRepo)
-    Set-Content $dest $content -Encoding UTF8
-    Write-Host "  copied  $SkillsDir\tasks\SKILL.md (repo: $GuildRepo)"
+    Write-Host "  copied   $SkillsDir\tasks\SKILL.md (repo: $GuildRepo)"
 }
 
 # ── Done ─────────────────────────────────────────────────────────────────────

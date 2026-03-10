@@ -89,12 +89,13 @@ gh label create "priority:low"    --color "#cfd3d7" --force -R "$GITHUB_REPO" &&
 echo ""
 echo "Installing tasks skill..."
 DEST="$SKILLS_ABS/tasks/SKILL.md"
+mkdir -p "$SKILLS_ABS/tasks"
 if [ -f "$DEST" ]; then
-  echo "  skipped $SKILLS_DIR/tasks/SKILL.md (already exists)"
-else
-  mkdir -p "$SKILLS_ABS/tasks"
   sed "s|\${github_repo}|$GITHUB_REPO|g" "$ASSETS_DIR/tasks/SKILL.md" > "$DEST"
-  echo "  copied  $SKILLS_DIR/tasks/SKILL.md (repo: $GITHUB_REPO)"
+  echo "  replaced $SKILLS_DIR/tasks/SKILL.md with GitHub Issues backend (repo: $GITHUB_REPO)"
+else
+  sed "s|\${github_repo}|$GITHUB_REPO|g" "$ASSETS_DIR/tasks/SKILL.md" > "$DEST"
+  echo "  copied   $SKILLS_DIR/tasks/SKILL.md (repo: $GITHUB_REPO)"
 fi
 
 # ── Done ─────────────────────────────────────────────────────────────────────

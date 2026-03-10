@@ -3,7 +3,7 @@ name: guild-setup-github
 description: >
   Bootstrap GitHub Issues-backed task tracking into any repo. Creates the required labels and
   copies the GitHub tasks skill with the repo slug baked in. Safe to re-run — labels use --force,
-  skill file is skipped if already present.
+  skill file is replaced if already present — switching from markdown tasks to GitHub Issues.
   Activate when: setting up Guild task tracking in a repo that uses GitHub Issues as the backend.
   Run /guild-setup first to configure core settings (AGENTS.md, routing) if not already done.
   DO NOT USE FOR: reading or writing tasks — use the tasks skill for that. Memory or inbox setup —
