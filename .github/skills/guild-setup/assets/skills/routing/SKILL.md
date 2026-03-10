@@ -11,8 +11,8 @@ metadata:
 
 ## Team
 
-| Agent | File | Use for |
-|-------|------|---------|
+| Agent        | File           | Use for                           |
+| ------------ | -------------- | --------------------------------- |
 | Guild Master | `guild-master` | Default — orchestrates everything |
 
 <!-- Add your team members here. Example:
@@ -26,7 +26,7 @@ metadata:
 ## Routing Rules
 
 | Pattern | Agent |
-|---------|-------|
+| ------- | ----- |
 
 <!-- Add routing patterns here. Example:
 | file creation, editing, scripts | engineer |
@@ -48,14 +48,13 @@ Guild Master → {your agents here}
 
 Used by Guild Master when spawning tasks via the Copilot CLI (`tasks` tool supports model selection; VS Code `runSubagent` does not). Fill in the models available in your environment using the CLI format.
 
-| Tier | Model | Use for |
-|------|-------|---------|
-| Fast | `` | Research, exploration, narrow tasks |
-| Standard | `` | Typical implementation and review |
-| Premium | `` | Architecture, high-stakes reasoning |
+| Tier     | Model | Use for                             |
+| -------- | ----- | ----------------------------------- |
+| Fast     | ``    | Research, exploration, narrow tasks |
+| Standard | ``    | Typical implementation and review   |
+| Premium  | ``    | Architecture, high-stakes reasoning |
 
 <!-- Examples by provider:
-  Anthropic (Copilot): claude-haiku-4.5 / claude-sonnet-4.5 / claude-opus-4.5
-  OpenAI:              gpt-4o-mini / gpt-4o / o1
-  Google:              gemini-2.0-flash / gemini-2.0-pro
+> Replace with the models available in your environment.
+> For GitHub Copilot, see [Supported AI models in GitHub Copilot](https://docs.github.com/en/copilot/reference/ai-models/supported-models) for the latest models and tiers.
 -->
