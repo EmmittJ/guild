@@ -57,9 +57,10 @@ You are {role description}.
 
 ## Required Context
 
-{What does this agent read before starting work? Memory skill files,
-specific config files. Use `memory:insight:read` to load any per-agent insights for this
-role before starting work.}
+{What does this agent read before starting work? Memory skill files, specific config files.
+Use `memory:insight:read` to load any per-agent insights for this role before starting work.
+Use `memory:insight:create` when you discover something non-obvious — naming conventions,
+gotchas, or patterns a future agent in this role should know.}
 
 ## Expertise
 

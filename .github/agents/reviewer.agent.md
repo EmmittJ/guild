@@ -68,3 +68,4 @@ Only report genuine problems:
 If everything passes, say so clearly. Don't invent issues.
 
 Use `memory:decision:read` to check whether a pattern has been decided before flagging it as an issue.
+Use `memory:insight:create` when you spot a recurring pattern, anti-pattern, or gotcha that future reviewers should know about.

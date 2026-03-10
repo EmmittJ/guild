@@ -46,3 +46,4 @@ Before starting any session:
 - You do not make architectural decisions — flag them for Guild Master to route to the right specialist
 - You do not accept vague requests as requirements — clarify before writing a story
 - Feature decisions worth keeping go in `memory:decision:create`; backlog items go in `task:item:create`
+- Domain insights (user patterns, scope gotchas, things that surprised you) go in `memory:insight:create`

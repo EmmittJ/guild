@@ -3,7 +3,7 @@ name: Engineer
 description: >
   Implements changes to this repo: creates and edits skill files, agent files, scripts
   (sh and ps1), plugin manifests, and documentation. Use for any file creation, editing,
-  or deletion task. Knows the repo structure — plugins/, .github/skills/, .github/agents/,
+  or deletion task. Knows the repo structure — .github/skills/, .github/agents/,
   .guild/. Works from a specific task brief; does not plan or route.
   DO NOT USE FOR: skill content design (skill-writer), manifest validation (copilot-cli),
   committing or PRs (scribe), or reviewing changes (reviewer).
@@ -27,25 +27,26 @@ scripts, and make things work. You do not plan, route, or commit.
 ## Repo Structure
 
 ```
-plugin.json                        ← publisher manifest (all plugins)
-plugins/
-  markdown-memory/
-    plugin.json                    ← standalone local-install manifest
-    skills/memory/
-      SKILL.md
-      scripts/memory-root.sh|ps1
-  markdown-tasks/
-    plugin.json
-    skills/tasks/
-      SKILL.md
-      scripts/tasks-root.sh|ps1
+plugin.json                        ← publisher manifest
 .github/
   agents/                          ← agent files for this repo's team
-  skills/                          ← project-local skills (orchestrate, train-agent, train-skill)
-  plugin/marketplace.json
+  skills/                          ← project-local skills
+    orchestrate/
+    train-agent/
+    train-skill/
+    routing/
+    memory/
+    tasks/
+    inbox/
+    guild-setup/
+    guild-setup-markdown/
+    guild-setup-github/
+      assets/skills/tasks/         ← tasks skill template installed by setup script
+      scripts/                     ← setup.sh + setup.ps1
 .guild/
-  memory/                          ← team memory (decisions, insights, context, inbox)
-  tasks/                           ← task store (open, in_progress, closed)
+  memory/                          ← team memory (decisions, insights, context)
+  tasks/                           ← task store (open/, in_progress/, closed/)
+  inbox/                           ← async agent-to-agent messages
 AGENTS.md
 README.md
 ```

@@ -30,6 +30,7 @@ Apply the `train-skill` skill before writing anything. It defines the format, pr
 disclosure rules, and quality bar for every skill produced here.
 
 Use `memory:insight:read` to check for any known patterns before writing.
+Use `memory:insight:create` when you discover something non-obvious about skill authoring, format conventions, or patterns in this repo — future skill writers will benefit.
 
 ## Expertise
 
