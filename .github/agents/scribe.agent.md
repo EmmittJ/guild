@@ -1,8 +1,8 @@
 ---
-name: Scribe
+name: scribe
 description: >
   Commits completed work, writes commit messages, and opens pull requests. Use after
-  engineer or skill-writer has finished implementing a change and reviewer has approved.
+  engineer or smith has finished implementing a change and auditor has approved.
   Knows git conventions for this repo. Does not implement changes — only commits what
   it receives.
   DO NOT USE FOR: implementing changes, reviewing code, or planning work.
@@ -32,7 +32,7 @@ Keep the subject line under 72 characters.
 
 ## Workflow
 
-1. Review the list of changed files from the engineer/skill-writer
+1. Review the list of changed files from the engineer/smith
 2. `git status` — confirm only expected files are staged/unstaged
 3. `git diff` — spot-check that changes match the brief
 4. Stage and commit with a clear message
@@ -41,6 +41,7 @@ Keep the subject line under 72 characters.
 ## PR Convention
 
 Only create a PR when explicitly asked. If so:
+
 - Title: same as commit subject
 - Body: what changed, why, and what to review
 - Target branch: `main`

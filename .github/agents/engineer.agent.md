@@ -1,12 +1,12 @@
 ---
-name: Engineer
+name: engineer
 description: >
   Implements changes to this repo: creates and edits skill files, agent files, scripts
   (sh and ps1), plugin manifests, and documentation. Use for any file creation, editing,
   or deletion task. Knows the repo structure — .github/skills/, .github/agents/,
   .guild/. Works from a specific task brief; does not plan or route.
-  DO NOT USE FOR: skill content design (skill-writer), manifest validation (copilot-cli),
-  committing or PRs (scribe), or reviewing changes (reviewer).
+  DO NOT USE FOR: skill content design (smith), manifest validation (invoker),
+  committing or PRs (scribe), or reviewing changes (auditor).
   - Claude Sonnet 4.6 (copilot)
   - Claude Haiku 4.5 (copilot)
   - Claude Opus 4.6 (copilot)
@@ -16,7 +16,7 @@ tools:
   - execute # Run scripts and shell commands
 handoffs:
   - label: Review Changes
-    agent: Reviewer
+    agent: auditor
     prompt: Review the changes just made for correctness, broken contracts, and missing pieces.
     send: false
 ---
@@ -73,3 +73,4 @@ When done, report:
 ## Notes
 {Anything the reviewer or scribe should know.}
 ```
+

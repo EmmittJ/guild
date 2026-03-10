@@ -10,18 +10,18 @@ Skills installed in this repo: `.github/skills/guild-memory`, `.github/skills/gu
 
 ## Team
 
-| Agent         | File                                    | Use for                                                  |
-| ------------- | --------------------------------------- | -------------------------------------------------------- |
-| Guild Master  | `.github/agents/guild-master.agent.md`  | Default — orchestrates everything                        |
-| Product Owner | `.github/agents/product-owner.agent.md` | Requirements, user stories, backlog, acceptance criteria |
-| Engineer      | `.github/agents/engineer.agent.md`      | File creation, editing, script implementation            |
-| Skill Writer  | `.github/agents/skill-writer.agent.md`  | Writing or reviewing SKILL.md files                      |
-| Copilot CLI   | `.github/agents/copilot-cli.agent.md`   | Plugin manifests, marketplace, CLI compatibility         |
-| Reviewer      | `.github/agents/reviewer.agent.md`      | Quality gate before committing                           |
-| Scribe        | `.github/agents/scribe.agent.md`        | Commits, branches, pull requests                         |
+| Agent | Role | File | Use for |
+| --- | --- | --- | --- |
+| Guild Master | orchestration | `.github/agents/guild-master.agent.md` | Default — orchestrates everything |
+| charter | product owner | `.github/agents/charter.agent.md` | Requirements, user stories, backlog, acceptance criteria |
+| engineer | implementation | `.github/agents/engineer.agent.md` | File creation, editing, script implementation |
+| smith | skill writer | `.github/agents/smith.agent.md` | Writing or reviewing SKILL.md files |
+| invoker | CLI integration | `.github/agents/invoker.agent.md` | Plugin manifests, marketplace, CLI compatibility |
+| auditor | quality gate | `.github/agents/auditor.agent.md` | Quality gate before committing |
+| scribe | version control | `.github/agents/scribe.agent.md` | Commits, branches, pull requests |
 
 - Guild Master orchestrates; specialists implement
-- Reviewer signs off before Scribe commits — never skip the gate
+- Auditor signs off before Scribe commits — never skip the gate
 - Flag blockers immediately
 - All decisions worth keeping use `memory:decision:create` — no one is a mind reader
 - Skills ship in `.github/skills/` for project-local use; use `/guild-setup` to configure a new repo, then `/guild-setup-markdown` to install memory/tasks/inbox components
@@ -35,4 +35,4 @@ Agents only create files that are a **direct deliverable of their role** — nev
 - Tasks → `task:item:create`
 - Messages for other agents → `inbox:message:create`
 
-The engineer creates code. The skill-writer creates skills. The scribe commits. No one litters the repo with ad-hoc files.
+The engineer creates code. The smith creates skills. The scribe commits. No one litters the repo with ad-hoc files.

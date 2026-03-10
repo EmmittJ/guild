@@ -86,6 +86,12 @@ Memory configuration lives in `.guild/config.json`, not in AGENTS.md. A repo on 
 .github/
   agents/
     guild-master.agent.md   # orchestrates work, delegates to specialists, synthesizes results
+    charter.agent.md        # product owner — requirements, backlog, acceptance criteria
+    smith.agent.md          # skill writer — writes and reviews SKILL.md files
+    engineer.agent.md       # implementation — file creation, editing, scripts
+    auditor.agent.md        # quality gate — signs off before committing
+    invoker.agent.md        # CLI integration — plugin manifests, marketplace
+    scribe.agent.md         # version control — commits, branches, pull requests
   skills/
     orchestrate/
       SKILL.md
@@ -114,6 +120,11 @@ Memory configuration lives in `.guild/config.json`, not in AGENTS.md. A repo on 
         setup.sh
         setup.ps1
     guild-setup-markdown/
+      SKILL.md
+      scripts/
+        setup.sh
+        setup.ps1
+    guild-setup-github/
       SKILL.md
       scripts/
         setup.sh
@@ -171,7 +182,7 @@ Your team lives in `.github/agents/` (or `.claude/agents/`, `.agents/` — where
 
 ```
 train me an engineer agent for a TypeScript monorepo
-train me a security-reviewer agent that reviews PRs for CVEs
+train me a security-auditor agent that reviews PRs for CVEs
 ```
 
 Or write one directly. Guild Master accepts any agent format your tool supports. For Copilot CLI:
