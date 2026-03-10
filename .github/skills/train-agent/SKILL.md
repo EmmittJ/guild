@@ -154,7 +154,8 @@ This prevents confirmation bias where a reviewer who knows what was attempted ra
 
 ## After Writing the File
 
-1. Add the agent to `AGENTS.md` routing table
-2. Use `memory:insight:create` to seed a per-agent insight entry for this role (even if empty — signals to future agents that insights should accumulate here)
-3. Tell Guild Master: "I've added a {name} agent for {domain}"
-4. If this agent needs memory access, ensure the memory skill is installed in the repo
+1. Add the agent to `AGENTS.md` team table
+2. Update the `routing` skill — Team table, Routing Rules table, and Default Flow
+3. Use `memory:insight:create` to seed a per-agent insight entry for this role (even if empty — signals to future agents that insights should accumulate here)
+4. Tell Guild Master: "I've added a {name} agent for {domain}"
+5. If this agent needs memory access, ensure the memory skill is installed in the repo
