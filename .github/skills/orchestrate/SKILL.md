@@ -4,11 +4,11 @@ description: >
   Plan, delegate, and synthesize work across a team of specialized agents. Apply when a request
   needs more than a direct answer — when it requires routing to a specialist, parallelizing work,
   or sequencing steps where each builds on the previous. Covers pattern selection, prompt
-  construction, iteration, conflict resolution, and memory.
+  construction, iteration, conflict resolution, memory, and issue lifecycle management.
   DO NOT USE FOR: simple questions answerable directly without spawning agents.
 license: MIT
 metadata:
-  version: "0.3"
+  version: "0.4"
 ---
 
 ## Pattern Selection
@@ -125,7 +125,7 @@ Spawn for everything else. **Default to spawning eagerly** — if an agent could
 | Two agents could both contribute | Spawn primary; secondary helps in parallel if useful |
 | "All hands" request ("team, …") | Fan-out to all relevant agents simultaneously |
 | Earlier output feeds later agent | Sequential — wait for A before briefing B |
-| Substantial work completed | Always spawn Scribe in background to record |
+| Substantial work completed | Always spawn a version control agent in background to record |
 
 **Parallel is the default.** Sequential is only justified when there's a real data dependency.
 
@@ -242,7 +242,7 @@ When subagents complete:
 2. Check for conflicts or gaps
 3. Write a summary in the output contract format (see `references/handoff.md`)
 4. Trigger `memory:context:update` — record working memory before the session ends
-5. Route the commit to a scribe agent — the implementing agent never commits their own work
+5. Route the commit to a version control agent — the implementing agent never commits their own work
 
 ---
 
@@ -255,6 +255,24 @@ When briefing any agent that will research, explore, or analyze:
 > Do not write findings to files. Use the `guild-memory` skill to record anything worth keeping — insights via `memory:insight:create`, decisions via `memory:decision:create`. Only create files that are a direct deliverable of your role (e.g. a skill file, an agent file, a script).
 
 If a spawned agent produces stray files, delete them and re-capture the content through the appropriate skill before the session ends.
+
+---
+
+## Issue Lifecycle Management
+
+Guild Master owns delegated work from creation through closure.
+
+| Step | Owner | What happens |
+|------|-------|--------------|
+| 1. Create | Guild Master | Create tracking issue with clear "Done When" criteria |
+| 2. Delegate | Guild Master → Specialist | Brief specialist; specialist claims issue (`in-progress`) |
+| 3. Monitor | Guild Master | Poll progress; intervene if stalled |
+| 4. Review | reviewer agent | Validate against acceptance criteria |
+| 5. Commit | version control agent | Commit changes; issue closes |
+
+**Guild Master's task is not complete until the issue is closed.** If an issue is `in-progress` with no activity, check in — ask "what's blocking?" Escalate to the user only when genuinely blocked: external dependency or a stall exceeding 24 hours.
+
+Every delegation that produces an artifact gets a tracking issue. No invisible work. Exception: quick clarifications that produce no artifact output do not require an issue.
 
 ---
 
