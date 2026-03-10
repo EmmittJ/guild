@@ -2,11 +2,12 @@
 name: train-agent
 description: >
   Scaffold a new agent file for this repo's team. Use when asked to create a new specialist,
-  add a team member, or define a new role. Produces a .agent.md file with correct frontmatter
-  and a focused body. Works for Copilot CLI, VS Code, and Claude Code agent formats.
+  add a team member, or define a new role. Produces a .agent.md file with correct
+  frontmatter and a focused body. Agents live in .github/agents/ and are auto-detected by
+  VS Code and the GitHub Copilot CLI.
 license: MIT
 metadata:
-  version: "0.1"
+  version: "0.3"
 ---
 
 ## When to Activate
@@ -24,18 +25,32 @@ Before writing anything:
 
 1. **Role and domain** — what does this agent do? What does it never do?
 2. **Interactions** — which other agents does it hand off to or receive work from?
-3. **Install location** — project-level (`.github/agents/`, `.claude/agents/`, `.agents/`) or plugin?
+3. **Tools** — which categories apply? (see Tools section below)
+4. **Visibility** — should it appear in the chat agent picker, or is it subagent-only?
 
 ---
 
 ## Agent File Format
 
+Agents are `.agent.md` files auto-detected by VS Code and the GitHub Copilot CLI. Both read any `.md` file in `.github/agents/`.
+
 ```markdown
 ---
-name: { kebab-case-name }
+name: { Display Name }
 description: >
-  {One or two sentences. What does this agent do? When should Guild Master route to it?
-  Include key domain words — this description is used for routing.}
+  {One or two sentences. Shown as placeholder text in chat and used by Guild Master for routing.
+  Include key domain words and explicit DO NOT USE FOR exclusions.}
+tools:
+  - read # Universal baseline — every agent
+  - search # Universal baseline — every agent
+  # - execute             # Add for agents that run commands (engineering, ops, scribe)
+  # - web                 # Add for agents that need external research
+  # - agent               # Orchestrators only — subagent spawning
+  # - todo                # Orchestrators and engineers that track work
+handoffs:
+  - label: { Action label shown on button }
+    agent: { target-agent-name }
+    prompt: { Pre-filled prompt handed to the next agent. }
 ---
 
 You are {role description}.
@@ -43,7 +58,8 @@ You are {role description}.
 ## Required Context
 
 {What does this agent read before starting work? AGENTS.md sections, memory skill files,
-specific config files it must know about.}
+specific config files. Use `memory:insight:read` to load any per-agent insights for this
+role before starting work.}
 
 ## Expertise
 
@@ -52,31 +68,93 @@ specific config files it must know about.}
 ## Boundaries
 
 {What this agent never does. Explicit boundaries prevent overlap with other agents.}
-
-## Handoffs
-
-{Who does this agent pass work to, and when? What format?}
 ```
+
+---
+
+## Frontmatter Fields
+
+| Field                      | Required    | Notes                                                                                                                                      |
+| -------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`                     | Recommended | Display name shown in chat picker; Title Case is fine. **Used for `agent:` references in handoffs** — the display name, not the file name. |
+| `description`              | Yes         | Routing + chat placeholder — make it keyword-rich                                                                                          |
+| `model`                    | Optional    | Leave unset — let the user or routing config assign. See Model Field below.                                                                |
+| `tools`                    | Recommended | List of tool categories (see Tools section below)                                                                                          |
+| `handoffs`                 | Optional    | Guided workflow transitions to next agent                                                                                                  |
+| `agents`                   | Optional    | List of subagents this agent can invoke; `*` for all                                                                                       |
+| `user-invocable`           | Optional    | `false` to hide from picker (subagent-only)                                                                                                |
+| `disable-model-invocation` | Optional    | `true` to prevent other agents from invoking this one                                                                                      |
+
+### Model Field
+
+Omit `model:` from agent files — leave model selection to the user or the routing config. Agent files ship as portable artifacts; hardcoding a model name couples them to a specific provider.
+
+When model selection matters at runtime: the Copilot CLI `tasks` tool supports passing a model name when spawning a subagent. VS Code `runSubagent` does not. Model tier assignments live in the `routing` skill, in CLI format (e.g. `claude-sonnet-4.5`), not in agent files.
+
+### Tools
+
+`read` and `search` are the universal baseline — every agent gets them. Add others only when the role genuinely needs them.
+
+| Tool      | Add when                       | Examples                                  |
+| --------- | ------------------------------ | ----------------------------------------- |
+| `read`    | Always                         | All agents                                |
+| `search`  | Always                         | All agents                                |
+| `execute` | Agent runs commands            | Engineer, Scribe (git), ops, testing      |
+| `web`     | Agent needs external research  | Orchestrator, Copilot CLI, architect      |
+| `agent`   | Agent spawns subagents         | Orchestrator only                         |
+| `todo`    | Agent tracks work across turns | Orchestrator, engineers that manage tasks |
+
+**Posture rule:** review-only agents (Reviewer, Security) get `read` + `search` and nothing else — no `execute`, no `web`. The restricted toolset enforces the read-only contract.
+
+**Visibility rule:** agents invoked only as subagents (never directly by users) should set `user-invocable: false`. Note: agents that receive handoffs must remain user-invocable — the handoff button switches the user to that agent directly.
+
+### Handoffs
+
+Handoff buttons appear after a chat response and let users move to the next agent with one click.
+Use them to wire up the standard flow: engineer → reviewer → scribe.
+
+```yaml
+handoffs:
+  - label: Review Changes
+    agent: Reviewer
+    prompt: Review the changes just made against the acceptance criteria.
+  - label: Commit
+    agent: Scribe
+    prompt: Commit all changes with a descriptive message.
+    send: false
+```
+
+---
 
 ## Writing a Good Description
 
-The description field is used for routing — Guild Master reads it to decide who gets the work.
-Make it keyword-rich and specific:
+Description serves two purposes: placeholder text in the VS Code/Copilot CLI chat input, and the routing
+signal Guild Master uses to pick the right agent. Make it specific and keyword-rich:
 
 ```yaml
 # Bad — too vague
 description: Helps with code.
 
-# Good — specific, keyword-rich, clear scope
+# Good — specific, keyword-rich, explicit scope
 description: >
   Implements features, fixes bugs, and updates configuration in TypeScript and Go.
   Use for any file change that isn't a test, migration, or documentation update.
+  DO NOT USE FOR: security reviews, database migrations, documentation.
 ```
+
+### Reviewer-Type Agents
+
+If training a reviewer, validator, or quality-gate agent, add this to its description and boundaries:
+
+> Receives **output artifacts only** — not the implementer's prompt, working notes, or intent. Judges on the artifact's own merit (blind validation).
+
+This prevents confirmation bias where a reviewer who knows what was attempted rationalizes away real problems.
 
 ---
 
 ## After Writing the File
 
 1. Add the agent to `AGENTS.md` routing table
-2. Tell Guild Master: "I've added a {name} agent for {domain}"
-3. If this agent needs memory access, ensure the memory skill is installed in the repo
+2. Use `memory:insight:create` to seed a per-agent insight entry for this role (even if empty — signals to future agents that insights should accumulate here)
+3. Tell Guild Master: "I've added a {name} agent for {domain}"
+4. If this agent needs memory access, ensure the memory skill is installed in the repo

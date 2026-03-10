@@ -9,7 +9,7 @@ description: >
   DO NOT USE FOR: decisions, insights, or context — use the memory skill. Inbox messages — use the inbox skill.
 license: MIT
 metadata:
-  version: "0.1"
+  version: "0.2"
 ---
 
 ## Overview
@@ -41,7 +41,9 @@ Filename: `{slug}.md` — short and descriptive, e.g. `add-auth-tests.md`
 priority: high | medium | low
 agent: {assigned agent name, or empty if unclaimed}
 created: YYYY-MM-DD
-blocked-by: {slug of blocking task, or empty}
+blocked-by:
+  - {slug of blocking task}
+  - {slug of another blocking task}
 ---
 
 # {Task title}
@@ -71,5 +73,7 @@ in_progress/ → closed/  complete: append outcome note, move file
 - Check `open/` before creating new tasks — avoid duplicates
 - When claiming: update `agent:` and move in the same operation
 - Check `blocked-by:` before claiming — don't start blocked work
+- `blocked-by:` accepts a list of slugs — all listed tasks must be closed before this one can start
+- When you complete a task, check whether any other task was `blocked-by` it — those tasks are now unblocked
 - `closed/` is an archive — never delete, never edit
 - One file per task — never append to another agent's task file

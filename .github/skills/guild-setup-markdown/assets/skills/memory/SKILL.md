@@ -12,7 +12,7 @@ description: >
   Tasks — use the tasks skill (`task:item:create`, `task:item:update`, `task:item:read`).
 license: MIT
 metadata:
-  version: "0.1"
+  version: "0.2"
 ---
 
 ## Overview
@@ -30,6 +30,8 @@ ${memory_root}/
     YYYY-MM-DD-{slug}.md      ← one file per decision, never edited after creation
   insights/
     {domain}.md               ← one file per domain (auth.md, testing.md, ...)
+    {agent-name}/
+      {slug}.md               ← per-agent learnings, one file per topic
 ```
 
 Task tracking is managed by the `tasks` skill (`markdown-tasks@guild`).
@@ -42,6 +44,7 @@ At the start of every session, read in this order:
 1. `AGENTS.md` — team roster, platform, ground rules
 2. Scan `${memory_root}/context/` — read recent session files to understand current team state
 3. `${memory_root}/decisions/_summary.md` — key architectural decisions
+4. Check for a directory at `${memory_root}/insights/{your-name}/` — read any files there for per-agent learnings about how you work in this repo
 
 ---
 
@@ -120,6 +123,30 @@ that help agents avoid repeating mistakes.
 - Refine freely; this is a living document
 - Delete insights that are no longer true
 - Keep each insight tight: one thing, clearly stated
+
+### Per-Agent Insights
+
+`{agent-name}/` directories under `insights/` capture learnings about a specific agent's behavior, tendencies, or gotchas in this repo. Each file covers one topic. Created when an agent is trained; populated as the team works with that agent.
+
+**When to write:** When Guild Master (or any agent) notices a pattern about how a specific agent behaves.
+
+- "engineer tends to skip the `.ps1` partner script when creating Unix-first features — always check"
+- "reviewer returns false positives on generated files — scope its brief explicitly"
+
+**Format:** `{slug}.md` in `${memory_root}/insights/{agent-name}/`
+
+```markdown
+# {Short title of the pattern or tendency}
+
+{What this agent reliably does or misses. Specific enough to act on.}
+```
+
+**Rules:**
+
+- Guild Master reads the agent's insight directory before briefing that agent
+- The agent itself reads its own directory at session start (per session start checklist)
+- One file per topic — split concerns, don't pile everything into one file
+- Populate gradually — start empty, fill as patterns emerge
 
 ---
 

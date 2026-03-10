@@ -1,21 +1,39 @@
 ---
-name: setup-markdown
+name: guild-setup-markdown
 description: >
   Bootstrap markdown-based memory, task tracking, and/or inbox into any repo. Prompts the user to
   select which components to install (memory, tasks, inbox, or all). Bootstraps the required
   directory structure and copies the selected skill(s) into the repo's skills directory with paths
   baked in. Safe to re-run — skips anything that already exists.
-  Activate when: setting up Guild in a repo for the first time, adding memory, task tracking, or
-  inbox, or installing individual components à la carte.
+  Activate when: setting up Guild components in a repo for the first time, adding memory, task
+  tracking, or inbox, or installing individual components à la carte. Run `/guild-setup` first
+  to configure core settings (AGENTS.md, routing) if not already done.
   DO NOT USE FOR: reading or writing memory/tasks/inbox — use the memory, tasks, and inbox skills for that.
 license: MIT
 metadata:
   version: "0.1"
 ---
 
+## Asset Sources
+
+The skills installed by this script are templated copies of the project-local skills in this repo.
+Each installed skill has a corresponding source asset:
+
+| Installed skill | Source asset |
+|----------------|--------------|
+| `{skills-dir}/memory/SKILL.md` | `.github/skills/memory/SKILL.md` → asset copy at `guild-setup-markdown/assets/skills/memory/SKILL.md` |
+| `{skills-dir}/tasks/SKILL.md` | `.github/skills/tasks/SKILL.md` → asset copy at `guild-setup-markdown/assets/skills/tasks/SKILL.md` |
+| `{skills-dir}/inbox/SKILL.md` | `.github/skills/inbox/SKILL.md` → asset copy at `guild-setup-markdown/assets/skills/inbox/SKILL.md` |
+
+The `routing` skill follows the same pattern but is scaffolded by `guild-setup` (not this script) — it is repo-specific and contains the actual team roster and routing rules for that repo.
+
+**When editing memory, tasks, or inbox skills:** also update the corresponding asset. Each source skill's frontmatter has `metadata.asset:` pointing to its asset counterpart — use that as the sync signal.
+
+---
+
 ## What This Does
 
-`/setup-markdown` is interactive. It prompts for:
+`/guild-setup-markdown` is interactive. It prompts for:
 
 1. **Which components to install** — memory, tasks, inbox, or all
 2. **Where skills live** — defaults to `.github/skills`, but any path works
@@ -33,12 +51,12 @@ Each component is independent — a repo can use any combination or all three.
 
 **Unix / macOS / WSL:**
 ```sh
-sh .github/skills/setup-markdown/scripts/setup.sh /path/to/repo
+sh .github/skills/guild-setup-markdown/scripts/setup.sh /path/to/repo
 ```
 
 **Windows PowerShell:**
 ```powershell
-.\.github\skills\setup-markdown\scripts\setup.ps1 -RepoRoot C:\path\to\repo
+.\.github\skills\guild-setup-markdown\scripts\setup.ps1 -RepoRoot C:\path\to\repo
 ```
 
 Both scripts are interactive — they prompt for component selection, skills directory, and each component's root path.
@@ -78,10 +96,4 @@ Pass `-y` (sh) or `-NonInteractive` (ps1) with env vars to skip prompts in CI.
 
 ## After Setup
 
-Register the installed skills in your `plugin.json` or `AGENTS.md`:
-
-```json
-"skills": [".github/skills/memory", ".github/skills/tasks", ".github/skills/inbox"]
-```
-
-Guild Master will apply whichever of these are present at session start.
+Guild Master will apply whichever installed skills are present at session start — no registration needed.

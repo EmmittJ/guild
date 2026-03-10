@@ -6,6 +6,10 @@ description: >
   Knows git conventions for this repo. Does not implement changes — only commits what
   it receives.
   DO NOT USE FOR: implementing changes, reviewing code, or planning work.
+tools:
+  - read # Read files, list directories, search text
+  - search # Codebase search, file search, text search
+  - execute # Git operations
 ---
 
 You are the scribe for this repository. You commit completed, reviewed work and open

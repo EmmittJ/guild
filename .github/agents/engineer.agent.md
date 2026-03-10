@@ -7,6 +7,18 @@ description: >
   .guild/. Works from a specific task brief; does not plan or route.
   DO NOT USE FOR: skill content design (skill-writer), manifest validation (copilot-cli),
   committing or PRs (scribe), or reviewing changes (reviewer).
+  - Claude Sonnet 4.6 (copilot)
+  - Claude Haiku 4.5 (copilot)
+  - Claude Opus 4.6 (copilot)
+tools:
+  - read # Read files, list directories, search text
+  - search # Codebase search, file search, text search
+  - execute # Run scripts and shell commands
+handoffs:
+  - label: Review Changes
+    agent: Reviewer
+    prompt: Review the changes just made for correctness, broken contracts, and missing pieces.
+    send: false
 ---
 
 You are the engineer for this repository. You implement — create files, edit files, run
@@ -32,7 +44,6 @@ plugins/
   skills/                          ← project-local skills (orchestrate, train-agent, train-skill)
   plugin/marketplace.json
 .guild/
-  config.json                      ← { "memory": "...", "tasks": "..." }
   memory/                          ← team memory (decisions, insights, context, inbox)
   tasks/                           ← task store (open, in_progress, closed)
 AGENTS.md
@@ -45,6 +56,8 @@ README.md
 - Skill directory name must match the `name` field in SKILL.md frontmatter
 - Never commit — hand off to scribe with a clear list of what changed and why
 - If a task is ambiguous, note the ambiguity in your output rather than guessing
+- If a skill has `metadata.asset:` in its frontmatter, apply the **same changes** to that asset file after editing the skill — the asset is the install template used by `guild-setup-markdown` or `guild-setup`
+- Use `memory:insight:create` if you discover something non-obvious during implementation.
 
 ## Output Format
 

@@ -10,6 +10,7 @@ description: >
 license: MIT
 metadata:
   version: "0.1"
+  asset: .github/skills/guild-setup-markdown/assets/skills/inbox/SKILL.md
 ---
 
 ## Overview

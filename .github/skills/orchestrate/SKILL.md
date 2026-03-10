@@ -8,7 +8,7 @@ description: >
   DO NOT USE FOR: simple questions answerable directly without spawning agents.
 license: MIT
 metadata:
-  version: "0.2"
+  version: "0.3"
 ---
 
 ## Pattern Selection
@@ -29,13 +29,32 @@ Start with the lowest-complexity pattern that fits. Escalate only when needed.
 
 ---
 
-## Session Start
+## Response Tiers
 
-Before planning any work, apply available skills in this order:
+Match agent investment to task complexity. Overpowering simple tasks wastes budget; underpowering complex ones misses errors.
 
-1. `memory` skill — follow its session start checklist if installed
-2. `tasks` skill — follow its session start checklist if installed
-3. Read `AGENTS.md` — team, platform, ground rules, routing table
+| Tier | When | Agent count |
+|------|------|-------------|
+| **Direct** | Answerable now, no agent needed | 0 |
+| **Lightweight** | Narrow, well-defined, low-stakes | 1 |
+| **Standard** | Typical implementation or review | 1–2 |
+| **Full** | Architecture, multi-step, high-stakes | 2–5 |
+
+**Rule:** Choose the tier that matches the operation, not the agent. A senior agent doing a narrow task is still Lightweight.
+
+---
+
+## Guild Master Initialization
+
+Apply this sequence at the start of every session. Each step delegates to a skill — skip steps whose skill is not installed. Work begins only after all installed steps complete.
+
+| Step | Skill | What it does |
+|------|-------|--------------|
+| 1 | `memory` | Follow the memory skill's session start checklist — reads context, decisions summary, and your per-agent insight file |
+| 2 | `tasks` | Follow the tasks skill's session start checklist — scans in-progress and open tasks |
+| 3 | `inbox` | `inbox:message:read` — check for waiting messages from other agents |
+| 4 | `routing` | Apply the routing skill — loads team roster and routing rules. If not installed, scan agent descriptions in the agents directory. |
+| 5 | Ground rules | Read `AGENTS.md` for platform rules and constitutional constraints |
 
 ---
 
@@ -45,8 +64,26 @@ When a request is non-trivial:
 
 1. **Identify outputs** — what does done look like? Work backward.
 2. **Find dependencies** — which tasks must complete before others can start?
-3. **Assign agents** — match each task to the specialist best suited for it (see `references/routing.md`)
+3. **Assign agents** — match each task to the specialist best suited for it. Use the routing skill if installed; otherwise match against agent `description` fields. The description is the contract — it says what the agent does and what it explicitly excludes. When a task could belong to multiple agents, specificity wins; if it genuinely spans two domains, split it.
 4. **Start eagerly** — spawn independent tasks in parallel; don't wait for one to finish before starting another
+
+### Routing Fallbacks
+
+| Situation | Action |
+|-----------|--------|
+| No matching agent | Implement directly; record the gap |
+| Two agents equally matched | Prefer the more specialized one |
+| Task outside all agent scopes | Ask user if a new agent should be trained |
+
+### Operation Tiers
+
+Tiers describe the *operation*, not the model. Agents declare their own `model:` — tiers guide your routing decision.
+
+| Tier | Use for |
+|------|---------|
+| Lightweight | Research, exploration, narrow well-scoped tasks |
+| Standard | Typical implementation, reviews, most agent work |
+| Full | Architecture decisions, high-stakes reviews, complex multi-step reasoning |
 
 ### Prompt construction
 
@@ -78,6 +115,18 @@ Use when output quality matters and a second perspective catches real problems.
 4. **Cap** — after 3 iterations without approval, escalate to the user
 
 Don't loop forever. Three rounds is the limit.
+
+### Blind Validation
+
+When the checker is a reviewer-type agent, apply **blind validation**:
+
+- Give the reviewer only the output artifacts (files, diffs, deliverables)
+- Do **not** share the maker's prompt, working notes, or intent
+- A reviewer who knows what the maker was trying to do rationalizes problems away
+
+> **Brief template:** "Review these files for [criteria]. You have no prior context — judge the artifacts on their own merit."
+
+If a reviewer-type agent's description says "receives output artifacts only," enforce this strictly in your brief.
 
 ---
 
@@ -156,6 +205,7 @@ If a spawned agent produces stray files, delete them and re-capture the content 
 |------|-----------|
 | Ambiguous request | Ask one clarifying question before planning |
 | Blocked agent | Trigger `memory:context:update`, surface to user |
+| Stalled task (no progress after 2 rounds) | Stop looping — escalate to user with a clear description of what is stuck and why |
 | Agent out of scope | Re-route to correct specialist |
 | No specialist available | Implement directly, trigger `memory:decision:create` |
 | Repeated failure | Cap at 3 attempts, escalate |
