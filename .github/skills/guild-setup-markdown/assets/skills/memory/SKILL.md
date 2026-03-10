@@ -41,10 +41,9 @@ If that skill is not installed, the tasks directory is unused.
 
 At the start of every session, read in this order:
 
-1. `AGENTS.md` — team roster, platform, ground rules
-2. Scan `${memory_root}/context/` — read recent session files to understand current team state
-3. `${memory_root}/decisions/_summary.md` — key architectural decisions
-4. Check for a directory at `${memory_root}/insights/{your-name}/` — read any files there for per-agent learnings about how you work in this repo
+1. Scan `${memory_root}/context/` — read recent session files to understand current team state
+2. `${memory_root}/decisions/_summary.md` — key architectural decisions
+3. Check for a directory at `${memory_root}/insights/{your-name}/` — read any files there for per-agent learnings about how you work in this repo
 
 ---
 

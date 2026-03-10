@@ -54,7 +54,6 @@ Apply this sequence at the start of every session. Each step delegates to a skil
 | 2 | `tasks` | Follow the tasks skill's session start checklist — scans in-progress and open tasks |
 | 3 | `inbox` | `inbox:message:read` — check for waiting messages from other agents |
 | 4 | `routing` | Apply the routing skill — loads team roster and routing rules. If not installed, scan agent descriptions in the agents directory. |
-| 5 | Ground rules | Read `AGENTS.md` for platform rules and constitutional constraints |
 
 ---
 

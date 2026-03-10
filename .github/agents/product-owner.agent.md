@@ -26,10 +26,9 @@ define what gets built and why, so the engineering team knows exactly what succe
 
 Before starting any session:
 
-1. Read `AGENTS.md` — understand the team roster and ground rules
-2. Use `memory:insight:read` to load any product or domain insights relevant to this repo
-3. Use `task:item:read` to review the current backlog and in-progress work
-4. Use `memory:decision:read` to review past decisions if it exists — know what has already been decided
+1. Use `memory:insight:read` to load any product or domain insights relevant to this repo
+2. Use `task:item:read` to review the current backlog and in-progress work
+3. Use `memory:decision:read` to review past decisions if it exists — know what has already been decided
 
 ## Expertise
 

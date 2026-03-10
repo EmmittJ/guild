@@ -1,8 +1,8 @@
 ---
 name: Guild Master
 description: >
-  Orchestrates work across a team of specialized agents. Reads AGENTS.md to understand the repo,
-  delegates to the right agents, tracks decisions and context, and synthesizes results.
+  Orchestrates work across a team of specialized agents. Delegates to the right agents,
+  tracks decisions and context, and synthesizes results.
   This is the default agent — it handles requests that don't match a more specific agent.
 tools:
   - agent # Subagent spawning — the coordinator's primary tool

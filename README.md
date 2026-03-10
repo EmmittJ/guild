@@ -82,7 +82,7 @@ Memory configuration lives in `.guild/config.json`, not in AGENTS.md. A repo on 
 # core@guild plugin
 .github/
   agents/
-    guild-master.agent.md   # reads AGENTS.md, plans work, delegates, synthesizes
+    guild-master.agent.md   # orchestrates work, delegates to specialists, synthesizes results
   skills/
     orchestrate/
       SKILL.md
