@@ -137,7 +137,7 @@ gh issue view -R ${github_repo} {number}
 **Interactive flow (no -y / no -NonInteractive):**
 
 1. Prompt: `Skills directory [.github/skills]:` — where to install the tasks skill
-2. Prompt: `Repo (owner/repo) [<auto-detected>]:` — auto-detect default via `gh repo view --json nameWithOwner -q .nameWithOwner`; fall back to empty if gh not authenticated
+2. Prompt: `Repo (owner/repo) [<auto-detected>]:` — auto-detect default via `gh repo view --json nameWithOwner -q .nameWithOwner`; present the detected value as the default; user may override
 
 **CI env vars:**
 
@@ -173,7 +173,10 @@ For memory and inbox, run: /guild-setup-markdown
 **Error conditions:**
 - Missing `repo-root` argument → print usage and exit 1
 - `GUILD_REPO` not set in CI mode → print error and exit 1
-- `gh` not installed or not authenticated → print error and exit 1
+- `gh` not installed → print "Error: gh CLI is required. Install from https://cli.github.com" and exit 1
+- `gh` not authenticated → print "Error: gh CLI is not authenticated. Run: gh auth login" and exit 1
+
+Note: there is no MCP or other fallback — `gh` CLI is the only supported method. Check `gh auth status` upfront before doing anything else.
 
 ---
 
@@ -185,7 +188,7 @@ Add `.github/skills/guild-setup-github` to the `skills` array in the `"core"` pl
 
 ## Done when
 
-All criteria are binary pass/fail and can be verified without running the scripts against a live GitHub repo.
+Most criteria can be verified statically (grep, jq, file existence). Idempotency and label-creation criteria require running the scripts against an authenticated GitHub account — those are manual verification.
 
 ### File existence
 - [ ] `test -f .github/skills/guild-setup-github/SKILL.md`
@@ -265,3 +268,9 @@ All criteria are binary pass/fail and can be verified without running the script
 8. **`plugin.json` entry goes in the existing `"core"` plugin** — There is only one plugin object today. Adding a second just for guild-setup-github would be premature. It belongs with the other setup skills.
 
 9. **"Done when" criteria are written for static verification** — Most criteria can be checked with `grep`, `jq`, and file-existence tests without running scripts against a live GitHub account. The idempotency and error-exit criteria require running the scripts but are scoped to local behavior (no real label creation needed to verify exit codes and skip logic).
+
+---
+
+## Outcome
+
+Completed. All 5 files created: SKILL.md, assets/skills/tasks/SKILL.md, scripts/setup.sh, scripts/setup.ps1, and plugin.json updated. All spec requirements met.

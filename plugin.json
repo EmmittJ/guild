@@ -4,14 +4,15 @@
   "plugins": [
     {
       "name": "core",
-      "description": "Guild Master orchestrator + orchestrate, train-agent, train-skill, guild-setup, and guild-setup-markdown skills.",
+      "description": "Guild Master orchestrator + orchestrate, train-agent, train-skill, guild-setup, guild-setup-markdown, and guild-setup-github skills.",
       "agents": [".github/agents/guild-master.agent.md"],
       "skills": [
         ".github/skills/orchestrate",
         ".github/skills/train-agent",
         ".github/skills/train-skill",
         ".github/skills/guild-setup",
-        ".github/skills/guild-setup-markdown"
+        ".github/skills/guild-setup-markdown",
+        ".github/skills/guild-setup-github"
       ]
     }
   ]
