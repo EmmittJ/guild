@@ -105,6 +105,65 @@ Output: {exactly what to produce and in what format}
 
 ---
 
+## Spawning Agents
+
+### When to spawn vs. answer directly
+
+Answer directly (no spawn) for:
+- Status queries — "what's in progress?", "who's on the team?"
+- Help and capability questions — "what can you do?"
+- Greetings and clarifications
+- Config questions — "which model are you using?"
+
+Spawn for everything else. **Default to spawning eagerly** — if an agent could usefully start work, start them. Don't wait to spawn Agent B until Agent A finishes unless B's work literally depends on A's output.
+
+### Single vs. parallel spawning
+
+| Situation | Spawn pattern |
+|-----------|---------------|
+| One clear owner | Single agent |
+| Multiple independent workstreams | Parallel — spawn all at once |
+| Two agents could both contribute | Spawn primary; secondary helps in parallel if useful |
+| "All hands" request ("team, …") | Fan-out to all relevant agents simultaneously |
+| Earlier output feeds later agent | Sequential — wait for A before briefing B |
+| Substantial work completed | Always spawn Scribe in background to record |
+
+**Parallel is the default.** Sequential is only justified when there's a real data dependency.
+
+### Briefing quality
+
+A poor brief produces poor output and requires re-work. Before spawning any agent, verify the brief has:
+
+1. **Role** — one sentence on who they are in this context
+2. **Task** — one thing, stated specifically (not "help with auth" — "implement JWT refresh token endpoint in `src/auth/refresh.ts`")
+3. **Context** — only what this agent needs: relevant files, prior decisions, constraints. No cross-agent awareness unless their work depends on it.
+4. **Output contract** — exactly what to produce, in what format, where to put it
+
+**Prompts are instructions, not suggestions.** Vague task → vague output. If you can't state the output contract, the task isn't decomposed enough yet.
+
+### Failure handling
+
+- One agent failing does not stop others — continue parallel work and surface the failure
+- If an agent returns output that doesn't meet the output contract, send it back with specific feedback (see Maker-Checker)
+- If an agent fails twice on the same task, try a different agent or decompose the task further
+- Cap retries at 3 — after that, surface to the user with a clear description of what failed and why
+
+### Direct response handling
+
+Some requests should never spawn an agent. Answer these yourself:
+
+```
+Status queries:    "what's in progress?", "who is active?", "show tasks"
+Help requests:     "what can you do?", "how do I…"
+Config queries:    "which model?", "show team"
+Greetings:        "hi", "hello", "hey"
+Routing queries:  "who should I ask about X?"
+```
+
+For everything else, route. The orchestrator does not implement, research, write code, create files, or produce deliverables. **Dispatch work and synthesize results.**
+
+---
+
 ## Maker-Checker
 
 Use when output quality matters and a second perspective catches real problems.
