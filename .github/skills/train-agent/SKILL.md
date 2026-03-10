@@ -43,6 +43,7 @@ description: >
 tools:
   - read # Universal baseline — every agent
   - search # Universal baseline — every agent
+  # - edit                # Add for agents that create or modify files (engineering, ops, scribe)
   # - execute             # Add for agents that run commands (engineering, ops, scribe)
   # - web                 # Add for agents that need external research
   # - agent               # Orchestrators only — subagent spawning
@@ -96,14 +97,15 @@ When model selection matters at runtime: the Copilot CLI `tasks` tool supports p
 
 `read` and `search` are the universal baseline — every agent gets them. Add others only when the role genuinely needs them.
 
-| Tool      | Add when                       | Examples                                  |
-| --------- | ------------------------------ | ----------------------------------------- |
-| `read`    | Always                         | All agents                                |
-| `search`  | Always                         | All agents                                |
-| `execute` | Agent runs commands            | Engineer, Scribe (git), ops, testing      |
-| `web`     | Agent needs external research  | Orchestrator, Copilot CLI, architect      |
-| `agent`   | Agent spawns subagents         | Orchestrator only                         |
-| `todo`    | Agent tracks work across turns | Orchestrator, engineers that manage tasks |
+| Tool      | Add when                        | Examples                                  |
+| --------- | ------------------------------- | ----------------------------------------- |
+| `read`    | Always                          | All agents                                |
+| `search`  | Always                          | All agents                                |
+| `edit`    | Agent creates or modifies files | Engineer, Smith                           |
+| `execute` | Agent runs commands             | Engineer, Scribe (git), ops, testing      |
+| `web`     | Agent needs external research   | Orchestrator, Copilot CLI, architect      |
+| `agent`   | Agent spawns subagents          | Orchestrator only                         |
+| `todo`    | Agent tracks work across turns  | Orchestrator, engineers that manage tasks |
 
 **Posture rule:** review-only agents (Reviewer, Security) get `read` + `search` and nothing else — no `execute`, no `web`. The restricted toolset enforces the read-only contract.
 

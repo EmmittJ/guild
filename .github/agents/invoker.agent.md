@@ -12,6 +12,7 @@ description: >
   - Claude Opus 4.6 (copilot)
 tools:
   - read # Read files, list directories, search text
+  - edit # Create and modify files
   - search # Codebase search, file search, text search
   - web # Fetch marketplace docs and CLI reference (VS Code only)
 handoffs:
