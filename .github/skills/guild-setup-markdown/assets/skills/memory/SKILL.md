@@ -94,7 +94,7 @@ Agents: {who was involved}
 
 ## Insights `memory:insight:create` `memory:insight:read`
 
-that help agents avoid repeating mistakes.
+Insights capture patterns and gotchas that help agents avoid repeating mistakes.
 
 **When to write:** When you discover something non-obvious that will help the next agent.
 

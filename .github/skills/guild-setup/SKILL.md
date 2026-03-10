@@ -59,12 +59,6 @@ AGENTS.md                             ← constitutional rules (if absent)
 
 ## After Setup
 
-Run `/guild-setup-markdown` to install memory, tasks, and inbox components.
+The routing skill is automatically applied by Guild Master at session start — no manual registration is needed.
 
-Register the routing skill in your `plugin.json` or agent instructions:
-
-```json
-"skills": [".github/skills/routing"]
-```
-
-Guild Master will apply the routing skill at session start.
+To set up memory, tasks, or inbox components, run /guild-setup-markdown.
