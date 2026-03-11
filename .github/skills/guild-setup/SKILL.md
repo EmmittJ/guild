@@ -8,7 +8,7 @@ description: >
   DO NOT USE FOR: installing memory, tasks, or inbox — use guild-setup-markdown for that.
 license: MIT
 metadata:
-  version: "0.1"
+  version: "0.2"
 ---
 
 ## Asset Sources
@@ -36,12 +36,14 @@ interactively during setup.
 1. **Where skills live** — defaults to `.github/skills`, but any path works
 2. **Team roster** — which agents are on the team (name, file, use-for)
 3. **Routing rules** — which task patterns route to which agents
+4. **Scaffold team agents (optional)** — for each team member defined in the roster, offer to create a starter `.agent.md` using `train-agent`
 
 Then it:
 
 - Scaffolds `AGENTS.md` at the repo root if not already present
 - Copies `guild-master.agent.md` into the agents directory if not already present
 - Copies the routing skill into the skills directory, filled in with the team roster and rules
+- Optionally scaffolds a starter `.agent.md` for each team member via `train-agent` (skips guild-master — already created; skips any agent file that already exists)
 
 Safe to re-run — skips anything that already exists.
 
@@ -53,7 +55,36 @@ Safe to re-run — skips anything that already exists.
 AGENTS.md                             ← constitutional rules (if absent)
 {agents-dir}/guild-master.agent.md    ← orchestrator agent (if absent)
 {skills-dir}/routing/SKILL.md         ← team roster + routing rules
+{agents-dir}/{agent-name}.agent.md    ← starter agent file per team member (optional, if scaffolded)
 ```
+
+---
+
+## Scaffolding Your Team
+
+When you define team members during setup, guild-setup can scaffold a starter `.agent.md` for each one. This is optional — say no if you already have agent files or want to create them manually.
+
+Each scaffolded agent is a minimal stub:
+
+```yaml
+---
+name: {Agent Name}
+description: >
+  {role description — fill in what this agent does and when to use it.}
+  DO NOT USE FOR: {what belongs to other agents}
+tools:
+  - read
+  - search
+  - edit
+  - execute
+---
+
+{Agent instructions here.}
+```
+
+After scaffolding, customize each agent's description and tools. Use `/train-agent` for the full authoring protocol.
+
+**Why not copy the Guild publisher's agents?** The specialist agents in the Guild publisher repo (charter, smith, auditor, etc.) are that team's specific configuration. Your team may have different roles, names, and tools. Scaffold your own.
 
 ---
 

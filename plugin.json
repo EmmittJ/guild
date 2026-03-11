@@ -14,6 +14,22 @@
         ".github/skills/guild-setup-markdown",
         ".github/skills/guild-setup-github"
       ]
+    },
+    {
+      "name": "markdown-memory",
+      "description": "File-based team memory, inbox, and task tracking skills — decisions, insights, per-agent context, async messaging, and markdown-backed task list.",
+      "skills": [
+        ".github/skills/guild-memory",
+        ".github/skills/guild-inbox",
+        ".github/skills/guild-tasks"
+      ]
+    },
+    {
+      "name": "guild-setup-github",
+      "description": "Bootstraps GitHub Issues-backed task tracking: creates required labels and installs the guild-tasks skill with the repo slug baked in.",
+      "skills": [
+        ".github/skills/guild-setup-github"
+      ]
     }
   ]
 }

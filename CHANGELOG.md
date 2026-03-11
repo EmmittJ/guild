@@ -2,6 +2,23 @@
 
 All notable changes to this project are documented here.
 
+## [v0.4.0] — 2026-03-10
+
+Architect agent, orchestration lifecycle, RBAC hardening, plugin distribution fix, guild-setup team scaffolding.
+See [release notes](docs/releases/v0.4.0/RELEASE_NOTES.md).
+
+### Added
+- `architect` agent — technical counterpart to charter; owns architecture decisions, design patterns, and technical strategy
+- Orchestrate skill v0.4 — Issue Lifecycle Management with monitoring checkpoints and escalation rules
+- Task labeling strategy v2 — labels are optional; ground truth is GitHub issue state; `blocked` is the only gate
+- Documentation release structure — versioned `docs/releases/vX.Y.Z/` with RELEASE_NOTES.md and BREAKING_CHANGES.md
+- `markdown-memory@guild` and `guild-setup-github@guild` plugin definitions — fixes silent install failures
+- guild-setup v0.2 — optional team agent scaffolding step
+
+### Fixed
+- Auditor RBAC — removed `edit` and `execute` tools; quality gate is now enforced at tooling level
+- Stale planning artifact removed from team memory decisions
+
 ## [v0.3.0] — 2026-03-10
 
 Thematic agent naming. All agents renamed to craftsmanship-aligned names.

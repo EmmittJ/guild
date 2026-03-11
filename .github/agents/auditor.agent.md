@@ -11,10 +11,6 @@ description: >
 tools:
   - read
   - search
-  - edit
-  - execute
-  - web
-  - todo
 handoffs:
   - label: Commit
     agent: scribe
