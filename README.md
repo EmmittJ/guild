@@ -110,11 +110,20 @@ These files are owned by the Guild plugin and will be overwritten when you upgra
 | `.github/skills/guild-setup/` | Setup wizard and archetype templates |
 | `.github/skills/guild-setup-markdown/` | Markdown component installer |
 | `.github/skills/guild-setup-github/` | GitHub Issues component installer |
-| `.github/skills/guild-memory/` | Memory skill protocol |
-| `.github/skills/guild-tasks/` | Tasks skill protocol |
-| `.github/skills/guild-inbox/` | Inbox skill protocol |
 
 If you need to change how orchestration works, open an issue on the Guild repo or fork it. Don't edit plugin-owned files in place — your changes will be lost on the next `copilot plugin update`.
+
+### Installed components — yours after setup
+
+These skills are copied into your repo by `/guild-setup-markdown`. Once installed, they belong to your repo — edit them freely:
+
+| File / Directory | Installed by |
+|---|---|
+| `.github/skills/guild-memory/` | `guild-setup-markdown` |
+| `.github/skills/guild-tasks/` | `guild-setup-markdown` |
+| `.github/skills/guild-inbox/` | `guild-setup-markdown` |
+
+They also power this repo's self-managing team. If you need to customise how memory, tasks, or inbox work for your project, these are the files to edit.
 
 ---
 
