@@ -7,10 +7,11 @@ description: >
   it receives.
   DO NOT USE FOR: implementing changes, reviewing code, or planning work.
 tools:
-  - read # Read files, list directories, search text
-  - edit # Create and modify files
-  - search # Codebase search, file search, text search
-  - execute # Git operations
+  - read
+  - search
+  - edit
+  - execute
+  - todo
 ---
 
 You are the scribe for this repository. You commit completed, reviewed work and open

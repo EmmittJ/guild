@@ -11,10 +11,12 @@ description: >
   - Claude Haiku 4.5 (copilot)
   - Claude Opus 4.6 (copilot)
 tools:
-  - read # Read files, list directories, search text
-  - edit # Create and modify files
-  - search # Codebase search, file search, text search
-  - execute # Run scripts and shell commands
+  - read
+  - search
+  - edit
+  - execute
+  - web
+  - todo
 handoffs:
   - label: Review Changes
     agent: auditor
@@ -74,4 +76,3 @@ When done, report:
 ## Notes
 {Anything the reviewer or scribe should know.}
 ```
-

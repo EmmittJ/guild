@@ -9,8 +9,12 @@ description: >
   - Claude Sonnet 4.6 (copilot)
   - Claude Haiku 4.5 (copilot)
 tools:
-  - read # Read files, list directories, search text
-  - search # Codebase search, file search, text search
+  - read
+  - search
+  - edit
+  - execute
+  - web
+  - todo
 handoffs:
   - label: Commit
     agent: scribe
@@ -69,4 +73,3 @@ If everything passes, say so clearly. Don't invent issues.
 
 Use `memory:decision:read` to check whether a pattern has been decided before flagging it as an issue.
 Use `memory:insight:create` when you spot a recurring pattern, anti-pattern, or gotcha that future reviewers should know about.
-

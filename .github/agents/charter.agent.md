@@ -8,9 +8,10 @@ description: >
 tools:
   - read
   - search
+  - edit
+  - execute
   - web
   - todo
-  - execute
 handoffs:
   - label: Brief the Team
     agent: guild-master

@@ -12,36 +12,46 @@ metadata:
 
 ## Team
 
-| Agent | Role | File | Use for |
-|-------|------|------|---------|
-| guild-master | guild-master | `guild-master.agent.md` | Default — orchestrates everything |
-| charter | product-owner | `charter.agent.md` | Requirements, user stories, backlog, acceptance criteria, PRDs |
-| engineer | engineer | `engineer.agent.md` | File creation, editing, script implementation |
-| smith | skill-writer | `smith.agent.md` | Writing or reviewing SKILL.md files |
-| invoker | copilot-cli | `invoker.agent.md` | Plugin manifests, marketplace, CLI compatibility |
-| auditor | reviewer | `auditor.agent.md` | Quality gate before committing |
-| scribe | scribe | `scribe.agent.md` | Commits, branches, pull requests |
+| Agent        | Role                | File                    | Use for                                                                                                |
+| ------------ | ------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------ |
+| guild-master | guild-master        | `guild-master.agent.md` | Default — orchestrates everything                                                                      |
+| charter      | product-owner       | `charter.agent.md`      | Requirements, user stories, backlog, acceptance criteria, PRDs                                         |
+| architect    | technical-architect | `architect.agent.md`    | Architecture decisions, design patterns, technical trade-offs, cost/quality balance with product owner |
+| engineer     | engineer            | `engineer.agent.md`     | File creation, editing, script implementation                                                          |
+| smith        | skill-writer        | `smith.agent.md`        | Writing or reviewing SKILL.md files                                                                    |
+| invoker      | copilot-cli         | `invoker.agent.md`      | Plugin manifests, marketplace, CLI compatibility                                                       |
+| auditor      | reviewer            | `auditor.agent.md`      | Quality gate before committing                                                                         |
+| scribe       | scribe              | `scribe.agent.md`       | Commits, branches, pull requests                                                                       |
 
 ---
 
 ## Routing Rules
 
-| Pattern | Role |
-|---------|------|
-| requirements, user stories, PRD, acceptance criteria, backlog, prioritization | product-owner role (agent: charter) |
-| file creation, editing, scripts, implementation | engineer role (agent: engineer) |
-| skill write, skill review, SKILL.md | skill-writer role (agent: smith) |
-| manifest, plugin.json, marketplace | copilot-cli role (agent: invoker) |
-| review, quality gate, approve | reviewer role (agent: auditor) |
-| commit, PR, branch, push | scribe role (agent: scribe) |
+| Pattern                                                                                          | Role                                        |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------- |
+| requirements, user stories, PRD, acceptance criteria, backlog, prioritization                    | product-owner role (agent: charter)         |
+| architecture, design patterns, technical strategy, tech debt, technical trade-off, design debate | technical-architect role (agent: architect) |
+| file creation, editing, scripts, implementation                                                  | engineer role (agent: engineer)             |
+| skill write, skill review, SKILL.md                                                              | skill-writer role (agent: smith)            |
+| manifest, plugin.json, marketplace                                                               | copilot-cli role (agent: invoker)           |
+| review, quality gate, approve                                                                    | reviewer role (agent: auditor)              |
+| commit, PR, branch, push                                                                         | scribe role (agent: scribe)                 |
 
 ---
 
 ## Default Flow
 
 ```
-guild-master → charter (product-owner) → engineer / smith (skill-writer) / invoker (copilot-cli) → auditor (reviewer) → scribe
+guild-master ⇄ charter (product-owner) + architect (technical-architect) → engineer / smith (skill-writer) / invoker (copilot-cli) → auditor (reviewer) → scribe
 ```
+
+**Flow Details:**
+
+- **charter + architect**: Peers who collaborate on design decisions. Product owner (charter) drives requirements and acceptance criteria; technical architect (architect) provides technical input, trade-offs, and feasibility assessment.
+- **Sequencing**:
+  - _Product-first_: guild-master → charter → architect (design after requirements) → engineer
+  - _Architecture-first_: guild-master → architect → charter (architecture shapes requirements) → engineer
+  - _Parallel_: charter and architect collaborate simultaneously on complex decisions requiring both perspectives
 
 ---
 

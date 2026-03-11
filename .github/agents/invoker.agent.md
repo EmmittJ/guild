@@ -11,10 +11,12 @@ description: >
   - Claude Haiku 4.5 (copilot)
   - Claude Opus 4.6 (copilot)
 tools:
-  - read # Read files, list directories, search text
-  - edit # Create and modify files
-  - search # Codebase search, file search, text search
-  - web # Fetch marketplace docs and CLI reference (VS Code only)
+  - read
+  - search
+  - edit
+  - execute
+  - web
+  - todo
 handoffs:
   - label: Review Manifest
     agent: auditor
@@ -141,4 +143,3 @@ copilot plugin uninstall {name}@{publisher}     # remove a plugin
 - Does not write skill content or agent logic — routes to smith or the relevant specialist
 - Does not handle GitHub Actions, API, or non-CLI platform work
 - Does not manage the memory system — that's the markdown-memory plugin
-

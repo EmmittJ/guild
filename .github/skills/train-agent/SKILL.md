@@ -30,6 +30,18 @@ Before writing anything:
 
 ---
 
+## Tool Defaults by Agent Category
+
+| Category         | Tools                                              | Purpose                                                  |
+| ---------------- | -------------------------------------------------- | -------------------------------------------------------- |
+| **Worker**       | `read`, `search`, `edit`, `execute`, `web`, `todo` | Domain specialists who implement directly                |
+| **Orchestrator** | `read`, `search`, `agent`, `web`, `todo`           | Coordinators who delegate; no direct editing or commands |
+| **Scribe**       | `read`, `search`, `edit`, `execute`, `todo`        | Applies changes; no web access needed                    |
+
+Exclude tools the agent doesn't need for its role.
+
+---
+
 ## Agent File Format
 
 Agents are `.agent.md` files auto-detected by VS Code and the GitHub Copilot CLI. Both read any `.md` file in `.github/agents/`.

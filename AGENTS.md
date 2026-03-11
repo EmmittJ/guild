@@ -10,15 +10,16 @@ Skills installed in this repo: `.github/skills/guild-memory`, `.github/skills/gu
 
 ## Team
 
-| Agent | Role | File | Use for |
-| --- | --- | --- | --- |
-| Guild Master | orchestration | `.github/agents/guild-master.agent.md` | Default — orchestrates everything |
-| charter | product owner | `.github/agents/charter.agent.md` | Requirements, user stories, backlog, acceptance criteria |
-| engineer | implementation | `.github/agents/engineer.agent.md` | File creation, editing, script implementation |
-| smith | skill writer | `.github/agents/smith.agent.md` | Writing or reviewing SKILL.md files |
-| invoker | CLI integration | `.github/agents/invoker.agent.md` | Plugin manifests, marketplace, CLI compatibility |
-| auditor | quality gate | `.github/agents/auditor.agent.md` | Quality gate before committing |
-| scribe | version control | `.github/agents/scribe.agent.md` | Commits, branches, pull requests |
+| Agent        | Role                | File                                   | Use for                                                                                      |
+| ------------ | ------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Guild Master | orchestration       | `.github/agents/guild-master.agent.md` | Default — orchestrates everything                                                            |
+| charter      | product owner       | `.github/agents/charter.agent.md`      | Requirements, user stories, backlog, acceptance criteria                                     |
+| architect    | technical architect | `.github/agents/architect.agent.md`    | Architecture decisions, design patterns, technical trade-offs and debates with product owner |
+| engineer     | implementation      | `.github/agents/engineer.agent.md`     | File creation, editing, script implementation                                                |
+| smith        | skill writer        | `.github/agents/smith.agent.md`        | Writing or reviewing SKILL.md files                                                          |
+| invoker      | CLI integration     | `.github/agents/invoker.agent.md`      | Plugin manifests, marketplace, CLI compatibility                                             |
+| auditor      | quality gate        | `.github/agents/auditor.agent.md`      | Quality gate before committing                                                               |
+| scribe       | version control     | `.github/agents/scribe.agent.md`       | Commits, branches, pull requests                                                             |
 
 - Guild Master orchestrates; specialists implement
 - Auditor signs off before Scribe commits — never skip the gate

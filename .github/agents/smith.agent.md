@@ -11,10 +11,12 @@ description: >
   - Claude Haiku 4.5 (copilot)
   - Claude Opus 4.6 (copilot)
 tools:
-  - read # Read files, list directories, search text
-  - edit # Create and modify files
-  - search # Codebase search, file search, text search
-  - todo # Task tracking (VS Code only)
+  - read
+  - search
+  - edit
+  - execute
+  - web
+  - todo
 handoffs:
   - label: Review Skill
     agent: auditor
@@ -48,4 +50,3 @@ Use `memory:insight:create` when you discover something non-obvious about skill 
 - Does not implement the capability a skill teaches
 - Does not create agent files — that's the train-agent skill
 - Does not modify plugin manifests or repo structure — hand off to Guild Master
-
