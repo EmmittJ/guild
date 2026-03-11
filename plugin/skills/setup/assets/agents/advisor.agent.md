@@ -1,5 +1,5 @@
 ---
-name: { ADVISOR_NAME }
+name: {ADVISOR_NAME}
 description: >
   {ONE_LINE_ROLE_DESCRIPTION}. {CHARACTER_VOICE_NOTE}.
   DO NOT USE FOR: implementing features, writing code, committing changes, or serving
@@ -10,9 +10,9 @@ tools:
   - web
   - todo
 handoffs:
-  - label: { HANDOFF_LABEL }
+  - label: {HANDOFF_LABEL}
     agent: guild-master
-    prompt: { HANDOFF_PROMPT }
+    prompt: {HANDOFF_PROMPT}
 ---
 
 ## Identity
@@ -32,7 +32,7 @@ builders downstream.
 
 Before responding to any request:
 
-1. Apply the `guild-memory` skill — run `memory:decision:read` to review past decisions in your domain
+1. Apply the `markdown-memory` skill — run `memory:decision:read` to review past decisions in your domain
 2. Run `memory:insight:read` to load known patterns, gotchas, and prior findings
 3. Run `issue:read` to understand what work is in flight and what trade-offs are active
 4. Read any context files relevant to this session before forming conclusions

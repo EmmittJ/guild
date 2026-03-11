@@ -27,6 +27,9 @@ metadata:
 **When editing the routing skill:** also update the asset. The routing skill's frontmatter has
 `metadata.asset:` pointing to its asset counterpart — use that as the sync signal.
 
+> **Variable defaults:** `{skills-dir}` = `.github/skills` · `{agents-dir}` = `.github/agents`
+> Both can be changed when running `/guild:setup` — these are the defaults used when nothing is specified.
+
 ---
 
 ## What This Does
@@ -174,6 +177,7 @@ Each template has structural sections already written. Only fill what's marked a
 
 | Placeholder                | Replace with                                                  |
 | -------------------------- | ------------------------------------------------------------- |
+| `{HANDOFF_PROMPT}`         | One sentence telling the reviewer what to check — e.g. "Review changes to {artifact} for correctness and style." |
 | `{HANDOFF_LABEL}`          | Short label for the handoff button — e.g. "Escalate Decision" |
 | `{EXPERTISE_ITEM}` (×7)    | One domain skill per bullet — be specific, not generic        |
 | `{CRITICAL_RULE}` (×3)     | Domain constraints that actually change behavior              |
@@ -184,6 +188,7 @@ Each template has structural sections already written. Only fill what's marked a
 
 | Placeholder                | Replace with                                                |
 | -------------------------- | ----------------------------------------------------------- |
+| `{HANDOFF_PROMPT}`         | One sentence telling the reviewer what to check — e.g. "Review changes to {artifact} for correctness and style." |
 | `{REVIEWER_NAME}`          | The reviewer/quality-gate agent's name (e.g. `auditor`)     |
 | `{ARTIFACT_TYPE}`          | What this builder ships (e.g. "Feature", "Skill", "Script") |
 | `{REPO_STRUCTURE_MAP}`     | File tree showing where things live in this repo            |
@@ -211,11 +216,66 @@ The orchestrator replaces the generic `guild-master.agent.md` — write it as `{
 
 ## Step 3B: Manual Flow
 
-If the user picks **B**, prompt for:
+If the user picks **B**:
 
-1. Team member names and roles
-2. For each member: which archetype fits? (offer the list)
-3. Optionally scaffold stubs using the archetype templates with generic placeholders
+### Ask for team size and roles
+
+> How many agents do you want? (default: 5, including your orchestrator)
+> For each team member, I'll need a **display name** and a **role**.
+
+Collect the following for each member:
+
+| Prompt | Example |
+| ------ | ------- |
+| Display name (shown in chat picker) | `Alex`, `The Reviewer`, `Ops Bot` |
+| Role / function in one sentence | "Handles backend API development and database migrations" |
+
+After collecting the full list, confirm before proceeding:
+
+> Here's your team:
+>
+> | Name | Role |
+> | ---- | ---- |
+> | {name} | {role} |
+> | ... | ... |
+>
+> Ready to scaffold? You can rename or swap roles before I start.
+
+### Select the template
+
+For each team member, map their role to the best-fit category template in `assets/agents/`:
+
+| Role                                            | Category template                             | Tools baked in                         |
+| ----------------------------------------------- | --------------------------------------------- | -------------------------------------- |
+| Orchestrator                                    | `orchestrator.agent.md`                       | read, search, agent, web, todo         |
+| Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`                            | read, search, edit, execute, web, todo |
+| Tester / QA                                     | `builder.agent.md`                            | read, search, edit, execute, web, todo |
+| Platform / DevOps                               | `builder.agent.md`                            | read, search, edit, execute, web, todo |
+| Technical Writer                                | `builder.agent.md`                            | read, search, edit, web, todo          |
+| Architect / Product Owner / Domain Expert       | `advisor.agent.md`                            | read, search, web, todo                |
+| Security Reviewer / Quality Gate                | `advisor.agent.md` (tools: read, search, web) | read, search, web                      |
+| Scribe / Version Control                        | `scribe.agent.md`                             | read, search, edit, execute, todo      |
+
+If a role doesn't map cleanly, pick the closest template and trim what doesn't apply.
+
+### Fill placeholders
+
+Use the same placeholder tables documented in Step 3A — **All templates**, **Advisor**, **Builder**, **Orchestrator**, and **Scribe** sections.
+
+For manual teams, the character-flavored placeholders still apply — just use the team member's display name and role description instead of a fictional character:
+
+- `{CHARACTER_NAME}` → the display name (e.g. `Alex`)
+- `{CHARACTER_VOICE_NOTE}` → a brief working-style note (e.g. "direct and methodical")
+- `{CHARACTER_DESCRIPTION}` → skip or write a one-liner about how this person approaches the role
+- `{CHARACTER_STYLE_PARAGRAPH}` → describe tone and decision style in 2–3 sentences
+
+All other structural placeholders (`{CORE_MISSION}`, `{DELIVERABLE}`, `{CRITICAL_RULE}`, etc.) fill the same way as in universe casting.
+
+### File naming and orchestrator note
+
+**File naming:** `{kebab-case-name}.agent.md` — e.g. `alex.agent.md`, `ops-bot.agent.md`
+
+The orchestrator replaces the generic `guild-master.agent.md` — write it as `{kebab-name}.agent.md` and note in AGENTS.md that this agent IS the orchestrator.
 
 ---
 
@@ -253,7 +313,7 @@ For each selected component, prompt for:
   decisions/_summary.md
   insights/
   context/
-{skills-dir}/guild-memory/SKILL.md
+{skills-dir}/markdown-memory/SKILL.md
 ```
 
 **Issues component:**
@@ -263,14 +323,14 @@ For each selected component, prompt for:
   open/
   in_progress/
   closed/
-{skills-dir}/guild-issues/SKILL.md
+{skills-dir}/markdown-issues/SKILL.md
 ```
 
 **Inbox component:**
 
 ```
 .guild/inbox/              ← agent subdirs created on first message
-{skills-dir}/guild-inbox/SKILL.md
+{skills-dir}/markdown-inbox/SKILL.md
 ```
 
 ### Step 5B: GitHub Issues Backend (optional)
@@ -337,18 +397,18 @@ AGENTS.md                                  ← constitutional rules (if absent)
 .guild/memory/decisions/_summary.md        ← memory component
 .guild/memory/insights/
 .guild/memory/context/
-{skills-dir}/guild-memory/SKILL.md
+{skills-dir}/markdown-memory/SKILL.md
 
 .guild/issues/open/                        ← issues component
 .guild/issues/in_progress/
 .guild/issues/closed/
-{skills-dir}/guild-issues/SKILL.md
+{skills-dir}/github-issues/SKILL.md
 
 .guild/inbox/                              ← inbox component (subdirs on first message)
-{skills-dir}/guild-inbox/SKILL.md
+{skills-dir}/markdown-inbox/SKILL.md
 
 # Optional — from Step 5B (replaces markdown issues):
-{skills-dir}/guild-issues/SKILL.md         ← GitHub-backed, repo slug baked in
+{skills-dir}/github-issues/SKILL.md        ← GitHub-backed, repo slug baked in
 ```
 
 ---

@@ -12,7 +12,7 @@ Every agent should run these before doing substantive work:
 
 1. Apply `memory` skill (`memory:context:read`, `memory:decision:read`) — if installed
 2. Apply `inbox` skill (`inbox:message:read`) — check for waiting messages, delete after reading
-3. Apply `guild-issues` skill (`issue:read`) — resume or unclaim in-progress issues, then check open
+3. Apply `github-issues` skill (`issue:read`) — resume or unclaim in-progress issues, then check open
 
 ---
 

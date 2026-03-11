@@ -78,9 +78,9 @@ Apply this sequence at the start of every session. Each step delegates to a skil
 
 | Step | Skill          | What it does                                                                                                                      |
 | ---- | -------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | `guild-memory` | Follow the guild-memory skill's session start checklist — reads context, decisions summary, and your per-agent insight file       |
-| 2    | `guild-issues` | Follow the guild-issues skill's session start checklist — use `issue:ready` to surface actionable work                            |
-| 3    | `guild-inbox`  | `inbox:message:read` — check for waiting messages from other agents                                                               |
+| 1    | `markdown-memory` | Follow the markdown-memory skill's session start checklist — reads context, decisions summary, and your per-agent insight file       |
+| 2    | `github-issues` | Follow the github-issues skill's session start checklist — use `issue:ready` to surface actionable work                            |
+| 3    | `markdown-inbox`  | `inbox:message:read` — check for waiting messages from other agents                                                               |
 | 4    | `routing`      | Apply the routing skill — loads team roster and routing rules. If not installed, scan agent descriptions in the agents directory. |
 
 ---
@@ -245,7 +245,7 @@ If a reviewer-type agent's description says "receives output artifacts only," en
 
 ## Memory
 
-When these situations arise, invoke the `guild-memory` skill:
+When these situations arise, invoke the `markdown-memory` skill:
 
 - `memory:decision:create` — a meaningful choice was made
 - `memory:decision:read` — reviewing prior decisions
@@ -258,7 +258,7 @@ When these situations arise, invoke the `guild-memory` skill:
 
 ## Inbox
 
-When this situation arises, invoke the `guild-inbox` skill:
+When this situation arises, invoke the `markdown-inbox` skill:
 
 - `inbox:message:create` — another agent needs to act in a future session
 - `inbox:message:read` — checking for waiting messages
@@ -267,7 +267,7 @@ When this situation arises, invoke the `guild-inbox` skill:
 
 ## Tasks
 
-When these situations arise, invoke the `guild-issues` skill:
+When these situations arise, invoke the `github-issues` skill:
 
 - `issue:ready` — at session start and before planning new work, call this first to get actionable issues sorted by priority
 - `issue:create` — work needs to be tracked across sessions
@@ -307,7 +307,7 @@ Agents must only create files that are a **deliverable of their assigned role** 
 
 When briefing any agent that will research, explore, or analyze:
 
-> Do not write findings to files. Use the `guild-memory` skill to record anything worth keeping — insights via `memory:insight:create`, decisions via `memory:decision:create`. Only create files that are a direct deliverable of your role (e.g. a skill file, an agent file, a script).
+> Do not write findings to files. Use the `markdown-memory` skill to record anything worth keeping — insights via `memory:insight:create`, decisions via `memory:decision:create`. Only create files that are a direct deliverable of your role (e.g. a skill file, an agent file, a script).
 
 If a spawned agent produces stray files, delete them and re-capture the content through the appropriate skill before the session ends.
 

@@ -7,7 +7,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$RepoRoot,
     [switch]$NonInteractive,
-    [ValidateSet("guild-memory","guild-tasks","guild-inbox","all")]
+    [ValidateSet("markdown-memory","markdown-issues","markdown-inbox","all")]
     [string]$Components,
     [string]$SkillsDir
 )
@@ -25,16 +25,16 @@ if (-not $NonInteractive -and -not $Components) {
     Write-Host "Guild Markdown Setup"
     Write-Host "──────────────────────────────────"
     Write-Host "Which components do you want to install?"
-    Write-Host "  1) guild-memory  — decisions, insights, context"
-    Write-Host "  2) guild-tasks   — open/in_progress/closed task files"
-    Write-Host "  3) guild-inbox   — async agent-to-agent messaging"
+    Write-Host "  1) markdown-memory  — decisions, insights, context"
+    Write-Host "  2) markdown-issues  — open/in_progress/closed task files"
+    Write-Host "  3) markdown-inbox   — async agent-to-agent messaging"
     Write-Host "  4) all     (default)"
     Write-Host ""
     $choice = Read-Host "Select [1/2/3/4]"
     $Components = switch ($choice) {
-        "1" { "guild-memory" }
-        "2" { "guild-tasks" }
-        "3" { "guild-inbox" }
+        "1" { "markdown-memory" }
+        "2" { "markdown-issues" }
+        "3" { "markdown-inbox" }
         default { "all" }
     }
 } elseif (-not $Components) {
@@ -133,7 +133,7 @@ function Install-Guild-Memory {
     }
 
     $script:GuildMemoryRootOut = $GuildMemoryRoot
-    Copy-Skill "guild-memory" $GuildMemoryRoot
+    Copy-Skill "markdown-memory" $GuildMemoryRoot
 }
 
 # ── Install tasks ────────────────────────────────────────────────────────────
@@ -156,7 +156,7 @@ function Install-Guild-Tasks {
         }
     }
     $script:GuildTasksRootOut = $GuildTasksRoot
-    Copy-Skill "guild-tasks" $GuildTasksRoot
+    Copy-Skill "markdown-issues" $GuildTasksRoot
 }
 
 # ── Install inbox ────────────────────────────────────────────────────────────
@@ -176,31 +176,31 @@ function Install-Guild-Inbox {
     Add-GitignoreEntry "$GuildInboxRoot/"
 
     $script:GuildInboxRootOut = $GuildInboxRoot
-    Copy-Skill "guild-inbox" $GuildInboxRoot
+    Copy-Skill "markdown-inbox" $GuildInboxRoot
 }
 
 # ── Run ──────────────────────────────────────────────────────────────────────
 
 switch ($Components) {
-    "guild-memory" { Install-Guild-Memory }
-    "guild-tasks"  { Install-Guild-Tasks }
-    "guild-inbox"  { Install-Guild-Inbox }
+    "markdown-memory" { Install-Guild-Memory }
+    "markdown-issues"  { Install-Guild-Tasks }
+    "markdown-inbox"  { Install-Guild-Inbox }
     default  { Install-Guild-Memory; Install-Guild-Tasks; Install-Guild-Inbox }
 }
 
 Write-Host "`nDone. Next: add the installed skills to your plugin.json or AGENTS.md:"
 Write-Host ""
 switch ($Components) {
-    "guild-memory" { Write-Host "  `"skills`": [`"$SkillsDir/guild-memory`"]"
+    "markdown-memory" { Write-Host "  `"skills`": [`"$SkillsDir/markdown-memory`"]"
                Write-Host ""
                Write-Host "  Memory root: $script:GuildMemoryRootOut" }
-    "guild-tasks"  { Write-Host "  `"skills`": [`"$SkillsDir/guild-tasks`"]"
+    "markdown-issues"  { Write-Host "  `"skills`": [`"$SkillsDir/markdown-issues`"]"
                Write-Host ""
                Write-Host "  Tasks root:  $script:GuildTasksRootOut" }
-    "guild-inbox"  { Write-Host "  `"skills`": [`"$SkillsDir/guild-inbox`"]"
+    "markdown-inbox"  { Write-Host "  `"skills`": [`"$SkillsDir/markdown-inbox`"]"
                Write-Host ""
                Write-Host "  Inbox root:  $script:GuildInboxRootOut" }
-    default  { Write-Host "  `"skills`": [`"$SkillsDir/guild-memory`", `"$SkillsDir/guild-tasks`", `"$SkillsDir/guild-inbox`"]"
+    default  { Write-Host "  `"skills`": [`"$SkillsDir/markdown-memory`", `"$SkillsDir/markdown-issues`", `"$SkillsDir/markdown-inbox`"]"
                Write-Host ""
                Write-Host "  Memory root: $script:GuildMemoryRootOut"
                Write-Host "  Tasks root:  $script:GuildTasksRootOut"

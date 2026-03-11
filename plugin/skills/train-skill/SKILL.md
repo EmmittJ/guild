@@ -9,6 +9,8 @@ metadata:
   version: "0.1"
 ---
 
+## When to Activate
+
 - "create a skill for {capability}"
 - "package {process} as a skill"
 - "train the team to {do something}"

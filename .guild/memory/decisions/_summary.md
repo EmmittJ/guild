@@ -1,5 +1,6 @@
 # Decision Summary
 
+- **2026-03-11** — Skill discovery at session start: orchestrate should not own the list of installed skills. Routing becomes the single source of truth (Option C). Routing gets an "Installed Skills" table; orchestrate initialization delegates to it. Fallback to verb-based dispatch when routing is absent. See 2026-03-11-skill-discovery.md.
 - **2026-03-11** — Guild Master orchestration: Always create tracking issues for delegated work that produces artifacts (code, docs, decisions, memory). Issues use standard structure (What/Done When/Context) with priority labels. Ownership model: Guild Master creates → Specialist claims/works → closes → Auditor reviews (if needed) → Scribe commits. See 2026-03-11-orchestration-tracking-process.md.
 - **2026-03-11** — Task labeling strategy: status labels are optional descriptive markers, not required gates. Readiness is "open issue without blocked label." Charter doesn't add open label at creation. Priority labels are optional. See 2026-03-11-task-labeling-strategy.md.
 - **2026-03-10** — Thematic agent naming **implemented and released as v0.3.0**. All agents renamed (charter, smith, auditor, invoker) with role column in routing table. See 2026-03-10-agent-naming-decision-implemented.md.

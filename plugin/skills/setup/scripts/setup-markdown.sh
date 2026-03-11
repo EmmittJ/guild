@@ -2,7 +2,7 @@
 # setup.sh — interactive Guild markdown backend setup
 # Usage: sh setup.sh <repo-root> [-y]
 #   repo-root   absolute path to the repository root (required)
-# With -y: reads GUILD_COMPONENTS (guild-memory|guild-tasks|guild-inbox|all) and GUILD_SKILLS_DIR from env
+# With -y: reads GUILD_COMPONENTS (markdown-memory|markdown-issues|markdown-inbox|all) and GUILD_SKILLS_DIR from env
 
 set -e
 
@@ -39,9 +39,9 @@ else
   printf "Select [1/2/3/4]: "
   read -r choice
   case "$choice" in
-    1) COMPONENTS="guild-memory" ;;
-    2) COMPONENTS="guild-tasks" ;;
-    3) COMPONENTS="guild-inbox" ;;
+    1) COMPONENTS="markdown-memory" ;;
+    2) COMPONENTS="markdown-issues" ;;
+    3) COMPONENTS="markdown-inbox" ;;
     *) COMPONENTS="all" ;;
   esac
 fi
@@ -138,7 +138,7 @@ install_guild_memory() {
     echo "  created $GUILD_MEMORY_ROOT/decisions/_summary.md"
   fi
 
-  copy_skill "guild-memory" "$GUILD_MEMORY_ROOT"
+  copy_skill "markdown-memory" "$GUILD_MEMORY_ROOT"
 }
 
 # ── Install tasks ────────────────────────────────────────────────────────────
@@ -163,7 +163,7 @@ install_guild_tasks() {
     [ -f "$keep" ] || touch "$keep" && echo "  created $GUILD_TASKS_ROOT/$dir/.gitkeep"
   done
 
-  copy_skill "guild-tasks" "$GUILD_TASKS_ROOT"
+  copy_skill "markdown-issues" "$GUILD_TASKS_ROOT"
 }
 
 # ── Install inbox ────────────────────────────────────────────────────────────
@@ -183,15 +183,15 @@ install_guild_inbox() {
   # Inbox messages are ephemeral — keep out of git
   gitignore_add "$GUILD_INBOX_ROOT/"
 
-  copy_skill "guild-inbox" "$GUILD_INBOX_ROOT"
+  copy_skill "markdown-inbox" "$GUILD_INBOX_ROOT"
 }
 
 # ── Run ──────────────────────────────────────────────────────────────────────
 
 case "$COMPONENTS" in
-  guild-memory) install_guild_memory ;;
-  guild-tasks)  install_guild_tasks ;;
-  guild-inbox)  install_guild_inbox ;;
+  markdown-memory) install_guild_memory ;;
+  markdown-issues)  install_guild_tasks ;;
+  markdown-inbox)  install_guild_inbox ;;
   *)      install_guild_memory; install_guild_tasks; install_guild_inbox ;;
 esac
 
@@ -199,16 +199,16 @@ echo ""
 echo "Done. Next: add the installed skills to your plugin.json or AGENTS.md:"
 echo ""
 case "$COMPONENTS" in
-  guild-memory) echo "  \"skills\": [\"$SKILLS_DIR/guild-memory\"]"
+  markdown-memory) echo "  \"skills\": [\"$SKILLS_DIR/markdown-memory\"]"
           echo ""
           echo "  Memory root: $GUILD_MEMORY_ROOT" ;;
-  guild-tasks)  echo "  \"skills\": [\"$SKILLS_DIR/guild-tasks\"]"
+  markdown-issues)  echo "  \"skills\": [\"$SKILLS_DIR/markdown-issues\"]"
           echo ""
           echo "  Tasks root:  $GUILD_TASKS_ROOT" ;;
-  guild-inbox)  echo "  \"skills\": [\"$SKILLS_DIR/guild-inbox\"]"
+  markdown-inbox)  echo "  \"skills\": [\"$SKILLS_DIR/markdown-inbox\"]"
           echo ""
           echo "  Inbox root:  $GUILD_INBOX_ROOT" ;;
-  *)      echo "  \"skills\": [\"$SKILLS_DIR/guild-memory\", \"$SKILLS_DIR/guild-tasks\", \"$SKILLS_DIR/guild-inbox\"]"
+  *)      echo "  \"skills\": [\"$SKILLS_DIR/markdown-memory\", \"$SKILLS_DIR/markdown-issues\", \"$SKILLS_DIR/markdown-inbox\"]"
           echo ""
           echo "  Memory root: $GUILD_MEMORY_ROOT"
           echo "  Tasks root:  $GUILD_TASKS_ROOT"

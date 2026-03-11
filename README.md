@@ -18,19 +18,23 @@ It runs in Claude Code, GitHub Copilot CLI, VS Code, or anything else that loads
 
 ```sh
 # grab the agent
-curl -o .github/agents/guild-master.agent.md \
+curl --create-dirs -o .github/agents/guild-master.agent.md \
   https://raw.githubusercontent.com/EmmittJ/guild/main/.github/agents/guild-master.agent.md
 
-# grab the core skills
-curl -o .github/skills/orchestrate \
-  https://raw.githubusercontent.com/EmmittJ/guild/main/.github/skills/orchestrate
-# (repeat for train-agent, train-skill)
+# grab the core plugin skills
+curl --create-dirs -o .github/skills/orchestrate/SKILL.md \
+  https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/orchestrate/SKILL.md
+curl --create-dirs -o .github/skills/orchestrate/references/handoff.md \
+  https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/orchestrate/references/handoff.md
+curl --create-dirs -o .github/skills/train-agent/SKILL.md \
+  https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/train-agent/SKILL.md
+curl --create-dirs -o .github/skills/train-skill/SKILL.md \
+  https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/train-skill/SKILL.md
 
-# optional: add memory and tasks
-mkdir -p .guild
-mkdir -p .guild/memory/{context,decisions,insights}
-mkdir -p .guild/issues/{open,in_progress,closed}
-mkdir -p .guild/inbox
+# optional: run /guild:setup interactively to scaffold your team + install memory/issues/inbox
+# or install the setup skill manually:
+curl --create-dirs -o .github/skills/setup/SKILL.md \
+  https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/setup/SKILL.md
 ```
 
 **Option B — install as a Copilot CLI plugin**
@@ -72,6 +76,29 @@ Memory configuration lives in `.guild/config.json`, not in AGENTS.md. A repo on 
 
 ---
 
+## First Session
+
+After install, open a chat with Guild Master and say:
+
+```
+/guild:setup
+```
+
+Guild Master will:
+1. Silently scan your repo (language, framework, CI, existing agents)
+2. Show you what it found and ask: universe casting or manual team definition?
+3. Guide you through casting your team and scaffolding agent files
+4. Optionally install memory, issues, and inbox components
+
+When it's done you'll have:
+- `.github/agents/` populated with your team
+- `.github/skills/routing/SKILL.md` with your roster and routing rules
+- Optionally: `.github/skills/markdown-memory/`, `github-issues/`, `markdown-inbox/` installed
+
+To verify: check `.github/agents/` for agent files and `.github/skills/routing/SKILL.md` for your team roster.
+
+---
+
 ## Customization
 
 Guild installs two kinds of files into your repo. Know which is which before editing.
@@ -110,9 +137,9 @@ These skills are copied into your repo by `/guild:setup`. Once installed, they b
 
 | File / Directory               | Installed by   |
 | ------------------------------ | -------------- |
-| `.github/skills/guild-memory/` | `/guild:setup` |
-| `.github/skills/guild-issues/` | `/guild:setup` |
-| `.github/skills/guild-inbox/`  | `/guild:setup` |
+| `.github/skills/markdown-memory/` | `/guild:setup` |
+| `.github/skills/github-issues/`   | `/guild:setup` |
+| `.github/skills/markdown-inbox/`  | `/guild:setup` |
 
 They also power this repo's self-managing team. If you need to customise how memory, tasks, or inbox work for your project, these are the files to edit.
 
@@ -127,7 +154,6 @@ plugin/
     orchestrate/
       SKILL.md
       references/
-        routing.md
         handoff.md
     setup/
       SKILL.md
@@ -161,11 +187,11 @@ plugin/
   skills/
     routing/
       SKILL.md              # team roster — host-owned, edit freely
-    guild-memory/
+    markdown-memory/
       SKILL.md              # installed component
-    guild-issues/
+    github-issues/
       SKILL.md              # installed component
-    guild-inbox/
+    markdown-inbox/
       SKILL.md              # installed component
 ```
 
@@ -189,12 +215,12 @@ plugin/
 
 ## Memory
 
-The `guild-memory` skill ships with the core plugin. It teaches agents how to read and write memory.
+The `markdown-memory` skill ships with the core plugin. It teaches agents how to read and write memory.
 Agents write data to `.guild/memory/` — the persistent, version-controlled memory that travels with the code.
 
-The `guild-issues` skill manages procedural memory — what needs to be done, what's in progress, and what's closed.
+The `github-issues` skill manages procedural memory — what needs to be done, what's in progress, and what's closed.
 
-The `guild-inbox` skill manages agent-to-agent async messaging.
+The `markdown-inbox` skill manages agent-to-agent async messaging.
 
 ```
 .guild/
@@ -211,6 +237,23 @@ The `guild-inbox` skill manages agent-to-agent async messaging.
 
 Each agent owns its own `context/{agent}.md` file — concurrent sessions don't conflict. The orchestrator
 reads all context files to synthesize team-wide state when needed.
+
+---
+
+## Upgrading
+
+**Option B (CLI plugin):**
+```sh
+copilot plugin update guild
+```
+
+This replaces plugin-owned files (`plugin/skills/orchestrate/`, `train-agent/`, `train-skill/`, `setup/`) with the latest versions.
+
+Your installed components — `routing/SKILL.md`, `markdown-memory/`, `markdown-inbox/`, `github-issues/` — are not touched. They belong to your repo.
+
+See [CHANGELOG.md](CHANGELOG.md) for breaking changes and migration notes before upgrading.
+
+**Option A (curl):** Re-run the curl commands from the install section to pull updated files.
 
 ---
 
@@ -252,7 +295,7 @@ copilot plugin marketplace add EmmittJ/guild
 copilot plugin marketplace browse guild
 ```
 
-Available plugins: `core@guild` (includes guild-master, orchestrate, train-agent, train-skill, guild-memory, guild-issues, guild-inbox).
+Available plugins: `core@guild` (includes guild-master, orchestrate, train-agent, train-skill, markdown-memory, github-issues, markdown-inbox).
 
 ---
 
