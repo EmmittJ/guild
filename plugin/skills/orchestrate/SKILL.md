@@ -76,10 +76,10 @@ When spawning agents, match the model tier to the operation. Tier names are fixe
 
 Apply this sequence at the start of every session. Work begins only after all steps complete.
 
-| Step | Action                                                                                                                                                         |
-| ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Apply the `routing` skill — loads team roster, routing rules, and the **Installed Skills** table                                                               |
-| 2    | Apply each skill listed under **Installed Skills** in routing, in order. Skip steps whose skill is not installed.                                              |
+| Step | Action                                                                                                            |
+| ---- | ----------------------------------------------------------------------------------------------------------------- |
+| 1    | Apply the `routing` skill — loads team roster, routing rules, and the **Installed Skills** table                  |
+| 2    | Apply each skill listed under **Installed Skills** in routing, in order. Skip steps whose skill is not installed. |
 
 **Fallback (routing not installed, or Installed Skills table is absent or empty):** Apply skills by verb — attempt `memory:context:read`, then `issue:ready`, then `inbox:message:read`. Skip any that produce no result.
 
