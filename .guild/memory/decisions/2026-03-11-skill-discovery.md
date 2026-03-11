@@ -1,7 +1,7 @@
 # Decision: Skill Discovery at Session Start
 
 **Date:** 2026-03-11  
-**Status:** proposed  
+**Status:** accepted  
 **Issue:** #35
 
 ---

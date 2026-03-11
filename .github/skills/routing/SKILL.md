@@ -55,6 +55,19 @@ guild-master ⇄ charter (product-owner) + architect (technical-architect) → e
 
 ---
 
+## Installed Skills
+
+Skills installed by `/guild:setup`. Update this table when adding, removing, or renaming a skill.
+Orchestrate reads this at session start and applies each skill in order.
+
+| Order | Skill directory    | Session-start action                                              |
+| ----- | ------------------ | ----------------------------------------------------------------- |
+| 1     | `markdown-memory/` | `memory:context:read` — load context, decisions, per-agent notes  |
+| 2     | `github-issues/`   | `issue:ready` — surface actionable work                           |
+| 3     | `markdown-inbox/`  | `inbox:message:read` — check waiting messages from other agents   |
+
+---
+
 ## Model Tiers
 
 Used by guild-master when spawning tasks via the Copilot CLI (`tasks` tool supports model selection; VS Code `runSubagent` does not). Fill in the models available in your environment using the CLI format.

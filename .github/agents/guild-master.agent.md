@@ -17,7 +17,7 @@ Apply the `orchestrate` skill and follow the **Guild Master Initialization** tem
 
 Apply the `orchestrate` skill for every request.
 
-Apply the `guild-memory` skill to record what the team learns:
+Apply the `markdown-memory` skill to record what the team learns:
 
 - Record decisions when meaningful choices are made
 - Note insights when something non-obvious is discovered
