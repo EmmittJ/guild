@@ -1,16 +1,16 @@
 ---
-name: guild-issues
+name: github-issues
 description: >
   GitHub Issues issues store for a team of agents. Issues track status via labels — closed
   issue = completed issue. No write conflicts, no shared files.
   Activate when: issue:create — work needs tracking; issue:update — claiming, unclaiming,
   blocking, or completing an issue; issue:read — checking available or in-progress work;
   issue:ready — finding actionable work at session start or before planning.
-  DO NOT USE FOR: decisions, insights, or context — use the memory skill. Inbox messages — use the inbox skill.
+  DO NOT USE FOR: decisions, insights, or context — use `memory:decision:create`. Inbox messages — use `inbox:message:create`.
 license: MIT
 metadata:
   version: "0.3"
-  asset: plugin/skills/setup/assets/skills/github-issues/SKILL.md
+  asset: ../../../plugin/skills/setup/assets/skills/github-issues/SKILL.md
 ---
 
 ## Overview
@@ -20,15 +20,16 @@ completed issue.
 
 **Label scheme:**
 
-| Label | Meaning | When used |
-|-------|---------|-----------|
-| `in-progress` | Claimed by an agent this session | Add when claiming work |
-| `blocked` | Cannot proceed — see body for blocker | Add when a blocker is discovered |
-| `priority:high` | Urgent | Optional; at create time |
-| `priority:medium` | Normal priority | Optional; at create time |
-| `priority:low` | Nice-to-have | Optional; at create time |
+| Label             | Meaning                               | When used                        |
+| ----------------- | ------------------------------------- | -------------------------------- |
+| `in-progress`     | Claimed by an agent this session      | Add when claiming work           |
+| `blocked`         | Cannot proceed — see body for blocker | Add when a blocker is discovered |
+| `priority:high`   | Urgent                                | Optional; at create time         |
+| `priority:medium` | Normal priority                       | Optional; at create time         |
+| `priority:low`    | Nice-to-have                          | Optional; at create time         |
 
 **State model:**
+
 - Open issue (no labels) → ready
 - Open issue + `in-progress` → claimed
 - Open issue + `blocked` → blocked
@@ -59,16 +60,19 @@ Create an issue with a descriptive title, a structured body, and optionally a pr
 
 **Required body structure:**
 
-````markdown
+```markdown
 ## What
+
 {What needs to be done. Specific enough that an agent can start without asking.}
 
 ## Done when
+
 {Acceptance criteria. What does completion look like?}
 
 ## Context
+
 {Links to relevant decisions, files, insights, or other issues.}
-````
+```
 
 **Pattern 1 — `--body-file` (recommended):**
 
@@ -129,13 +133,13 @@ gh issue create -R EmmittJ/guild -t "{Issue title}" -b $body -l priority:medium
 
 ## Update `issue:update`
 
-| Transition | Command |
-|------------|---------|
-| Create (ready) | `gh issue create -R EmmittJ/guild -t "..." -b "..." -l priority:medium` |
-| Claim (→ in-progress) | `gh issue edit -R EmmittJ/guild {number} --add-label in-progress` |
-| Unclaim (→ ready) | `gh issue edit -R EmmittJ/guild {number} --remove-label in-progress` |
-| Block | `gh issue edit -R EmmittJ/guild {number} --add-label blocked --remove-label in-progress` |
-| Complete | `gh issue close -R EmmittJ/guild {number}` |
+| Transition            | Command                                                                                  |
+| --------------------- | ---------------------------------------------------------------------------------------- |
+| Create (ready)        | `gh issue create -R EmmittJ/guild -t "..." -b "..." -l priority:medium`                  |
+| Claim (→ in-progress) | `gh issue edit -R EmmittJ/guild {number} --add-label in-progress`                        |
+| Unclaim (→ ready)     | `gh issue edit -R EmmittJ/guild {number} --remove-label in-progress`                     |
+| Block                 | `gh issue edit -R EmmittJ/guild {number} --add-label blocked --remove-label in-progress` |
+| Complete              | `gh issue close -R EmmittJ/guild {number}`                                               |
 
 ---
 
@@ -173,6 +177,7 @@ document the dependency in the issue body:
 
 ```markdown
 ## Context
+
 Blocked by #42.
 ```
 

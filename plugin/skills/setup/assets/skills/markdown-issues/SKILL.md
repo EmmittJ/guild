@@ -40,22 +40,25 @@ Filename: `{slug}.md` — short and descriptive, e.g. `add-auth-tests.md`
 ```markdown
 ---
 priority: high | medium | low
-agent: {assigned agent name, or empty if unclaimed}
+agent: { assigned agent name, or empty if unclaimed }
 created: YYYY-MM-DD
 blocked-by:
-  - {slug of blocking issue}
-  - {slug of another blocking issue}
+  - { slug of blocking issue }
+  - { slug of another blocking issue }
 ---
 
 # {Issue title}
 
 ## What
+
 {What needs to be done. Specific enough that an agent can start without asking.}
 
 ## Done when
+
 {Acceptance criteria. What does completion look like?}
 
 ## Context
+
 {Links to relevant decisions, files, insights, or other issues.}
 ```
 

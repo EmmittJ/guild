@@ -7,7 +7,7 @@ description: >
 license: MIT
 metadata:
   version: "0.2"
-  asset: plugin/skills/setup/assets/skills/routing/SKILL.md
+  asset: ../../../plugin/skills/setup/assets/skills/routing/SKILL.md
 ---
 
 ## Team

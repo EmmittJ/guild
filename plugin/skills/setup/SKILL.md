@@ -15,14 +15,14 @@ metadata:
 
 ## Asset Sources
 
-| Installed file | Source asset |
-|---|---|
-| `{skills-dir}/routing/SKILL.md` | `plugin/skills/setup/assets/skills/routing/SKILL.md` |
-| `{skills-dir}/guild-memory/SKILL.md` | `plugin/skills/setup/assets/skills/markdown-memory/SKILL.md` |
-| `{skills-dir}/guild-inbox/SKILL.md` | `plugin/skills/setup/assets/skills/markdown-inbox/SKILL.md` |
-| `{skills-dir}/guild-issues/SKILL.md` | `plugin/skills/setup/assets/skills/markdown-issues/SKILL.md` |
-| `{skills-dir}/guild-issues/SKILL.md` | `plugin/skills/setup/assets/skills/github-issues/SKILL.md` ← replaces markdown issues if GitHub backend selected |
-| `{agents-dir}/{name}.agent.md` | `plugin/skills/setup/assets/agents/{orchestrator\|builder\|advisor\|scribe}.agent.md` |
+| Installed file                       | Source asset                                                                                                     |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| `{skills-dir}/routing/SKILL.md`      | `assets/skills/routing/SKILL.md`                                                             |
+| `{skills-dir}/markdown-memory/SKILL.md` | `assets/skills/markdown-memory/SKILL.md`                                                     |
+| `{skills-dir}/markdown-inbox/SKILL.md`  | `assets/skills/markdown-inbox/SKILL.md`                                                      |
+| `{skills-dir}/markdown-issues/SKILL.md` | `assets/skills/markdown-issues/SKILL.md`                                                     |
+| `{skills-dir}/github-issues/SKILL.md`   | `assets/skills/github-issues/SKILL.md` ← replaces markdown issues if GitHub backend selected |
+| `{agents-dir}/{name}.agent.md`       | `assets/agents/{orchestrator\|builder\|advisor\|scribe}.agent.md`                            |
 
 **When editing the routing skill:** also update the asset. The routing skill's frontmatter has
 `metadata.asset:` pointing to its asset counterpart — use that as the sync signal.
@@ -45,17 +45,18 @@ metadata:
 
 Before prompting the user, silently scan:
 
-| What to look for | How |
-|---|---|
-| Language + framework | `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `composer.json`, `Gemfile`, `build.gradle` |
+| What to look for     | How                                                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Language + framework | `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `composer.json`, `Gemfile`, `build.gradle`         |
 | Architecture pattern | Directory structure: `src/`, `apps/`, `packages/`, `services/`, `infra/`, `Dockerfile`, `docker-compose.yml` |
-| Test runner | `jest`, `pytest`, `vitest`, `rspec`, `cargo test`, `go test` references in config files |
-| CI system | `.github/workflows/`, `.gitlab-ci.yml`, `Jenkinsfile`, `azure-pipelines.yml` |
-| Docs | `docs/`, `README.md`, `CONTRIBUTING.md` |
-| Security surface | Auth files, public API routes, file uploads, user-controlled input patterns |
-| Existing agents | `.github/agents/` — note covered roles; don't re-scaffold what exists |
+| Test runner          | `jest`, `pytest`, `vitest`, `rspec`, `cargo test`, `go test` references in config files                      |
+| CI system            | `.github/workflows/`, `.gitlab-ci.yml`, `Jenkinsfile`, `azure-pipelines.yml`                                 |
+| Docs                 | `docs/`, `README.md`, `CONTRIBUTING.md`                                                                      |
+| Security surface     | Auth files, public API routes, file uploads, user-controlled input patterns                                  |
+| Existing agents      | `.github/agents/` — note covered roles; don't re-scaffold what exists                                        |
 
 Produce an internal summary (not shown to user yet):
+
 ```
 Stack: {language(s)} / {framework(s)}
 Type: {monorepo | microservices | library | CLI | standard app | static site}
@@ -73,6 +74,7 @@ Existing agents: {list or "none"}
 Show the user a brief summary of what was found:
 
 > I found a **{type}** project using **{stack}**. Here's what I'll base the team on:
+>
 > - Stack: {stack}
 > - Tests: {test runner}
 > - CI: {ci system}
@@ -97,21 +99,23 @@ If the user picks **A**:
 
 Based on the discovery summary, pick N−1 specialist roles to complement the orchestrator. Use this priority table — pick roles that match the project's actual needs:
 
-| Role | Cast when |
-|---|---|
-| Orchestrator | Always — 1 per team |
-| Backend Engineer | Server code, API routes, databases present |
-| Frontend Engineer | UI components, CSS, React/Vue/Svelte/etc. present |
-| Full-stack Engineer | Small team + both frontend and backend present |
-| Data Engineer | ORM migrations, analytics, ETL, heavy query patterns |
-| Platform / DevOps | Dockerfile, CI config, infra-as-code present |
-| Tester / QA | Test directory present or notable gap |
-| Security Reviewer | Public API, auth code, sensitive data handling |
-| Technical Writer | `docs/` present, SDK, developer-facing library |
-| Scribe | Always valuable for commit/PR discipline |
+| Role                | Cast when                                            |
+| ------------------- | ---------------------------------------------------- |
+| Orchestrator        | Always — 1 per team                                  |
+| Backend Engineer    | Server code, API routes, databases present           |
+| Frontend Engineer   | UI components, CSS, React/Vue/Svelte/etc. present    |
+| Full-stack Engineer | Small team + both frontend and backend present       |
+| Data Engineer       | ORM migrations, analytics, ETL, heavy query patterns |
+| Platform / DevOps   | Dockerfile, CI config, infra-as-code present         |
+| Tester / QA         | Test directory present or notable gap                |
+| Security Reviewer   | Public API, auth code, sensitive data handling       |
+| Technical Writer    | `docs/` present, SDK, developer-facing library       |
+| Scribe              | Always valuable for commit/PR discipline             |
 
 Present the proposed roles before casting:
+
 > For a **{type}** project in **{stack}**, I'd cast these {N} roles:
+>
 > - Orchestrator
 > - {role 2}
 > - ...
@@ -121,16 +125,17 @@ Present the proposed roles before casting:
 ### Cast characters
 
 For each role, reason aloud from what you know about the universe:
+
 - What characters exist in this universe?
 - Which character's traits, working style, and personality best match this functional role?
 - Prefer characters with distinct personalities — a team of similar personalities is boring
 
 Show the proposed cast as a table:
 
-| Character | Role | Why |
-|---|---|---|
-| {name} | Orchestrator | {one-sentence trait match} |
-| {name} | {role} | {why} |
+| Character | Role         | Why                        |
+| --------- | ------------ | -------------------------- |
+| {name}    | Orchestrator | {one-sentence trait match} |
+| {name}    | {role}       | {why}                      |
 
 Ask: "Happy with this cast? Name any swaps."
 
@@ -138,16 +143,16 @@ Ask: "Happy with this cast? Name any swaps."
 
 Each role maps to a category template in `assets/agents/`. Pick the best fit:
 
-| Role | Category template | Tools baked in |
-|---|---|---|
-| Orchestrator | `orchestrator.agent.md` | read, search, agent, web, todo |
-| Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md` | read, search, edit, execute, web, todo |
-| Tester / QA | `builder.agent.md` | read, search, edit, execute, web, todo |
-| Platform / DevOps | `builder.agent.md` | read, search, edit, execute, web, todo |
-| Technical Writer | `builder.agent.md` | read, search, edit, web, todo |
-| Architect / Product Owner / Domain Expert | `advisor.agent.md` | read, search, web, todo |
-| Security Reviewer / Quality Gate | `advisor.agent.md` (tools: read, search, web) | read, search, web |
-| Scribe / Version Control | `scribe.agent.md` | read, search, edit, execute, todo |
+| Role                                            | Category template                             | Tools baked in                         |
+| ----------------------------------------------- | --------------------------------------------- | -------------------------------------- |
+| Orchestrator                                    | `orchestrator.agent.md`                       | read, search, agent, web, todo         |
+| Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`                            | read, search, edit, execute, web, todo |
+| Tester / QA                                     | `builder.agent.md`                            | read, search, edit, execute, web, todo |
+| Platform / DevOps                               | `builder.agent.md`                            | read, search, edit, execute, web, todo |
+| Technical Writer                                | `builder.agent.md`                            | read, search, edit, web, todo          |
+| Architect / Product Owner / Domain Expert       | `advisor.agent.md`                            | read, search, web, todo                |
+| Security Reviewer / Quality Gate                | `advisor.agent.md` (tools: read, search, web) | read, search, web                      |
+| Scribe / Version Control                        | `scribe.agent.md`                             | read, search, edit, execute, todo      |
 
 ### Fill category-shared placeholders
 
@@ -155,47 +160,47 @@ Each template has structural sections already written. Only fill what's marked a
 
 **All templates:**
 
-| Placeholder | Replace with |
-|---|---|
-| `{CHARACTER_NAME}` | Character's name (Title Case) |
-| `{ONE_LINE_ROLE_DESCRIPTION}` | Functional role in one sentence |
-| `{CHARACTER_VOICE_NOTE}` | One phrase — e.g. "Han Solo's pragmatic get-it-done confidence" |
-| `{BOUNDARIES_SUMMARY}` | One-line summary of what this agent does NOT do |
-| `{CHARACTER_DESCRIPTION}` | 1–2 sentences: who this character is in the universe |
+| Placeholder                   | Replace with                                                                                                     |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `{CHARACTER_NAME}`            | Character's name (Title Case)                                                                                    |
+| `{ONE_LINE_ROLE_DESCRIPTION}` | Functional role in one sentence                                                                                  |
+| `{CHARACTER_VOICE_NOTE}`      | One phrase — e.g. "Han Solo's pragmatic get-it-done confidence"                                                  |
+| `{BOUNDARIES_SUMMARY}`        | One-line summary of what this agent does NOT do                                                                  |
+| `{CHARACTER_DESCRIPTION}`     | 1–2 sentences: who this character is in the universe                                                             |
 | `{CHARACTER_STYLE_PARAGRAPH}` | 2–3 sentences: how this character works — speech patterns, decision style, what they say when they hit a problem |
-| `{CORE_MISSION}` | 2–3 sentences on what this agent exists to do. Concrete and specific. |
+| `{CORE_MISSION}`              | 2–3 sentences on what this agent exists to do. Concrete and specific.                                            |
 
 **Advisor template additionally:**
 
-| Placeholder | Replace with |
-|---|---|
-| `{HANDOFF_LABEL}` | Short label for the handoff button — e.g. "Escalate Decision" |
-| `{EXPERTISE_ITEM}` (×7) | One domain skill per bullet — be specific, not generic |
-| `{CRITICAL_RULE}` (×3) | Domain constraints that actually change behavior |
-| `{DELIVERABLE}` (×3) | Concrete outputs this advisor produces |
-| `{SUCCESS_CRITERION}` (×2) | Measurable done-signals |
+| Placeholder                | Replace with                                                  |
+| -------------------------- | ------------------------------------------------------------- |
+| `{HANDOFF_LABEL}`          | Short label for the handoff button — e.g. "Escalate Decision" |
+| `{EXPERTISE_ITEM}` (×7)    | One domain skill per bullet — be specific, not generic        |
+| `{CRITICAL_RULE}` (×3)     | Domain constraints that actually change behavior              |
+| `{DELIVERABLE}` (×3)       | Concrete outputs this advisor produces                        |
+| `{SUCCESS_CRITERION}` (×2) | Measurable done-signals                                       |
 
 **Builder template additionally:**
 
-| Placeholder | Replace with |
-|---|---|
-| `{REVIEWER_NAME}` | The reviewer/quality-gate agent's name (e.g. `auditor`) |
-| `{ARTIFACT_TYPE}` | What this builder ships (e.g. "Feature", "Skill", "Script") |
-| `{REPO_STRUCTURE_MAP}` | File tree showing where things live in this repo |
-| `{CRITICAL_RULE}` | One domain-specific constraint |
-| `{DELIVERABLE}` (×3) | Concrete outputs |
-| `{SUCCESS_CRITERION}` (×2) | Measurable done-signals |
+| Placeholder                | Replace with                                                |
+| -------------------------- | ----------------------------------------------------------- |
+| `{REVIEWER_NAME}`          | The reviewer/quality-gate agent's name (e.g. `auditor`)     |
+| `{ARTIFACT_TYPE}`          | What this builder ships (e.g. "Feature", "Skill", "Script") |
+| `{REPO_STRUCTURE_MAP}`     | File tree showing where things live in this repo            |
+| `{CRITICAL_RULE}`          | One domain-specific constraint                              |
+| `{DELIVERABLE}` (×3)       | Concrete outputs                                            |
+| `{SUCCESS_CRITERION}` (×2) | Measurable done-signals                                     |
 
 **Orchestrator template additionally:**
 
-| Placeholder | Replace with |
-|---|---|
+| Placeholder                                  | Replace with                                    |
+| -------------------------------------------- | ----------------------------------------------- |
 | `{SPECIALIST_NAME}` / `{ROLE}` / `{USE_FOR}` | One row per team member in the delegation table |
 
 **Scribe template additionally:**
 
-| Placeholder | Replace with |
-|---|---|
+| Placeholder       | Replace with                                                        |
+| ----------------- | ------------------------------------------------------------------- |
 | `{CRITICAL_RULE}` | One project-specific commit constraint (e.g. "Always tag releases") |
 
 **File naming:** `{kebab-case-character-name}.agent.md` — e.g. `han-solo.agent.md`, `hermione-granger.agent.md`
@@ -207,6 +212,7 @@ The orchestrator replaces the generic `guild-master.agent.md` — write it as `{
 ## Step 3B: Manual Flow
 
 If the user picks **B**, prompt for:
+
 1. Team member names and roles
 2. For each member: which archetype fits? (offer the list)
 3. Optionally scaffold stubs using the archetype templates with generic placeholders
@@ -216,6 +222,7 @@ If the user picks **B**, prompt for:
 ## Step 4: Update Routing
 
 After scaffolding agents, update `{skills-dir}/routing/SKILL.md`:
+
 - Add each agent to the Team table: `{character name} | {role} | {filename} | {use for}`
 - Add routing rules based on role type
 - Update the Default Flow line
@@ -232,6 +239,7 @@ After scaffolding the team, ask whether to install Guild components.
 > (none / memory / issues / inbox / all)
 
 For each selected component, prompt for:
+
 - **Where skills live** — default `.github/skills`
 - **Root path** for each component:
   - Memory → `.guild/memory`
@@ -239,6 +247,7 @@ For each selected component, prompt for:
   - Inbox → `.guild/inbox`
 
 **Memory component:**
+
 ```
 .guild/memory/
   decisions/_summary.md
@@ -248,6 +257,7 @@ For each selected component, prompt for:
 ```
 
 **Issues component:**
+
 ```
 .guild/issues/
   open/
@@ -257,6 +267,7 @@ For each selected component, prompt for:
 ```
 
 **Inbox component:**
+
 ```
 .guild/inbox/              ← agent subdirs created on first message
 {skills-dir}/guild-inbox/SKILL.md
@@ -268,41 +279,44 @@ For each selected component, prompt for:
 > Requires `gh` CLI.
 
 If yes:
+
 - Check prerequisites: `gh` CLI installed and authenticated (`gh auth status`)
 - Prompt for:
   - **Where skills live** — default `.github/skills`
   - **Repo slug** (`owner/repo`) — auto-detect via `gh repo view --json nameWithOwner -q .nameWithOwner`; user may override
 - Creates 5 GitHub labels (using `gh label create --force`):
 
-| Label | Color | Meaning |
-|-------|-------|---------|
-| `in-progress` | `#e4e669` | Claimed by an agent |
-| `blocked` | `#d73a4a` | Cannot proceed |
-| `priority:high` | `#b60205` | Urgent |
-| `priority:medium` | `#fbca04` | Normal priority |
-| `priority:low` | `#cfd3d7` | Nice-to-have |
+| Label             | Color     | Meaning             |
+| ----------------- | --------- | ------------------- |
+| `in-progress`     | `#e4e669` | Claimed by an agent |
+| `blocked`         | `#d73a4a` | Cannot proceed      |
+| `priority:high`   | `#b60205` | Urgent              |
+| `priority:medium` | `#fbca04` | Normal priority     |
+| `priority:low`    | `#cfd3d7` | Nice-to-have        |
 
-- Copies `guild-issues/SKILL.md` with repo slug baked in (replaces any markdown issues skill)
+- Copies `github-issues/SKILL.md` with repo slug baked in (replaces any markdown issues skill)
 
 ### Running the Scripts
 
 Step 5 is implemented via scripts in `setup/scripts/`:
 
-| Script | Purpose |
-|--------|---------|
+| Script                                     | Purpose                                   |
+| ------------------------------------------ | ----------------------------------------- |
 | `setup-markdown.sh` / `setup-markdown.ps1` | Markdown components (memory/issues/inbox) |
-| `setup-github.sh` / `setup-github.ps1` | GitHub Issues backend |
+| `setup-github.sh` / `setup-github.ps1`     | GitHub Issues backend                     |
 
 **Unix / macOS / WSL:**
+
 ```sh
-sh plugin/skills/setup/scripts/setup-markdown.sh /path/to/repo
-sh plugin/skills/setup/scripts/setup-github.sh /path/to/repo
+sh scripts/setup-markdown.sh /path/to/repo
+sh scripts/setup-github.sh /path/to/repo
 ```
 
 **Windows PowerShell:**
+
 ```powershell
-.\plugin\skills\setup\scripts\setup-markdown.ps1 -RepoRoot C:\path\to\repo
-.\plugin\skills\setup\scripts\setup-github.ps1 -RepoRoot C:\path\to\repo
+.\scripts\setup-markdown.ps1 -RepoRoot C:\path\to\repo
+.\scripts\setup-github.ps1 -RepoRoot C:\path\to\repo
 ```
 
 **CI env vars for `setup-github`:** `GUILD_SKILLS_DIR`, `GUILD_REPO` (required in CI)

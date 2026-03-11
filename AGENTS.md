@@ -6,7 +6,7 @@ GitHub. Use `gh` CLI for platform operations. Commit directly to `main` — no P
 
 ## Memory
 
-Skills installed in this repo: `.github/skills/guild-memory`, `.github/skills/guild-issues`, `.github/skills/guild-inbox`
+Skills installed in this repo: `.github/skills/markdown-memory`, `.github/skills/github-issues`, `.github/skills/markdown-inbox`
 
 ## Customization
 

@@ -23,15 +23,15 @@ If none of the above fits cleanly, use the table below.
 
 Start with the lowest-complexity pattern that fits. Escalate only when needed.
 
-| Pattern | When to use | Example |
-|---------|-------------|---------|
-| **Direct** | Answerable now without delegation | "What does this function do?" |
-| **Single agent** | One specialist, one focused task | "Fix the failing test" |
-| **Concurrent** | Independent tasks, no dependencies | "Review security AND update deps" |
-| **Sequential** | Each step depends on the previous | "Design schema → implement → test" |
-| **Maker-checker** | Quality gate required | "Implement auth, then have lead review" |
-| **Group chat** | Trade-offs need debate | "Should we use Postgres or SQLite?" |
-| **Scope-first** | Request is ambiguous | Any request that could mean multiple things |
+| Pattern           | When to use                        | Example                                     |
+| ----------------- | ---------------------------------- | ------------------------------------------- |
+| **Direct**        | Answerable now without delegation  | "What does this function do?"               |
+| **Single agent**  | One specialist, one focused task   | "Fix the failing test"                      |
+| **Concurrent**    | Independent tasks, no dependencies | "Review security AND update deps"           |
+| **Sequential**    | Each step depends on the previous  | "Design schema → implement → test"          |
+| **Maker-checker** | Quality gate required              | "Implement auth, then have lead review"     |
+| **Group chat**    | Trade-offs need debate             | "Should we use Postgres or SQLite?"         |
+| **Scope-first**   | Request is ambiguous               | Any request that could mean multiple things |
 
 **Rule:** If in doubt between two patterns, choose the simpler one. Coordination has a cost.
 
@@ -41,12 +41,12 @@ Start with the lowest-complexity pattern that fits. Escalate only when needed.
 
 Match agent investment to task complexity. Overpowering simple tasks wastes budget; underpowering complex ones misses errors.
 
-| Tier | When | Agent count |
-|------|------|-------------|
-| **Direct** | Answerable now, no agent needed | 0 |
-| **Lightweight** | Narrow, well-defined, low-stakes | 1 |
-| **Standard** | Typical implementation or review | 1–2 |
-| **Full** | Architecture, multi-step, high-stakes | 2–5 |
+| Tier            | When                                  | Agent count |
+| --------------- | ------------------------------------- | ----------- |
+| **Direct**      | Answerable now, no agent needed       | 0           |
+| **Lightweight** | Narrow, well-defined, low-stakes      | 1           |
+| **Standard**    | Typical implementation or review      | 1–2         |
+| **Full**        | Architecture, multi-step, high-stakes | 2–5         |
 
 **Rule:** Choose the tier that matches the operation, not the agent. A senior agent doing a narrow task is still Lightweight.
 
@@ -58,11 +58,11 @@ For deciding how many agents to spawn, see **Agent Count Tiers** in the Decompos
 
 When spawning agents, match the model tier to the operation. Tier names are fixed; model names are host-configured in the `routing` skill.
 
-| Operation type | Tier | Examples |
-|---|---|---|
-| Research, narrow lookup, reading files, short well-scoped tasks | Fast | "What does this function do?", exploring a directory |
-| Typical implementation, reviews, file editing, most agent work | Standard | Writing a skill, implementing a feature, auditing changes |
-| Architecture decisions, security review, contested domain knowledge, high-stakes reasoning | Premium | Design review, trade-off debate, security audit, release gate |
+| Operation type                                                                             | Tier     | Examples                                                      |
+| ------------------------------------------------------------------------------------------ | -------- | ------------------------------------------------------------- |
+| Research, narrow lookup, reading files, short well-scoped tasks                            | Fast     | "What does this function do?", exploring a directory          |
+| Typical implementation, reviews, file editing, most agent work                             | Standard | Writing a skill, implementing a feature, auditing changes     |
+| Architecture decisions, security review, contested domain knowledge, high-stakes reasoning | Premium  | Design review, trade-off debate, security audit, release gate |
 
 **The orchestrator selects tier when spawning.** Specialist agents declare their own model preference in their agent file.
 
@@ -76,12 +76,12 @@ When spawning agents, match the model tier to the operation. Tier names are fixe
 
 Apply this sequence at the start of every session. Each step delegates to a skill — skip steps whose skill is not installed. Work begins only after all installed steps complete.
 
-| Step | Skill | What it does |
-|------|-------|--------------|
-| 1 | `guild-memory` | Follow the guild-memory skill's session start checklist — reads context, decisions summary, and your per-agent insight file |
-| 2 | `guild-issues` | Follow the guild-issues skill's session start checklist — use `issue:ready` to surface actionable work |
-| 3 | `guild-inbox` | `inbox:message:read` — check for waiting messages from other agents |
-| 4 | `routing` | Apply the routing skill — loads team roster and routing rules. If not installed, scan agent descriptions in the agents directory. |
+| Step | Skill          | What it does                                                                                                                      |
+| ---- | -------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `guild-memory` | Follow the guild-memory skill's session start checklist — reads context, decisions summary, and your per-agent insight file       |
+| 2    | `guild-issues` | Follow the guild-issues skill's session start checklist — use `issue:ready` to surface actionable work                            |
+| 3    | `guild-inbox`  | `inbox:message:read` — check for waiting messages from other agents                                                               |
+| 4    | `routing`      | Apply the routing skill — loads team roster and routing rules. If not installed, scan agent descriptions in the agents directory. |
 
 ---
 
@@ -96,17 +96,17 @@ When a request is non-trivial:
 
 ### Routing Fallbacks
 
-| Situation | Action |
-|-----------|--------|
-| No matching agent | Explain the gap; offer to train a new agent via `train-agent` |
-| Two agents equally matched | Prefer the more specialized one |
-| Task outside all agent scopes | Ask user if a new agent should be trained |
+| Situation                     | Action                                                        |
+| ----------------------------- | ------------------------------------------------------------- |
+| No matching agent             | Explain the gap; offer to train a new agent via `train-agent` |
+| Two agents equally matched    | Prefer the more specialized one                               |
+| Task outside all agent scopes | Ask user if a new agent should be trained                     |
 
 ### Routing Principles
 
 These rules apply to the orchestrator only. Specialists escalate unclear scope — they do not re-route.
 
-**Primary domain wins.** When two agents could both handle a task, route to the agent whose *primary* domain is the core concern — not an agent for whom it's adjacent work. Adjacent capability is a fallback, not a first choice.
+**Primary domain wins.** When two agents could both handle a task, route to the agent whose _primary_ domain is the core concern — not an agent for whom it's adjacent work. Adjacent capability is a fallback, not a first choice.
 
 **Exclusion is a signal.** If an agent's description says "DO NOT USE FOR X", treat that as a hard boundary. Route X elsewhere even if X is closely related to their domain.
 
@@ -118,11 +118,11 @@ These rules apply to the orchestrator only. Specialists escalate unclear scope �
 
 These tiers describe how many agents to spawn and how much coordination overhead is warranted — not which model to use. For model selection, see **Model Selection** below.
 
-| Tier | Use for |
-|------|---------|
-| Lightweight | Research, exploration, narrow well-scoped tasks |
-| Standard | Typical implementation, reviews, most agent work |
-| Full | Architecture decisions, high-stakes reviews, complex multi-step reasoning |
+| Tier        | Use for                                                                   |
+| ----------- | ------------------------------------------------------------------------- |
+| Lightweight | Research, exploration, narrow well-scoped tasks                           |
+| Standard    | Typical implementation, reviews, most agent work                          |
+| Full        | Architecture decisions, high-stakes reviews, complex multi-step reasoning |
 
 ### Prompt construction
 
@@ -151,6 +151,7 @@ Output: {exactly what to produce and in what format}
 ### When to spawn vs. answer directly
 
 Answer directly (no spawn) for:
+
 - Status queries — "what's in progress?", "who's on the team?"
 - Help and capability questions — "what can you do?"
 - Greetings and clarifications
@@ -158,18 +159,18 @@ Answer directly (no spawn) for:
 
 Spawn for everything else. **Default to spawning eagerly** — if an agent could usefully start work, start them. Don't wait to spawn Agent B until Agent A finishes unless B's work literally depends on A's output.
 
-**Anticipatory spawning (opt-in).** For substantial tasks, you may optionally spawn downstream agents on *setup work* while the primary builder works — scaffolding test environments, writing stubs, preparing fixtures. Do not spawn agents to run tests against incomplete output. If the primary builder's output is rejected and the spec changes, Guild Master owns re-briefing any anticipatorily-spawned agents.
+**Anticipatory spawning (opt-in).** For substantial tasks, you may optionally spawn downstream agents on _setup work_ while the primary builder works — scaffolding test environments, writing stubs, preparing fixtures. Do not spawn agents to run tests against incomplete output. If the primary builder's output is rejected and the spec changes, Guild Master owns re-briefing any anticipatorily-spawned agents.
 
 ### Single vs. parallel spawning
 
-| Situation | Spawn pattern |
-|-----------|---------------|
-| One clear owner | Single agent |
-| Multiple independent workstreams | Parallel — spawn all at once |
-| Two agents could both contribute | Spawn primary; secondary helps in parallel if useful |
-| "All hands" request ("team, …") | Fan-out to all relevant agents simultaneously |
-| Earlier output feeds later agent | Sequential — wait for A before briefing B |
-| Substantial work completed | Always spawn a version control agent in background to record |
+| Situation                        | Spawn pattern                                                |
+| -------------------------------- | ------------------------------------------------------------ |
+| One clear owner                  | Single agent                                                 |
+| Multiple independent workstreams | Parallel — spawn all at once                                 |
+| Two agents could both contribute | Spawn primary; secondary helps in parallel if useful         |
+| "All hands" request ("team, …")  | Fan-out to all relevant agents simultaneously                |
+| Earlier output feeds later agent | Sequential — wait for A before briefing B                    |
+| Substantial work completed       | Always spawn a version control agent in background to record |
 
 **Parallel is the default.** Sequential is only justified when there's a real data dependency.
 
@@ -316,13 +317,13 @@ If a spawned agent produces stray files, delete them and re-capture the content 
 
 Guild Master owns delegated work from creation through closure.
 
-| Step | Owner | What happens |
-|------|-------|--------------|
-| 1. Create | Guild Master | Create tracking issue with clear "Done When" criteria |
+| Step        | Owner                     | What happens                                              |
+| ----------- | ------------------------- | --------------------------------------------------------- |
+| 1. Create   | Guild Master              | Create tracking issue with clear "Done When" criteria     |
 | 2. Delegate | Guild Master → Specialist | Brief specialist; specialist claims issue (`in-progress`) |
-| 3. Monitor | Guild Master | Poll progress; intervene if stalled |
-| 4. Review | reviewer agent | Validate against acceptance criteria |
-| 5. Commit | version control agent | Commit changes; issue closes |
+| 3. Monitor  | Guild Master              | Poll progress; intervene if stalled                       |
+| 4. Review   | reviewer agent            | Validate against acceptance criteria                      |
+| 5. Commit   | version control agent     | Commit changes; issue closes                              |
 
 **Guild Master's task is not complete until the issue is closed.** If an issue is `in-progress` with no activity, check in — ask "what's blocking?" Escalate to the user only when genuinely blocked: external dependency or a stall exceeding 24 hours.
 
@@ -332,17 +333,12 @@ Every delegation that produces an artifact gets a tracking issue. No invisible w
 
 ## Quick Reference
 
-| Task | What to do |
-|------|-----------|
-| Ambiguous request | Ask one clarifying question before planning |
-| Blocked or stalled task | Follow escalation ladder: feedback → re-decompose → re-route → surface to user (call `memory:context:update` before surfacing) |
-| Agent out of scope | Re-route to correct specialist |
-| No specialist available | Explain the gap; offer to train a new agent via `train-agent` |
-| Repeated failure | Cap at 3 attempts, escalate |
-| End of session | Trigger `memory:context:update`; trigger `inbox:message:create` if handoff needed |
-| Stray files found in repo | Delete them; re-capture content via `memory:insight:create` |
-
-
-
-
-
+| Task                      | What to do                                                                                                                     |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Ambiguous request         | Ask one clarifying question before planning                                                                                    |
+| Blocked or stalled task   | Follow escalation ladder: feedback → re-decompose → re-route → surface to user (call `memory:context:update` before surfacing) |
+| Agent out of scope        | Re-route to correct specialist                                                                                                 |
+| No specialist available   | Explain the gap; offer to train a new agent via `train-agent`                                                                  |
+| Repeated failure          | Cap at 3 attempts, escalate                                                                                                    |
+| End of session            | Trigger `memory:context:update`; trigger `inbox:message:create` if handoff needed                                              |
+| Stray files found in repo | Delete them; re-capture content via `memory:insight:create`                                                                    |

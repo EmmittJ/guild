@@ -22,20 +22,26 @@ When completing work that was delegated to you, structure your response as:
 
 ```markdown
 ## Summary
+
 {One paragraph. What was done, what was decided, what changed.}
 
 ## Changes
+
 {List of files created, modified, or deleted. One line each.}
+
 - Created: {path} — {why}
 - Modified: {path} — {what changed}
 - Deleted: {path} — {why}
 
 ## Decisions
+
 {Any choices made during the work that future agents should know about.
 If significant, also write a decisions file.}
 
 ## Follow-Up
+
 {What should happen next. Specific enough that another agent can act without asking.}
+
 - {agent}: {action needed}
 ```
 
@@ -74,6 +80,7 @@ Date: YYYY-MM-DD HH:MM
 {What needs to happen. Be specific.}
 
 ## Context
+
 {Relevant files, decisions, bead IDs, or prior decisions.}
 ```
 
@@ -91,16 +98,20 @@ Agent: {agent-name}
 Updated: YYYY-MM-DD HH:MM
 
 ## Active Work
+
 {What is in progress. State > task name.}
 Example: "Auth controller written, tests failing on token expiry — next: fix expiry handling in src/auth/controller.ts:142"
 
 ## Pending Handoffs
+
 - {agent}: {task} — {file or bead}
 
 ## Decisions Pending
+
 {Choices that must be made before work can continue.}
 
 ## Blocked
+
 {What is stuck and why.}
 ```
 
@@ -112,6 +123,7 @@ When work is complete and ready to commit:
 
 1. Guild Master (or designated scribe agent) runs the commit — never the implementing agent
 2. Commit message format:
+
    ```
    {type}({scope}): {description}
 
@@ -119,8 +131,5 @@ When work is complete and ready to commit:
 
    Co-authored-by: {agent name} <agent>
    ```
+
 3. Scribe does not modify code — if a commit requires changes, send back to the implementing agent
-
-
-
-

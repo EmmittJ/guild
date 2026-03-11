@@ -1,5 +1,5 @@
 ---
-name: guild-memory
+name: markdown-memory
 description: >
   Persistent memory for this repo's AI team. Stores decisions (why we chose X), insights
   (what we know about this codebase), and context (what's in flight right now).
@@ -8,8 +8,8 @@ description: >
   non-obvious was discovered; `memory:insight:read` — reviewing known patterns;
   `memory:context:update` — ending a session or handing off; `memory:context:read` — picking
   up from a prior session.
-  DO NOT USE FOR: async agent-to-agent messages — use the inbox skill (`inbox:message:create`).
-  Issues — use the `guild-issues` skill (`issue:create`, `issue:update`, `issue:read`).
+  DO NOT USE FOR: async agent-to-agent messages — use `inbox:message:create`.
+  Issues — use `issue:create`, `issue:update`, or `issue:read`.
 license: MIT
 metadata:
   version: "0.2"
@@ -34,8 +34,8 @@ ${memory_root}/
       {slug}.md               ← per-agent learnings, one file per topic
 ```
 
-Task tracking is managed by the `guild-issues` skill.
-If that skill is not installed, the issues directory is unused.
+Use `issue:create`, `issue:update`, and `issue:read` to track work.
+If no issues skill is installed, the issues directory is unused.
 
 ## Session Start Checklist
 

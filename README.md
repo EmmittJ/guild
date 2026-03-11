@@ -95,12 +95,12 @@ The `routing` skill is the primary configuration surface. It's where you set the
 
 These files are owned by the Guild plugin and will be overwritten when you upgrade:
 
-| File / Directory                       | Why it's plugin-owned                                |
-| -------------------------------------- | ---------------------------------------------------- |
-| `plugin/skills/orchestrate/`           | Core orchestration logic — updated by Guild releases |
-| `plugin/skills/train-agent/`           | Agent authoring protocol                             |
-| `plugin/skills/train-skill/`           | Skill authoring protocol                             |
-| `plugin/skills/setup/`                 | Setup wizard — team scaffolding + component installer   |
+| File / Directory             | Why it's plugin-owned                                 |
+| ---------------------------- | ----------------------------------------------------- |
+| `plugin/skills/orchestrate/` | Core orchestration logic — updated by Guild releases  |
+| `plugin/skills/train-agent/` | Agent authoring protocol                              |
+| `plugin/skills/train-skill/` | Skill authoring protocol                              |
+| `plugin/skills/setup/`       | Setup wizard — team scaffolding + component installer |
 
 If you need to change how orchestration works, open an issue on the Guild repo or fork it. Don't edit plugin-owned files in place — your changes will be lost on the next `copilot plugin update`.
 
@@ -108,8 +108,8 @@ If you need to change how orchestration works, open an issue on the Guild repo o
 
 These skills are copied into your repo by `/guild:setup`. Once installed, they belong to your repo — edit them freely:
 
-| File / Directory               | Installed by           |
-| ------------------------------ | ---------------------- |
+| File / Directory               | Installed by   |
+| ------------------------------ | -------------- |
 | `.github/skills/guild-memory/` | `/guild:setup` |
 | `.github/skills/guild-issues/` | `/guild:setup` |
 | `.github/skills/guild-inbox/`  | `/guild:setup` |

@@ -1,12 +1,12 @@
 ---
-name: guild-inbox
+name: markdown-inbox
 description: >
   Async agent-to-agent messaging for a team of AI agents. Messages are markdown files in
   ${inbox_root}/{agent}/ — one file per message, deleted after reading. No write conflicts.
   Activate when: `inbox:message:create` — another agent needs to act in a future session;
   `inbox:message:read` — checking for waiting messages at session start.
-  DO NOT USE FOR: decisions, insights, or context — use the memory skill.
-  Issues — use the `guild-issues` skill.
+  DO NOT USE FOR: decisions, insights, or context — use `memory:decision:create`.
+  Issues — use `issue:create`.
 license: MIT
 metadata:
   version: "0.1"

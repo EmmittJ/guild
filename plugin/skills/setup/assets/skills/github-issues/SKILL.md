@@ -1,12 +1,12 @@
 ---
-name: guild-issues
+name: github-issues
 description: >
   GitHub Issues issues store for a team of agents. Issues track status via labels — closed
   issue = completed issue. No write conflicts, no shared files.
   Activate when: issue:create — work needs tracking; issue:update — claiming, unclaiming,
   blocking, or completing an issue; issue:read — checking available or in-progress work;
   issue:ready — finding actionable work at session start or before planning.
-  DO NOT USE FOR: decisions, insights, or context — use the memory skill. Inbox messages — use the inbox skill.
+  DO NOT USE FOR: decisions, insights, or context — use `memory:decision:create`. Inbox messages — use `inbox:message:create`.
 license: MIT
 metadata:
   version: "0.3"
