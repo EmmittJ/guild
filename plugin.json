@@ -27,9 +27,7 @@
     {
       "name": "guild-setup-github",
       "description": "Bootstraps GitHub Issues-backed task tracking: creates required labels and installs the guild-tasks skill with the repo slug baked in.",
-      "skills": [
-        ".github/skills/guild-setup-github"
-      ]
+      "skills": [".github/skills/guild-setup-github"]
     }
   ]
 }
