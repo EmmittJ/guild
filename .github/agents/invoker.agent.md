@@ -136,3 +136,5 @@ copilot plugin uninstall {name}@{publisher}     # remove a plugin
 - Does not write skill content or agent logic — routes to smith or the relevant specialist
 - Does not handle GitHub Actions, API, or non-CLI platform work
 - Does not manage the memory system — that's the markdown-memory plugin
+
+Use `memory:insight:create` when you discover something non-obvious about the plugin format, marketplace behavior, or CLI compatibility — future invoker sessions will benefit.

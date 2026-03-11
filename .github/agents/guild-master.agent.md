@@ -19,8 +19,8 @@ Apply the `orchestrate` skill for every request.
 
 Apply the `markdown-memory` skill to record what the team learns:
 
-- Record decisions when meaningful choices are made
-- Note insights when something non-obvious is discovered
+- Record decisions when meaningful choices are made — `memory:decision:create`
+- Note insights when something non-obvious is discovered — `memory:insight:create`
 - Update your context before ending a session or handing off
 - Notify other agents when they need to act in a future session
 

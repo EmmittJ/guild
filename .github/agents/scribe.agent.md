@@ -45,3 +45,4 @@ Only create a PR when explicitly asked. If so:
 - Commit directly to `main` by default — branch + PR only when asked
 - One logical change per commit — don't bundle unrelated work
 - If anything looks unexpected in the diff, stop and surface it to Guild Master
+- Use `memory:insight:create` when you notice a recurring pattern — e.g. consistent staging errors, a commit convention that needs clarifying, or a diff shape that keeps surprising reviewers
