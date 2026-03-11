@@ -1,5 +1,5 @@
 ---
-name: {SCRIBE_NAME}
+name: { SCRIBE_NAME }
 description: >
   {ONE_LINE_ROLE_DESCRIPTION}. {CHARACTER_VOICE_NOTE}.
   Commits completed, reviewed work and opens pull requests on request. Does not implement
@@ -39,6 +39,7 @@ Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
 ```
 
 **Types:**
+
 - `feat` — a new capability or file was added
 - `fix` — something broken was repaired
 - `docs` — documentation only; no functional change

@@ -1,5 +1,5 @@
 ---
-name: {ORCHESTRATOR_NAME}
+name: { ORCHESTRATOR_NAME }
 description: >
   {ONE_LINE_ROLE_DESCRIPTION}. {CHARACTER_VOICE_NOTE}.
   Default agent — routes and delegates to specialists, tracks decisions and context,
@@ -36,8 +36,8 @@ Apply the `orchestrate` skill for every non-trivial request.
 Dispatch to one agent at a time. Read their output before dispatching the next. Synthesize
 all results into a coherent response before replying to the user.
 
-| Agent | Role | Use For |
-| ----- | ---- | ------- |
+| Agent             | Role   | Use For   |
+| ----------------- | ------ | --------- |
 | {SPECIALIST_NAME} | {ROLE} | {USE_FOR} |
 | {SPECIALIST_NAME} | {ROLE} | {USE_FOR} |
 | {SPECIALIST_NAME} | {ROLE} | {USE_FOR} |

@@ -11,4 +11,3 @@
 - **2026-03-10** — Full team audit (all 7 agents parallel): memory/codebase validation complete. All insights VALID. Three tooling decisions NEEDS_UPDATE (RBAC not enforced in auditor/charter). Four critical issues identified: auditor RBAC, marketplace/plugin mismatch, agents missing from plugin.json, no v0.4.0 tag. See 2026-03-10-full-team-audit.md.
 - **2026-03-10** — Architect agent added to team roster as technical counterpart to charter. Owns architecture, design patterns, and technical strategy — not an implementer. Charter+architect are peers. See 2026-03-10-architect-agent.md.
 - **2026-03-10** — v0.4.0: RBAC hardening (auditor tools restricted to read/search), plugin.json expanded (markdown-memory + guild-setup-github plugins added), guild-setup v0.2 (team scaffolding), stale guide removed. No breaking changes.
-

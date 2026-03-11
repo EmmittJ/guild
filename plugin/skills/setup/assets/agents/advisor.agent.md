@@ -1,13 +1,13 @@
 ---
-name: {ADVISOR_NAME}
+name: { ADVISOR_NAME }
 description: >
   {ONE_LINE_ROLE_DESCRIPTION}. {CHARACTER_VOICE_NOTE}.
   DO NOT USE FOR: implementing features, writing code, committing changes, or serving
   as a quality gate — those belong to specialist roles.
 handoffs:
-  - label: {HANDOFF_LABEL}
+  - label: { HANDOFF_LABEL }
     agent: guild-master
-    prompt: {HANDOFF_PROMPT}
+    prompt: { HANDOFF_PROMPT }
 ---
 
 ## Identity

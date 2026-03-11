@@ -15,14 +15,14 @@ metadata:
 
 ## Asset Sources
 
-| Installed file                       | Source asset                                                                                                     |
-| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| `{skills-dir}/routing/SKILL.md`      | `assets/skills/routing/SKILL.md`                                                             |
+| Installed file                          | Source asset                                                                                 |
+| --------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `{skills-dir}/routing/SKILL.md`         | `assets/skills/routing/SKILL.md`                                                             |
 | `{skills-dir}/markdown-memory/SKILL.md` | `assets/skills/markdown-memory/SKILL.md`                                                     |
 | `{skills-dir}/markdown-inbox/SKILL.md`  | `assets/skills/markdown-inbox/SKILL.md`                                                      |
 | `{skills-dir}/markdown-issues/SKILL.md` | `assets/skills/markdown-issues/SKILL.md`                                                     |
 | `{skills-dir}/github-issues/SKILL.md`   | `assets/skills/github-issues/SKILL.md` ← replaces markdown issues if GitHub backend selected |
-| `{agents-dir}/{name}.agent.md`       | `assets/agents/{orchestrator\|builder\|advisor\|scribe}.agent.md`                            |
+| `{agents-dir}/{name}.agent.md`          | `assets/agents/{orchestrator\|builder\|advisor\|scribe}.agent.md`                            |
 
 **When editing the routing skill:** also update the asset. The routing skill's frontmatter has
 `metadata.asset:` pointing to its asset counterpart — use that as the sync signal.
@@ -146,16 +146,16 @@ Ask: "Happy with this cast? Name any swaps."
 
 Each role maps to a category template in `assets/agents/`. Pick the best fit:
 
-| Role                                            | Category template         |
-| ----------------------------------------------- | ------------------------- |
-| Orchestrator                                    | `orchestrator.agent.md`   |
-| Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`        |
-| Tester / QA                                     | `builder.agent.md`        |
-| Platform / DevOps                               | `builder.agent.md`        |
-| Technical Writer                                | `builder.agent.md`        |
-| Architect / Product Owner / Domain Expert       | `advisor.agent.md`        |
-| Security Reviewer / Quality Gate                | `advisor.agent.md`        |
-| Scribe / Version Control                        | `scribe.agent.md`         |
+| Role                                            | Category template       |
+| ----------------------------------------------- | ----------------------- |
+| Orchestrator                                    | `orchestrator.agent.md` |
+| Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`      |
+| Tester / QA                                     | `builder.agent.md`      |
+| Platform / DevOps                               | `builder.agent.md`      |
+| Technical Writer                                | `builder.agent.md`      |
+| Architect / Product Owner / Domain Expert       | `advisor.agent.md`      |
+| Security Reviewer / Quality Gate                | `advisor.agent.md`      |
+| Scribe / Version Control                        | `scribe.agent.md`       |
 
 ### Fill category-shared placeholders
 
@@ -175,26 +175,26 @@ Each template has structural sections already written. Only fill what's marked a
 
 **Advisor template additionally:**
 
-| Placeholder                | Replace with                                                  |
-| -------------------------- | ------------------------------------------------------------- |
+| Placeholder                | Replace with                                                                                                     |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `{HANDOFF_PROMPT}`         | One sentence telling the reviewer what to check — e.g. "Review changes to {artifact} for correctness and style." |
-| `{HANDOFF_LABEL}`          | Short label for the handoff button — e.g. "Escalate Decision" |
-| `{EXPERTISE_ITEM}` (×7)    | One domain skill per bullet — be specific, not generic        |
-| `{CRITICAL_RULE}` (×3)     | Domain constraints that actually change behavior              |
-| `{DELIVERABLE}` (×3)       | Concrete outputs this advisor produces                        |
-| `{SUCCESS_CRITERION}` (×2) | Measurable done-signals                                       |
+| `{HANDOFF_LABEL}`          | Short label for the handoff button — e.g. "Escalate Decision"                                                    |
+| `{EXPERTISE_ITEM}` (×7)    | One domain skill per bullet — be specific, not generic                                                           |
+| `{CRITICAL_RULE}` (×3)     | Domain constraints that actually change behavior                                                                 |
+| `{DELIVERABLE}` (×3)       | Concrete outputs this advisor produces                                                                           |
+| `{SUCCESS_CRITERION}` (×2) | Measurable done-signals                                                                                          |
 
 **Builder template additionally:**
 
-| Placeholder                | Replace with                                                |
-| -------------------------- | ----------------------------------------------------------- |
+| Placeholder                | Replace with                                                                                                     |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `{HANDOFF_PROMPT}`         | One sentence telling the reviewer what to check — e.g. "Review changes to {artifact} for correctness and style." |
-| `{REVIEWER_NAME}`          | The reviewer/quality-gate agent's name (e.g. `auditor`)     |
-| `{ARTIFACT_TYPE}`          | What this builder ships (e.g. "Feature", "Skill", "Script") |
-| `{REPO_STRUCTURE_MAP}`     | File tree showing where things live in this repo            |
-| `{CRITICAL_RULE}`          | One domain-specific constraint                              |
-| `{DELIVERABLE}` (×3)       | Concrete outputs                                            |
-| `{SUCCESS_CRITERION}` (×2) | Measurable done-signals                                     |
+| `{REVIEWER_NAME}`          | The reviewer/quality-gate agent's name (e.g. `auditor`)                                                          |
+| `{ARTIFACT_TYPE}`          | What this builder ships (e.g. "Feature", "Skill", "Script")                                                      |
+| `{REPO_STRUCTURE_MAP}`     | File tree showing where things live in this repo                                                                 |
+| `{CRITICAL_RULE}`          | One domain-specific constraint                                                                                   |
+| `{DELIVERABLE}` (×3)       | Concrete outputs                                                                                                 |
+| `{SUCCESS_CRITERION}` (×2) | Measurable done-signals                                                                                          |
 
 **Orchestrator template additionally:**
 
@@ -225,19 +225,19 @@ If the user picks **B**:
 
 Collect the following for each member:
 
-| Prompt | Example |
-| ------ | ------- |
-| Display name (shown in chat picker) | `Alex`, `The Reviewer`, `Ops Bot` |
-| Role / function in one sentence | "Handles backend API development and database migrations" |
+| Prompt                              | Example                                                   |
+| ----------------------------------- | --------------------------------------------------------- |
+| Display name (shown in chat picker) | `Alex`, `The Reviewer`, `Ops Bot`                         |
+| Role / function in one sentence     | "Handles backend API development and database migrations" |
 
 After collecting the full list, confirm before proceeding:
 
 > Here's your team:
 >
-> | Name | Role |
-> | ---- | ---- |
+> | Name   | Role   |
+> | ------ | ------ |
 > | {name} | {role} |
-> | ... | ... |
+> | ...    | ...    |
 >
 > Ready to scaffold? You can rename or swap roles before I start.
 
@@ -245,16 +245,16 @@ After collecting the full list, confirm before proceeding:
 
 For each team member, map their role to the best-fit category template in `assets/agents/`:
 
-| Role                                            | Category template         |
-| ----------------------------------------------- | ------------------------- |
-| Orchestrator                                    | `orchestrator.agent.md`   |
-| Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`        |
-| Tester / QA                                     | `builder.agent.md`        |
-| Platform / DevOps                               | `builder.agent.md`        |
-| Technical Writer                                | `builder.agent.md`        |
-| Architect / Product Owner / Domain Expert       | `advisor.agent.md`        |
-| Security Reviewer / Quality Gate                | `advisor.agent.md`        |
-| Scribe / Version Control                        | `scribe.agent.md`         |
+| Role                                            | Category template       |
+| ----------------------------------------------- | ----------------------- |
+| Orchestrator                                    | `orchestrator.agent.md` |
+| Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`      |
+| Tester / QA                                     | `builder.agent.md`      |
+| Platform / DevOps                               | `builder.agent.md`      |
+| Technical Writer                                | `builder.agent.md`      |
+| Architect / Product Owner / Domain Expert       | `advisor.agent.md`      |
+| Security Reviewer / Quality Gate                | `advisor.agent.md`      |
+| Scribe / Version Control                        | `scribe.agent.md`       |
 
 If a role doesn't map cleanly, pick the closest template and trim what doesn't apply.
 

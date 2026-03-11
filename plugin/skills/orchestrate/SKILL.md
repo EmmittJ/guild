@@ -76,12 +76,12 @@ When spawning agents, match the model tier to the operation. Tier names are fixe
 
 Apply this sequence at the start of every session. Each step delegates to a skill — skip steps whose skill is not installed. Work begins only after all installed steps complete.
 
-| Step | Skill          | What it does                                                                                                                      |
-| ---- | -------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | `markdown-memory` | Follow the markdown-memory skill's session start checklist — reads context, decisions summary, and your per-agent insight file       |
-| 2    | `github-issues` | Follow the github-issues skill's session start checklist — use `issue:ready` to surface actionable work                            |
+| Step | Skill             | What it does                                                                                                                      |
+| ---- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `markdown-memory` | Follow the markdown-memory skill's session start checklist — reads context, decisions summary, and your per-agent insight file    |
+| 2    | `github-issues`   | Follow the github-issues skill's session start checklist — use `issue:ready` to surface actionable work                           |
 | 3    | `markdown-inbox`  | `inbox:message:read` — check for waiting messages from other agents                                                               |
-| 4    | `routing`      | Apply the routing skill — loads team roster and routing rules. If not installed, scan agent descriptions in the agents directory. |
+| 4    | `routing`         | Apply the routing skill — loads team roster and routing rules. If not installed, scan agent descriptions in the agents directory. |
 
 ---
 

@@ -33,12 +33,12 @@ Before writing anything:
 
 Four pre-built category templates live at `plugin/skills/setup/assets/agents/`. If this agent is being added to a Guild team (i.e. `/guild:setup` was previously run), start from the matching template rather than writing from scratch:
 
-| Category | Template file | Best for |
-|---|---|---|
-| Orchestrator | `orchestrator.agent.md` | Guild Master, team leads, coordinators |
-| Builder | `builder.agent.md` | Engineers, ops, QA, writers — anyone who creates artifacts |
-| Advisor | `advisor.agent.md` | Architects, product owners, reviewers, domain experts |
-| Scribe | `scribe.agent.md` | Version control, commit discipline, release management |
+| Category     | Template file           | Best for                                                   |
+| ------------ | ----------------------- | ---------------------------------------------------------- |
+| Orchestrator | `orchestrator.agent.md` | Guild Master, team leads, coordinators                     |
+| Builder      | `builder.agent.md`      | Engineers, ops, QA, writers — anyone who creates artifacts |
+| Advisor      | `advisor.agent.md`      | Architects, product owners, reviewers, domain experts      |
+| Scribe       | `scribe.agent.md`       | Version control, commit discipline, release management     |
 
 **When to use a template:** If the role maps cleanly to one of the four categories, use the template — it has correct handoff structure and placeholder sections already written. Fill in the `{PLACEHOLDER}` values and delete what doesn't apply.
 

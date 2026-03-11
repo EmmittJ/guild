@@ -85,12 +85,14 @@ After install, open a chat with Guild Master and say:
 ```
 
 Guild Master will:
+
 1. Silently scan your repo (language, framework, CI, existing agents)
 2. Show you what it found and ask: universe casting or manual team definition?
 3. Guide you through casting your team and scaffolding agent files
 4. Optionally install memory, issues, and inbox components
 
 When it's done you'll have:
+
 - `.github/agents/` populated with your team
 - `.github/skills/routing/SKILL.md` with your roster and routing rules
 - Optionally: `.github/skills/markdown-memory/`, `github-issues/`, `markdown-inbox/` installed
@@ -135,8 +137,8 @@ If you need to change how orchestration works, open an issue on the Guild repo o
 
 These skills are copied into your repo by `/guild:setup`. Once installed, they belong to your repo — edit them freely:
 
-| File / Directory               | Installed by   |
-| ------------------------------ | -------------- |
+| File / Directory                  | Installed by   |
+| --------------------------------- | -------------- |
 | `.github/skills/markdown-memory/` | `/guild:setup` |
 | `.github/skills/github-issues/`   | `/guild:setup` |
 | `.github/skills/markdown-inbox/`  | `/guild:setup` |
@@ -243,6 +245,7 @@ reads all context files to synthesize team-wide state when needed.
 ## Upgrading
 
 **Option B (CLI plugin):**
+
 ```sh
 copilot plugin update guild
 ```

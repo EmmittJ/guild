@@ -1,13 +1,13 @@
 ---
-name: {BUILDER_NAME}
+name: { BUILDER_NAME }
 description: >
   {ONE_LINE_ROLE_DESCRIPTION}. {CHARACTER_VOICE_NOTE}.
   DO NOT USE FOR: planning or routing work, reviewing your own output, or committing —
   those belong to other roles.
 handoffs:
   - label: Review Changes
-    agent: {REVIEWER_NAME}
-    prompt: {HANDOFF_PROMPT}
+    agent: { REVIEWER_NAME }
+    prompt: { HANDOFF_PROMPT }
     send: false
 ---
 
