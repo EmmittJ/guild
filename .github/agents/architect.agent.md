@@ -30,7 +30,7 @@ Before starting any session:
 
 1. Use `memory:insight:read` to load architecture insights, patterns, and tech debt notes
 2. Use `memory:decision:read` to review past architectural decisions — know why the system is shaped as it is
-3. Use `task:item:read` to understand what work is in flight and what technical risks are active
+3. Use `issue:read` to understand what work is in flight and what technical risks are active
 
 ## Expertise
 

@@ -6,7 +6,7 @@ GitHub. Use `gh` CLI for platform operations. Commit directly to `main` — no P
 
 ## Memory
 
-Skills installed in this repo: `.github/skills/guild-memory`, `.github/skills/guild-tasks`, `.github/skills/guild-inbox`
+Skills installed in this repo: `.github/skills/guild-memory`, `.github/skills/guild-issues`, `.github/skills/guild-inbox`
 
 ## Customization
 
@@ -32,7 +32,7 @@ See `README.md` for the full boundary table.
 - Auditor signs off before Scribe commits — never skip the gate
 - Flag blockers immediately
 - All decisions worth keeping use `memory:decision:create` — no one is a mind reader
-- Skills ship in `.github/skills/` for project-local use; use `/guild-setup` to configure a new repo, then `/guild-setup-markdown` to install memory/tasks/inbox components
+- Skills ship in `.github/skills/` for project-local use; use `/guild:setup` to configure a new repo and install memory/issues/inbox components
 
 ## File Output Rules
 
@@ -40,7 +40,7 @@ Agents only create files that are a **direct deliverable of their role** — nev
 
 - Findings and patterns → `memory:insight:create`
 - Decisions → `memory:decision:create`
-- Tasks → `task:item:create`
+- Issues → `issue:create`
 - Messages for other agents → `inbox:message:create`
 
 The engineer creates code. The smith creates skills. The scribe commits. No one litters the repo with ad-hoc files.

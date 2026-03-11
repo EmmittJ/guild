@@ -2,12 +2,12 @@
 name: routing
 description: >
   Maps thematic agent names to functional roles. Team roster and routing rules for this repo's agent team. Applied by guild-master at session
-  start. Scaffolded by guild-setup — edit this file to change who is on the team, what they do,
+  start. Scaffolded by `/guild:setup` — edit this file to change who is on the team, what they do,
   and how work gets routed.
 license: MIT
 metadata:
   version: "0.2"
-  asset: .github/skills/guild-setup/assets/skills/routing/SKILL.md
+  asset: plugin/skills/setup/assets/skills/routing/SKILL.md
 ---
 
 ## Team

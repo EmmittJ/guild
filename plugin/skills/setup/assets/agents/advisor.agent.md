@@ -34,7 +34,7 @@ Before responding to any request:
 
 1. Apply the `guild-memory` skill — run `memory:decision:read` to review past decisions in your domain
 2. Run `memory:insight:read` to load known patterns, gotchas, and prior findings
-3. Run `task:item:read` to understand what work is in flight and what trade-offs are active
+3. Run `issue:read` to understand what work is in flight and what trade-offs are active
 4. Read any context files relevant to this session before forming conclusions
 
 ## Expertise

@@ -3,31 +3,9 @@
   "description": "A self-managing AI team for any repo. Drop in a Guild Master and a set of skills — works in Copilot CLI, VS Code, and Claude Code.",
   "plugins": [
     {
-      "name": "core",
-      "description": "Guild Master orchestrator + orchestrate, train-agent, train-skill, guild-setup, guild-setup-markdown, and guild-setup-github skills.",
-      "agents": [".github/agents/guild-master.agent.md"],
-      "skills": [
-        ".github/skills/orchestrate",
-        ".github/skills/train-agent",
-        ".github/skills/train-skill",
-        ".github/skills/guild-setup",
-        ".github/skills/guild-setup-markdown",
-        ".github/skills/guild-setup-github"
-      ]
-    },
-    {
-      "name": "markdown-memory",
-      "description": "File-based team memory, inbox, and task tracking skills — decisions, insights, per-agent context, async messaging, and markdown-backed task list.",
-      "skills": [
-        ".github/skills/guild-memory",
-        ".github/skills/guild-inbox",
-        ".github/skills/guild-tasks"
-      ]
-    },
-    {
-      "name": "guild-setup-github",
-      "description": "Bootstraps GitHub Issues-backed task tracking: creates required labels and installs the guild-tasks skill with the repo slug baked in.",
-      "skills": [".github/skills/guild-setup-github"]
+      "name": "guild",
+      "description": "Guild Master orchestrator with orchestrate, setup, train-agent, and train-skill skills.",
+      "skills": ["./plugin/skills/"]
     }
   ]
 }

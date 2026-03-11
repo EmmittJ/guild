@@ -1,22 +1,28 @@
 ---
-name: guild-setup
+name: setup
 description: >
-  Bootstrap core Guild configuration into any repo. Scaffolds AGENTS.md, the routing skill,
-  the orchestrator agent, and optionally a full cast team.
+  Bootstrap Guild into any repo — team scaffolding and optional component installation.
+  Scaffolds AGENTS.md, the routing skill, the orchestrator agent, and optionally a full cast
+  team. Also installs markdown-based memory, issue tracking, and inbox components, or switches
+  to GitHub Issues as the task backend.
   Activate when: setting up Guild in a repo for the first time; adding the routing skill to
-  an existing repo; casting a themed team from a universe; the user says "/guild-setup".
-  DO NOT USE FOR: installing memory, tasks, or inbox — use guild-setup-markdown for that.
+  an existing repo; casting a themed team from a universe; installing memory, issues, or inbox;
+  the user says "/guild:setup" or "/setup".
 license: MIT
 metadata:
-  version: "0.3"
+  version: "0.4"
 ---
 
 ## Asset Sources
 
 | Installed file | Source asset |
 |---|---|
-| `{skills-dir}/routing/SKILL.md` | `guild-setup/assets/skills/routing/SKILL.md` |
-| `{agents-dir}/{name}.agent.md` | `guild-setup/assets/agents/{orchestrator\|builder\|advisor\|scribe}.agent.md` |
+| `{skills-dir}/routing/SKILL.md` | `plugin/skills/setup/assets/skills/routing/SKILL.md` |
+| `{skills-dir}/guild-memory/SKILL.md` | `plugin/skills/setup/assets/skills/markdown-memory/SKILL.md` |
+| `{skills-dir}/guild-inbox/SKILL.md` | `plugin/skills/setup/assets/skills/markdown-inbox/SKILL.md` |
+| `{skills-dir}/guild-issues/SKILL.md` | `plugin/skills/setup/assets/skills/markdown-issues/SKILL.md` |
+| `{skills-dir}/guild-issues/SKILL.md` | `plugin/skills/setup/assets/skills/github-issues/SKILL.md` ← replaces markdown issues if GitHub backend selected |
+| `{agents-dir}/{name}.agent.md` | `plugin/skills/setup/assets/agents/{orchestrator\|builder\|advisor\|scribe}.agent.md` |
 
 **When editing the routing skill:** also update the asset. The routing skill's frontmatter has
 `metadata.asset:` pointing to its asset counterpart — use that as the sync signal.
@@ -25,13 +31,13 @@ metadata:
 
 ## What This Does
 
-`/guild-setup` is interactive. Steps:
+`/guild-setup` (or `/setup`) is interactive. Steps:
 
 1. **Discover the codebase** — silent scan before asking anything
 2. **Casting choice** — manual team definition or universe casting
 3. **Team size** — how many agents (default 5 including orchestrator)
 4. **Routing rules** — confirm or adjust routing patterns
-5. **Scaffold** — write agent files and routing skill
+5. **Install components** — markdown memory/issues/inbox and/or GitHub Issues backend
 
 ---
 
@@ -216,6 +222,95 @@ After scaffolding agents, update `{skills-dir}/routing/SKILL.md`:
 
 ---
 
+## Step 5: Install Components
+
+After scaffolding the team, ask whether to install Guild components.
+
+### Step 5A: Markdown Components
+
+> Do you want to install markdown-based memory, issues, or inbox components?
+> (none / memory / issues / inbox / all)
+
+For each selected component, prompt for:
+- **Where skills live** — default `.github/skills`
+- **Root path** for each component:
+  - Memory → `.guild/memory`
+  - Issues → `.guild/issues`
+  - Inbox → `.guild/inbox`
+
+**Memory component:**
+```
+.guild/memory/
+  decisions/_summary.md
+  insights/
+  context/
+{skills-dir}/guild-memory/SKILL.md
+```
+
+**Issues component:**
+```
+.guild/issues/
+  open/
+  in_progress/
+  closed/
+{skills-dir}/guild-issues/SKILL.md
+```
+
+**Inbox component:**
+```
+.guild/inbox/              ← agent subdirs created on first message
+{skills-dir}/guild-inbox/SKILL.md
+```
+
+### Step 5B: GitHub Issues Backend (optional)
+
+> Do you want to use GitHub Issues instead of markdown files for task tracking?
+> Requires `gh` CLI.
+
+If yes:
+- Check prerequisites: `gh` CLI installed and authenticated (`gh auth status`)
+- Prompt for:
+  - **Where skills live** — default `.github/skills`
+  - **Repo slug** (`owner/repo`) — auto-detect via `gh repo view --json nameWithOwner -q .nameWithOwner`; user may override
+- Creates 5 GitHub labels (using `gh label create --force`):
+
+| Label | Color | Meaning |
+|-------|-------|---------|
+| `in-progress` | `#e4e669` | Claimed by an agent |
+| `blocked` | `#d73a4a` | Cannot proceed |
+| `priority:high` | `#b60205` | Urgent |
+| `priority:medium` | `#fbca04` | Normal priority |
+| `priority:low` | `#cfd3d7` | Nice-to-have |
+
+- Copies `guild-issues/SKILL.md` with repo slug baked in (replaces any markdown issues skill)
+
+### Running the Scripts
+
+Step 5 is implemented via scripts in `setup/scripts/`:
+
+| Script | Purpose |
+|--------|---------|
+| `setup-markdown.sh` / `setup-markdown.ps1` | Markdown components (memory/issues/inbox) |
+| `setup-github.sh` / `setup-github.ps1` | GitHub Issues backend |
+
+**Unix / macOS / WSL:**
+```sh
+sh plugin/skills/setup/scripts/setup-markdown.sh /path/to/repo
+sh plugin/skills/setup/scripts/setup-github.sh /path/to/repo
+```
+
+**Windows PowerShell:**
+```powershell
+.\plugin\skills\setup\scripts\setup-markdown.ps1 -RepoRoot C:\path\to\repo
+.\plugin\skills\setup\scripts\setup-github.ps1 -RepoRoot C:\path\to\repo
+```
+
+**CI env vars for `setup-github`:** `GUILD_SKILLS_DIR`, `GUILD_REPO` (required in CI)
+
+**CI env vars for `setup-markdown`:** `GUILD_COMPONENTS`, `GUILD_SKILLS_DIR`, `GUILD_MEMORY_ROOT`, `GUILD_ISSUES_ROOT`, `GUILD_INBOX_ROOT`
+
+---
+
 ## What Gets Created
 
 ```
@@ -223,40 +318,29 @@ AGENTS.md                                  ← constitutional rules (if absent)
 {agents-dir}/{orchestrator-name}.agent.md  ← in-character orchestrator
 {agents-dir}/{character-name}.agent.md     ← one per cast role
 {skills-dir}/routing/SKILL.md              ← team roster + routing rules
+
+# Optional — from Step 5A:
+.guild/memory/decisions/_summary.md        ← memory component
+.guild/memory/insights/
+.guild/memory/context/
+{skills-dir}/guild-memory/SKILL.md
+
+.guild/issues/open/                        ← issues component
+.guild/issues/in_progress/
+.guild/issues/closed/
+{skills-dir}/guild-issues/SKILL.md
+
+.guild/inbox/                              ← inbox component (subdirs on first message)
+{skills-dir}/guild-inbox/SKILL.md
+
+# Optional — from Step 5B (replaces markdown issues):
+{skills-dir}/guild-issues/SKILL.md         ← GitHub-backed, repo slug baked in
 ```
 
 ---
 
 ## After Setup
 
-Run `/guild-setup-markdown` to add memory, tasks, and inbox.
+Guild Master applies all installed skills automatically at session start — no registration or AGENTS.md updates needed.
 
-The routing skill is applied by the orchestrator at session start automatically.
-
-```yaml
----
-name: {Agent Name}
-description: >
-  {role description — fill in what this agent does and when to use it.}
-  DO NOT USE FOR: {what belongs to other agents}
-tools:
-  - read
-  - search
-  - edit
-  - execute
----
-
-{Agent instructions here.}
-```
-
-After scaffolding, customize each agent's description and tools. Use `/train-agent` for the full authoring protocol.
-
-**Why not copy the Guild publisher's agents?** The specialist agents in the Guild publisher repo (charter, smith, auditor, etc.) are that team's specific configuration. Your team may have different roles, names, and tools. Scaffold your own.
-
----
-
-## After Setup
-
-The routing skill is automatically applied by Guild Master at session start — no manual registration is needed.
-
-To set up memory, tasks, or inbox components, run /guild-setup-markdown.
+The routing skill drives orchestration. Edit `.github/skills/routing/SKILL.md` to adjust your team roster or routing rules.

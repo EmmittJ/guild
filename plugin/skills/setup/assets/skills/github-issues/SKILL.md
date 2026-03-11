@@ -1,21 +1,21 @@
 ---
-name: guild-tasks
+name: guild-issues
 description: >
-  GitHub Issues task store for a team of agents. Tasks are issues — status via labels, closed
-  issue = completed task. No write conflicts, no shared files.
-  Activate when: task:item:create — work needs tracking; task:item:update — claiming, unclaiming,
-  blocking, or completing a task; task:item:read — checking available or in-progress work;
-  task:ready — finding actionable work at session start or before planning.
+  GitHub Issues issues store for a team of agents. Issues track status via labels — closed
+  issue = completed issue. No write conflicts, no shared files.
+  Activate when: issue:create — work needs tracking; issue:update — claiming, unclaiming,
+  blocking, or completing an issue; issue:read — checking available or in-progress work;
+  issue:ready — finding actionable work at session start or before planning.
   DO NOT USE FOR: decisions, insights, or context — use the memory skill. Inbox messages — use the inbox skill.
 license: MIT
 metadata:
-  version: "0.2"
+  version: "0.3"
 ---
 
 ## Overview
 
-Tasks are GitHub Issues in `${github_repo}`. Status is tracked via labels; a closed issue is a
-completed task.
+Issues are tracked as GitHub Issues in `${github_repo}`. Status is tracked via labels; a closed issue is a
+completed issue.
 
 **Label scheme:**
 
@@ -51,7 +51,7 @@ gh issue list -R ${github_repo} --state open --search "-label:blocked"  # availa
 
 ---
 
-## Task Format `task:item:create`
+## Create `issue:create`
 
 > **Shell note:** Always use `--body-file` or a heredoc for issue bodies. Inline `-b "text with \n"` passes literal backslash-n characters, not newlines.
 
@@ -130,7 +130,7 @@ gh issue create -R ${github_repo} -t "{Task title}" -b $body -l priority:medium
 
 ---
 
-## State Transitions `task:item:update`
+## Update `issue:update`
 
 | Transition            | Command                                                                                   |
 | --------------------- | ----------------------------------------------------------------------------------------- |
@@ -142,7 +142,7 @@ gh issue create -R ${github_repo} -t "{Task title}" -b $body -l priority:medium
 
 ---
 
-## Read Commands `task:item:read`
+## Read `issue:read`
 
 ```sh
 gh issue list -R ${github_repo} --state open --search "-label:blocked"  # available work
@@ -153,9 +153,9 @@ gh issue view -R ${github_repo} {number}          # full issue detail
 
 ---
 
-## Ready Work `task:ready`
+## Ready `issue:ready`
 
-Returns open, unblocked tasks regardless of status labels, sorted by priority (high → medium → low → unset).
+Returns open, unblocked issues regardless of status labels, sorted by priority (high → medium → low → unset).
 
 **"Ready" means:** GitHub issue state is open AND does NOT have `blocked` label.
 
@@ -180,7 +180,7 @@ document the dependency in the issue body:
 Blocked by #42.
 ```
 
-Before claiming a task, check whether any referenced blocking issues are still open:
+Before claiming an issue, check whether any referenced blocking issues are still open:
 
 ```sh
 gh issue view -R ${github_repo} 42   # check if still open
@@ -206,6 +206,6 @@ Add one priority label at create time. Omit if no prioritization is needed.
 - **New issues without labels are immediately actionable.** No intake ceremony required.
 - Check open issues before creating — avoid duplicates (`gh issue list -R ${github_repo} --state open`)
 - Check the issue body for "Blocked by #N" before claiming — don't start blocked work
-- To block a task: add `blocked`, remove `in-progress` in one call
+- To block an issue: add `blocked`, remove `in-progress` in one call
 - Closed issues are an archive — never reopen to edit; create a new issue if work resumes
-- One issue per task
+- One issue per work item

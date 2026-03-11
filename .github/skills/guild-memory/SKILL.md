@@ -9,11 +9,11 @@ description: >
   `memory:context:update` — ending a session or handing off; `memory:context:read` — picking
   up from a prior session.
   DO NOT USE FOR: async agent-to-agent messages — use the inbox skill (`inbox:message:create`).
-  Tasks — use the `guild-tasks` skill (`task:item:create`, `task:item:update`, `task:item:read`).
+  Tasks — use the `guild-issues` skill (`issue:create`, `issue:update`, `issue:read`).
 license: MIT
 metadata:
   version: "0.2"
-  asset: .github/skills/guild-setup-markdown/assets/skills/guild-memory/SKILL.md
+  asset: plugin/skills/setup/assets/skills/markdown-memory/SKILL.md
 ---
 
 ## Overview
@@ -35,8 +35,8 @@ The memory directory structure:
       {slug}.md               ← per-agent learnings, one file per topic
 ```
 
-Task tracking is managed by the `guild-tasks` skill.
-If that skill is not installed, the tasks directory is unused.
+Task tracking is managed by the `guild-issues` skill.
+If that skill is not installed, the issues directory is unused.
 
 ## Session Start Checklist
 

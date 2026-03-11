@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+- Merged `guild-setup`, `guild-setup-markdown`, and `guild-setup-github` into a single `setup` skill — one command (`/guild:setup`) handles team scaffolding and component installation
+- Renamed `guild-tasks` to `guild-issues` — skill activation verbs are now `issue:create`, `issue:update`, `issue:read`, `issue:ready`
+- Moved plugin skills from `.github/skills/` to `plugin/skills/` — plugin-owned files no longer live alongside host-owned installed components
+- Updated `metadata.asset:` paths in `guild-memory`, `guild-inbox`, `guild-issues`, `routing` to point to new `plugin/skills/setup/assets/` location
+
 ## [v0.4.0] — 2026-03-10
 
 Architect agent, orchestration lifecycle, RBAC hardening, plugin distribution fix, guild-setup team scaffolding.

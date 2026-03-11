@@ -6,11 +6,11 @@ description: >
   Activate when: `inbox:message:create` — another agent needs to act in a future session;
   `inbox:message:read` — checking for waiting messages at session start.
   DO NOT USE FOR: decisions, insights, or context — use the memory skill.
-  Tasks — use the tasks skill.
+  Issues — use the `guild-issues` skill.
 license: MIT
 metadata:
   version: "0.1"
-  asset: .github/skills/guild-setup-markdown/assets/skills/guild-inbox/SKILL.md
+  asset: plugin/skills/setup/assets/skills/markdown-inbox/SKILL.md
 ---
 
 ## Overview

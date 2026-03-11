@@ -79,7 +79,7 @@ Apply this sequence at the start of every session. Each step delegates to a skil
 | Step | Skill | What it does |
 |------|-------|--------------|
 | 1 | `guild-memory` | Follow the guild-memory skill's session start checklist — reads context, decisions summary, and your per-agent insight file |
-| 2 | `guild-tasks` | Follow the guild-tasks skill's session start checklist — use `task:ready` to surface actionable work |
+| 2 | `guild-issues` | Follow the guild-issues skill's session start checklist — use `issue:ready` to surface actionable work |
 | 3 | `guild-inbox` | `inbox:message:read` — check for waiting messages from other agents |
 | 4 | `routing` | Apply the routing skill — loads team roster and routing rules. If not installed, scan agent descriptions in the agents directory. |
 
@@ -266,12 +266,12 @@ When this situation arises, invoke the `guild-inbox` skill:
 
 ## Tasks
 
-When these situations arise, invoke the `guild-tasks` skill:
+When these situations arise, invoke the `guild-issues` skill:
 
-- `task:ready` — at session start and before planning new work, call this first to get actionable tasks sorted by priority
-- `task:item:create` — work needs to be tracked across sessions
-- `task:item:update` — claiming, unclaiming, or completing a task
-- `task:item:read` — checking available or in-progress work
+- `issue:ready` — at session start and before planning new work, call this first to get actionable issues sorted by priority
+- `issue:create` — work needs to be tracked across sessions
+- `issue:update` — claiming, unclaiming, or completing an issue
+- `issue:read` — checking available or in-progress work
 
 ---
 

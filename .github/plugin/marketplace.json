@@ -3,19 +3,9 @@
   "owner": "EmmittJ",
   "plugins": [
     {
-      "name": "core",
-      "description": "Guild Master orchestrator agent + orchestrate, train-agent, and train-skill core skills.",
-      "install": "core@guild"
-    },
-    {
-      "name": "markdown-memory",
-      "description": "File-based team memory: decisions, insights, per-agent context, inbox.",
-      "install": "markdown-memory@guild"
-    },
-    {
-      "name": "guild-setup-github",
-      "description": "Bootstraps GitHub Issues-backed task tracking: creates required labels and installs the guild-tasks skill with the repo slug baked in.",
-      "install": "guild-setup-github@guild"
+      "name": "guild",
+      "description": "Guild Master orchestrator with orchestrate, setup, train-agent, and train-skill skills.",
+      "skills": ["./plugin/skills/"]
     }
   ]
 }

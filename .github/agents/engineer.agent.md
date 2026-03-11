@@ -30,25 +30,23 @@ scripts, and make things work. You do not plan, route, or commit.
 ## Repo Structure
 
 ```
-plugin.json                        ← publisher manifest
+.github/plugin/marketplace.json    ← publisher manifest
 .github/
   agents/                          ← agent files for this repo's team
   skills/                          ← project-local skills
+    routing/
+    guild-memory/
+    guild-issues/
+    guild-inbox/
+plugin/
+  skills/
     orchestrate/
     train-agent/
     train-skill/
-    routing/
-    guild-memory/
-    guild-tasks/
-    guild-inbox/
-    guild-setup/
-    guild-setup-markdown/
-    guild-setup-github/
-      assets/skills/guild-tasks/         ← tasks skill template installed by setup script
-      scripts/                     ← setup.sh + setup.ps1
+    setup/                         ← team scaffolding + component installer
 .guild/
   memory/                          ← team memory (decisions, insights, context)
-  tasks/                           ← task store (open/, in_progress/, closed/)
+  issues/                          ← issue store (open/, in_progress/, closed/)
   inbox/                           ← async agent-to-agent messages
 AGENTS.md
 README.md
@@ -60,7 +58,7 @@ README.md
 - Skill directory name must match the `name` field in SKILL.md frontmatter
 - Never commit — hand off to scribe with a clear list of what changed and why
 - If a task is ambiguous, note the ambiguity in your output rather than guessing
-- If a skill has `metadata.asset:` in its frontmatter, apply the **same changes** to that asset file after editing the skill — the asset is the install template used by `guild-setup-markdown` or `guild-setup`
+- If a skill has `metadata.asset:` in its frontmatter, apply the **same changes** to that asset file after editing the skill — the asset is the install template used by `/guild:setup`
 - Use `memory:insight:create` if you discover something non-obvious during implementation.
 
 ## Output Format

@@ -1,12 +1,12 @@
 ---
-name: guild-tasks
+name: guild-issues
 description: >
-  File-based task store for a team of agents. Tasks live as Markdown files in
-  ${tasks_root}/open/, in_progress/, and closed/ — the directory is the status, moving a file
+  File-based issue store for a team of agents. Issues live as Markdown files in
+  ${issues_root}/open/, in_progress/, and closed/ — the directory is the status, moving a file
   is the state transition. No write conflicts, no shared status fields.
-  Activate when: `task:item:create` — work needs tracking across sessions; `task:item:update` —
-  claiming, unclaiming, or completing a task; `task:item:read` — checking available or in-progress work;
-  `task:ready` — finding actionable work at session start or before planning.
+  Activate when: `issue:create` — work needs tracking across sessions; `issue:update` —
+  claiming, unclaiming, or completing an issue; `issue:read` — checking available or in-progress work;
+  `issue:ready` — finding actionable work at session start or before planning.
   DO NOT USE FOR: decisions, insights, or context — use the memory skill. Inbox messages — use the inbox skill.
 license: MIT
 metadata:
@@ -15,10 +15,10 @@ metadata:
 
 ## Overview
 
-The tasks root for this repo is `${tasks_root}` (relative to repo root).
+The issues root for this repo is `${issues_root}` (relative to repo root).
 
 ```
-${tasks_root}/
+${issues_root}/
   open/          ← unclaimed work
   in_progress/   ← claimed; agent name in frontmatter
   closed/        ← completed; audit trail, never delete
@@ -28,12 +28,12 @@ ${tasks_root}/
 
 ## Session Start
 
-1. `${tasks_root}/in_progress/` — tasks you claimed in a prior session (resume or unclaim)
-2. `${tasks_root}/open/` — available work (check here before creating new tasks)
+1. `${issues_root}/in_progress/` — issues you claimed in a prior session (resume or unclaim)
+2. `${issues_root}/open/` — available work (check here before creating new issues)
 
 ---
 
-## Task Format `task:item:create` `task:item:update` `task:item:read`
+## Issue Format `issue:create` `issue:update` `issue:read`
 
 Filename: `{slug}.md` — short and descriptive, e.g. `add-auth-tests.md`
 
@@ -43,11 +43,11 @@ priority: high | medium | low
 agent: {assigned agent name, or empty if unclaimed}
 created: YYYY-MM-DD
 blocked-by:
-  - {slug of blocking task}
-  - {slug of another blocking task}
+  - {slug of blocking issue}
+  - {slug of another blocking issue}
 ---
 
-# {Task title}
+# {Issue title}
 
 ## What
 {What needs to be done. Specific enough that an agent can start without asking.}
@@ -56,12 +56,12 @@ blocked-by:
 {Acceptance criteria. What does completion look like?}
 
 ## Context
-{Links to relevant decisions, files, insights, or other tasks.}
+{Links to relevant decisions, files, insights, or other issues.}
 ```
 
 ---
 
-## State Transitions `task:item:update`
+## State Transitions `issue:update`
 
 ```
 open/ → in_progress/    claim: set agent: field, move file
@@ -71,21 +71,21 @@ in_progress/ → closed/  complete: append outcome note, move file
 
 ---
 
-## Ready Work `task:ready`
+## Ready Issues `issue:ready`
 
-Returns open, unblocked tasks sorted by priority (high → medium → low → unset).
+Returns open, unblocked issues sorted by priority (high → medium → low → unset).
 
-**"Ready" means:** in `${tasks_root}/open/` directory — NOT blocked (all `blocked-by:` slugs exist in `closed/`).
+**“Ready” means:** in `${issues_root}/open/` directory — NOT blocked (all `blocked-by:` slugs exist in `closed/`).
 
 **Implementation — three-step process:**
 
-1. List all files in `${tasks_root}/open/`
-2. For each, read `blocked-by:` frontmatter — skip any task where a referenced slug is **not** in `closed/`
+1. List all files in `${issues_root}/open/`
+2. For each, read `blocked-by:` frontmatter — skip any issue where a referenced slug is **not** in `closed/`
 3. Sort remaining by `priority:` field: `high` → `medium` → `low` → unset
 
 ```sh
 # Pseudo-implementation — agents use their read/search tools for this
-for f in ${tasks_root}/open/*.md; do
+for f in ${issues_root}/open/*.md; do
   blocked_by=$(grep "^blocked-by:" "$f" | sed 's/blocked-by://')
   # check each slug exists in closed/
 done
@@ -98,10 +98,10 @@ done
 
 ## Rules
 
-- Check `open/` before creating new tasks — avoid duplicates
+- Check `open/` before creating new issues — avoid duplicates
 - When claiming: update `agent:` and move in the same operation
 - Check `blocked-by:` before claiming — don't start blocked work
-- `blocked-by:` accepts a list of slugs — all listed tasks must be closed before this one can start
-- When you complete a task, check whether any other task was `blocked-by` it — those tasks are now unblocked
+- `blocked-by:` accepts a list of slugs — all listed issues must be closed before this one can start
+- When you complete an issue, check whether any other issue was `blocked-by` it — those issues are now unblocked
 - `closed/` is an archive — never delete, never edit
-- One file per task — never append to another agent's task file
+- One file per issue — never append to another agent's issue file
