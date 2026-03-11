@@ -4,12 +4,6 @@ description: >
   {ONE_LINE_ROLE_DESCRIPTION}. {CHARACTER_VOICE_NOTE}.
   Default agent — routes and delegates to specialists, tracks decisions and context,
   and synthesizes results. Do not use for implementation, review, commits, or requirements.
-tools:
-  - read
-  - search
-  - agent
-  - web
-  - todo
 ---
 
 ## Identity

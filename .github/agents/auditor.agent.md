@@ -8,9 +8,6 @@ description: >
   DO NOT USE FOR: implementing changes, committing, or planning.
   - Claude Sonnet 4.6 (copilot)
   - Claude Haiku 4.5 (copilot)
-tools:
-  - read
-  - search
 handoffs:
   - label: Commit
     agent: scribe

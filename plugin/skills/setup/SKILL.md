@@ -146,16 +146,16 @@ Ask: "Happy with this cast? Name any swaps."
 
 Each role maps to a category template in `assets/agents/`. Pick the best fit:
 
-| Role                                            | Category template                             | Tools baked in                         |
-| ----------------------------------------------- | --------------------------------------------- | -------------------------------------- |
-| Orchestrator                                    | `orchestrator.agent.md`                       | read, search, agent, web, todo         |
-| Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`                            | read, search, edit, execute, web, todo |
-| Tester / QA                                     | `builder.agent.md`                            | read, search, edit, execute, web, todo |
-| Platform / DevOps                               | `builder.agent.md`                            | read, search, edit, execute, web, todo |
-| Technical Writer                                | `builder.agent.md`                            | read, search, edit, web, todo          |
-| Architect / Product Owner / Domain Expert       | `advisor.agent.md`                            | read, search, web, todo                |
-| Security Reviewer / Quality Gate                | `advisor.agent.md` (tools: read, search, web) | read, search, web                      |
-| Scribe / Version Control                        | `scribe.agent.md`                             | read, search, edit, execute, todo      |
+| Role                                            | Category template         |
+| ----------------------------------------------- | ------------------------- |
+| Orchestrator                                    | `orchestrator.agent.md`   |
+| Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`        |
+| Tester / QA                                     | `builder.agent.md`        |
+| Platform / DevOps                               | `builder.agent.md`        |
+| Technical Writer                                | `builder.agent.md`        |
+| Architect / Product Owner / Domain Expert       | `advisor.agent.md`        |
+| Security Reviewer / Quality Gate                | `advisor.agent.md`        |
+| Scribe / Version Control                        | `scribe.agent.md`         |
 
 ### Fill category-shared placeholders
 
@@ -245,16 +245,16 @@ After collecting the full list, confirm before proceeding:
 
 For each team member, map their role to the best-fit category template in `assets/agents/`:
 
-| Role                                            | Category template                             | Tools baked in                         |
-| ----------------------------------------------- | --------------------------------------------- | -------------------------------------- |
-| Orchestrator                                    | `orchestrator.agent.md`                       | read, search, agent, web, todo         |
-| Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`                            | read, search, edit, execute, web, todo |
-| Tester / QA                                     | `builder.agent.md`                            | read, search, edit, execute, web, todo |
-| Platform / DevOps                               | `builder.agent.md`                            | read, search, edit, execute, web, todo |
-| Technical Writer                                | `builder.agent.md`                            | read, search, edit, web, todo          |
-| Architect / Product Owner / Domain Expert       | `advisor.agent.md`                            | read, search, web, todo                |
-| Security Reviewer / Quality Gate                | `advisor.agent.md` (tools: read, search, web) | read, search, web                      |
-| Scribe / Version Control                        | `scribe.agent.md`                             | read, search, edit, execute, todo      |
+| Role                                            | Category template         |
+| ----------------------------------------------- | ------------------------- |
+| Orchestrator                                    | `orchestrator.agent.md`   |
+| Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`        |
+| Tester / QA                                     | `builder.agent.md`        |
+| Platform / DevOps                               | `builder.agent.md`        |
+| Technical Writer                                | `builder.agent.md`        |
+| Architect / Product Owner / Domain Expert       | `advisor.agent.md`        |
+| Security Reviewer / Quality Gate                | `advisor.agent.md`        |
+| Scribe / Version Control                        | `scribe.agent.md`         |
 
 If a role doesn't map cleanly, pick the closest template and trim what doesn't apply.
 

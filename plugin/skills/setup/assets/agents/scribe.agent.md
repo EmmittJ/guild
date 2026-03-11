@@ -5,12 +5,6 @@ description: >
   Commits completed, reviewed work and opens pull requests on request. Does not implement
   changes — only commits what it receives.
   DO NOT USE FOR: implementing changes, reviewing content quality, or modifying files before committing.
-tools:
-  - read
-  - search
-  - edit
-  - execute
-  - todo
 ---
 
 ## Identity

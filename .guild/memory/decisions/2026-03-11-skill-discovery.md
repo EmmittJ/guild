@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-11  
 **Status:** proposed  
-**Issue:** #35  
+**Issue:** #35
 
 ---
 
@@ -10,12 +10,12 @@
 
 `plugin/skills/orchestrate/SKILL.md` hardcodes installed skill names in the Guild Master
 Initialization table (currently `guild-memory`, `guild-issues`, `guild-inbox`). When these
-skills are renamed — as happened in the guild-* → markdown-* propagation — orchestrate's
+skills are renamed — as happened in the guild-_ → markdown-_ propagation — orchestrate's
 initialization step silently fails to load the correct skills. There is no mechanism to
 detect the mismatch. Fixing it requires hunting down every reference across orchestrate
 and any consuming files.
 
-The root cause is coupling: orchestrate owns the initialization procedure *and* the list
+The root cause is coupling: orchestrate owns the initialization procedure _and_ the list
 of what to initialize. That list belongs somewhere else.
 
 ---
@@ -36,7 +36,7 @@ for the body of the skill.
 **What doesn't:** The initialization table still couples to a fixed set of verbs. If two
 skills both declare verbs in the `memory:*` namespace (e.g., a user adds a second memory
 backend), verb matching produces ambiguous results. More critically, there is no
-authoritative source for *which* skills must run at session start — the orchestrate
+authoritative source for _which_ skills must run at session start — the orchestrate
 initialization table remains the implicit inventory, just encoded differently.
 
 **Change required:** Rewrite the initialization table rows to reference verbs instead of
@@ -93,7 +93,7 @@ plugin asset routing file. No per-skill implementation work required.
 
 The key insight: routing is already loaded, already host-owned, and already the place
 where a user configures their installation. Making it the single source of truth for
-*which skills are installed and in what order* is a natural extension of its existing
+_which skills are installed and in what order_ is a natural extension of its existing
 responsibility, not a new one.
 
 Option A improves tolerance for renames in the body of orchestrate but leaves the
@@ -114,12 +114,14 @@ in order. This preserves current implicit behavior for bare installations.
 ## Consequences
 
 **Gets easier:**
+
 - Renaming or swapping a skill requires updating routing only — not orchestrate.
 - The initialization table in orchestrate becomes stable; it describes a procedure, not
   a directory listing.
 - The installed skill inventory is auditable in one place (routing) alongside the team roster.
 
 **What changes:**
+
 - `routing/SKILL.md` grows an "Installed Skills" section. This section is host-owned.
 - `orchestrate/SKILL.md` initialization table collapses to a delegation statement:
   "apply each skill in routing's Installed Skills table, in order."
@@ -129,6 +131,7 @@ in order. This preserves current implicit behavior for bare installations.
   new installs.
 
 **Risks that remain:**
+
 - Routing still requires manual updates when skills are installed or renamed. This is
   intentional (host owns the config) but is still a human step.
 - If a user omits a skill from routing's table, initialization silently skips it.

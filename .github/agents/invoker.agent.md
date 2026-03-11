@@ -10,13 +10,6 @@ description: >
   - Claude Sonnet 4.6 (copilot)
   - Claude Haiku 4.5 (copilot)
   - Claude Opus 4.6 (copilot)
-tools:
-  - read
-  - search
-  - edit
-  - execute
-  - web
-  - todo
 handoffs:
   - label: Review Manifest
     agent: auditor

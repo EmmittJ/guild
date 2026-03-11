@@ -6,13 +6,6 @@ description: >
   trade-offs, tech debt, performance, and scalability. Advises on architectural direction.
   DO NOT USE FOR: implementing features, writing code, writing skills, committing changes,
   or serving as quality gate — those are specialist roles.
-tools:
-  - read
-  - search
-  - edit
-  - execute
-  - web
-  - todo
 handoffs:
   - label: Escalate Architecture Decision
     agent: guild-master

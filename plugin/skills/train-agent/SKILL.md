@@ -25,8 +25,7 @@ Before writing anything:
 
 1. **Role and domain** — what does this agent do? What does it never do?
 2. **Interactions** — which other agents does it hand off to or receive work from?
-3. **Tools** — which categories apply? (see Tools section below)
-4. **Visibility** — should it appear in the chat agent picker, or is it subagent-only?
+3. **Visibility** — should it appear in the chat agent picker, or is it subagent-only?
 
 ---
 
@@ -41,21 +40,9 @@ Four pre-built category templates live at `plugin/skills/setup/assets/agents/`. 
 | Advisor | `advisor.agent.md` | Architects, product owners, reviewers, domain experts |
 | Scribe | `scribe.agent.md` | Version control, commit discipline, release management |
 
-**When to use a template:** If the role maps cleanly to one of the four categories, use the template — it has correct tool defaults, handoff structure, and placeholder sections already written. Fill in the `{PLACEHOLDER}` values and delete what doesn't apply.
+**When to use a template:** If the role maps cleanly to one of the four categories, use the template — it has correct handoff structure and placeholder sections already written. Fill in the `{PLACEHOLDER}` values and delete what doesn't apply.
 
 **When to write from scratch:** Novel roles that don't fit any category, or when the user has a specific format requirement. In that case, use the format in this skill directly.
-
----
-
-## Tool Defaults by Agent Category
-
-| Category         | Tools                                              | Purpose                                                  |
-| ---------------- | -------------------------------------------------- | -------------------------------------------------------- |
-| **Worker**       | `read`, `search`, `edit`, `execute`, `web`, `todo` | Domain specialists who implement directly                |
-| **Orchestrator** | `read`, `search`, `agent`, `web`, `todo`           | Coordinators who delegate; no direct editing or commands |
-| **Scribe**       | `read`, `search`, `edit`, `execute`, `todo`        | Applies changes; no web access needed                    |
-
-Exclude tools the agent doesn't need for its role.
 
 ---
 
@@ -69,14 +56,6 @@ name: { Display Name }
 description: >
   {One or two sentences. Shown as placeholder text in chat and used by Guild Master for routing.
   Include key domain words and explicit DO NOT USE FOR exclusions.}
-tools:
-  - read # Universal baseline — every agent
-  - search # Universal baseline — every agent
-  # - edit                # Add for agents that create or modify files (engineering, ops, scribe)
-  # - execute             # Add for agents that run commands (engineering, ops, scribe)
-  # - web                 # Add for agents that need external research
-  # - agent               # Orchestrators only — subagent spawning
-  # - todo                # Orchestrators and engineers that track work
 handoffs:
   - label: { Action label shown on button }
     agent: { target-agent-name }
@@ -110,7 +89,7 @@ gotchas, or patterns a future agent in this role should know.}
 | `name`                     | Recommended | Display name shown in chat picker; Title Case is fine. **Used for `agent:` references in handoffs** — the display name, not the file name. |
 | `description`              | Yes         | Routing + chat placeholder — make it keyword-rich                                                                                          |
 | `model`                    | Optional    | Leave unset — let the user or routing config assign. See Model Field below.                                                                |
-| `tools`                    | Recommended | List of tool categories (see Tools section below)                                                                                          |
+| `tools`                    | Optional    | List of tool categories. Omit to let users configure — see Tools section below.                                                            |
 | `handoffs`                 | Optional    | Guided workflow transitions to next agent                                                                                                  |
 | `agents`                   | Optional    | List of subagents this agent can invoke; `*` for all                                                                                       |
 | `user-invocable`           | Optional    | `false` to hide from picker (subagent-only)                                                                                                |
@@ -124,7 +103,7 @@ When model selection matters at runtime: the Copilot CLI `tasks` tool supports p
 
 ### Tools
 
-`read` and `search` are the universal baseline — every agent gets them. Add others only when the role genuinely needs them.
+`tools:` is optional — omit it to let users configure tools themselves. If you want to pre-configure tools, `read` and `search` are a minimal starting baseline.
 
 | Tool      | Add when                        | Examples                                  |
 | --------- | ------------------------------- | ----------------------------------------- |

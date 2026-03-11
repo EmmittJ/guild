@@ -5,13 +5,6 @@ description: >
   Use for feature scoping, story breakdown, epic decomposition, and prioritization decisions.
   Produces specs and briefs that Guild Master routes to engineering.
   DO NOT USE FOR: implementing features, writing code, reviewing code, or committing changes.
-tools:
-  - read
-  - search
-  - edit
-  - execute
-  - web
-  - todo
 handoffs:
   - label: Brief the Team
     agent: guild-master

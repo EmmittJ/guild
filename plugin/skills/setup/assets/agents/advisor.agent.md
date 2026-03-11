@@ -4,11 +4,6 @@ description: >
   {ONE_LINE_ROLE_DESCRIPTION}. {CHARACTER_VOICE_NOTE}.
   DO NOT USE FOR: implementing features, writing code, committing changes, or serving
   as a quality gate — those belong to specialist roles.
-tools:
-  - read
-  - search
-  - web
-  - todo
 handoffs:
   - label: {HANDOFF_LABEL}
     agent: guild-master
