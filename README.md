@@ -79,6 +79,45 @@ Memory configuration lives in `.guild/config.json`, not in AGENTS.md. A repo on 
 
 ---
 
+## Customization
+
+Guild installs two kinds of files into your repo. Know which is which before editing.
+
+### Host-owned — yours to change
+
+These files are scaffolded once and then belong to your repo. Edit them freely:
+
+| File / Directory | What to put there |
+|---|---|
+| `AGENTS.md` | Platform, conventions, team constitution |
+| `.github/agents/*.agent.md` | Your team's agent files, created by `/guild-setup` |
+| `.github/skills/routing/SKILL.md` | Team roster, routing rules, **model names for each tier** |
+| `.guild/memory/` | Decisions, insights, context — written by your agents |
+| `.guild/tasks/` | Work items — written by your agents |
+| `.guild/inbox/` | Agent-to-agent messages |
+
+The `routing` skill is the primary configuration surface. It's where you set the model names that correspond to the Fast / Standard / Premium tiers used by the orchestrate skill.
+
+### Plugin-owned — do not modify
+
+These files are owned by the Guild plugin and will be overwritten when you upgrade:
+
+| File / Directory | Why it's plugin-owned |
+|---|---|
+| `.github/skills/orchestrate/` | Core orchestration logic — updated by Guild releases |
+| `.github/skills/train-agent/` | Agent authoring protocol |
+| `.github/skills/train-skill/` | Skill authoring protocol |
+| `.github/skills/guild-setup/` | Setup wizard and archetype templates |
+| `.github/skills/guild-setup-markdown/` | Markdown component installer |
+| `.github/skills/guild-setup-github/` | GitHub Issues component installer |
+| `.github/skills/guild-memory/` | Memory skill protocol |
+| `.github/skills/guild-tasks/` | Tasks skill protocol |
+| `.github/skills/guild-inbox/` | Inbox skill protocol |
+
+If you need to change how orchestration works, open an issue on the Guild repo or fork it. Don't edit plugin-owned files in place — your changes will be lost on the next `copilot plugin update`.
+
+---
+
 ## What Ships
 
 ```

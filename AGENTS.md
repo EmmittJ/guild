@@ -8,6 +8,13 @@ GitHub. Use `gh` CLI for platform operations. Commit directly to `main` — no P
 
 Skills installed in this repo: `.github/skills/guild-memory`, `.github/skills/guild-tasks`, `.github/skills/guild-inbox`
 
+## Customization
+
+Host-owned files (edit freely): `AGENTS.md`, `.github/agents/`, `.github/skills/routing/SKILL.md`, `.guild/`
+Plugin-owned files (do not modify): all other `.github/skills/` directories
+
+See `README.md` for the full boundary table.
+
 ## Team
 
 | Agent        | Role                | File                                   | Use for                                                                                      |

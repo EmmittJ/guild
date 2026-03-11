@@ -8,10 +8,18 @@ description: >
   DO NOT USE FOR: simple questions answerable directly without spawning agents.
 license: MIT
 metadata:
-  version: "0.4"
+  version: "0.5"
 ---
 
 ## Pattern Selection
+
+Before reaching for the table, run this decision in order:
+
+1. **Can I answer this directly, right now?** → Do it. No spawn needed. (Direct)
+2. **Is there one clear specialist owner?** → Delegate to them. (Single agent)
+3. **Is this contested, high-stakes, or does it materially affect multiple agents' work?** → Group chat. Bring the relevant agents into a structured debate before anyone acts. (Group chat)
+
+If none of the above fits cleanly, use the table below.
 
 Start with the lowest-complexity pattern that fits. Escalate only when needed.
 
@@ -44,6 +52,26 @@ Match agent investment to task complexity. Overpowering simple tasks wastes budg
 
 ---
 
+## Model Selection
+
+For deciding how many agents to spawn, see **Agent Count Tiers** in the Decomposing Work section.
+
+When spawning agents, match the model tier to the operation. Tier names are fixed; model names are host-configured in the `routing` skill.
+
+| Operation type | Tier | Examples |
+|---|---|---|
+| Research, narrow lookup, reading files, short well-scoped tasks | Fast | "What does this function do?", exploring a directory |
+| Typical implementation, reviews, file editing, most agent work | Standard | Writing a skill, implementing a feature, auditing changes |
+| Architecture decisions, security review, contested domain knowledge, high-stakes reasoning | Premium | Design review, trade-off debate, security audit, release gate |
+
+**The orchestrator selects tier when spawning.** Specialist agents declare their own model preference in their agent file.
+
+**Surface before upgrading.** If a task grows beyond its original tier mid-execution, surface that before continuing — do not silently upgrade. A Lightweight task that turns into an architecture decision warrants a new spawn at the right tier.
+
+> Model names for each tier live in the `routing` skill — that file is host-configured and can be changed without modifying this skill.
+
+---
+
 ## Guild Master Initialization
 
 Apply this sequence at the start of every session. Each step delegates to a skill — skip steps whose skill is not installed. Work begins only after all installed steps complete.
@@ -70,13 +98,25 @@ When a request is non-trivial:
 
 | Situation | Action |
 |-----------|--------|
-| No matching agent | Implement directly; record the gap |
+| No matching agent | Explain the gap; offer to train a new agent via `train-agent` |
 | Two agents equally matched | Prefer the more specialized one |
 | Task outside all agent scopes | Ask user if a new agent should be trained |
 
-### Operation Tiers
+### Routing Principles
 
-Tiers describe the *operation*, not the model. Agents declare their own `model:` — tiers guide your routing decision.
+These rules apply to the orchestrator only. Specialists escalate unclear scope — they do not re-route.
+
+**Primary domain wins.** When two agents could both handle a task, route to the agent whose *primary* domain is the core concern — not an agent for whom it's adjacent work. Adjacent capability is a fallback, not a first choice.
+
+**Exclusion is a signal.** If an agent's description says "DO NOT USE FOR X", treat that as a hard boundary. Route X elsewhere even if X is closely related to their domain.
+
+**Cross-domain tasks: decompose before routing.** A task that genuinely spans two specialist domains should be split into two tasks with a clear handoff point. Do not assign it whole to one agent and hope.
+
+**No specialist found: explain the gap.** Do not guess or assign to the closest match. Surface the gap to the user and offer to train a new agent via the `train-agent` skill.
+
+### Agent Count Tiers
+
+These tiers describe how many agents to spawn and how much coordination overhead is warranted — not which model to use. For model selection, see **Model Selection** below.
 
 | Tier | Use for |
 |------|---------|
@@ -106,6 +146,8 @@ Output: {exactly what to produce and in what format}
 
 ## Spawning Agents
 
+> **What can I launch right now?** That is always the first question. Default to parallel. Serialize only when a task genuinely requires the previous output to proceed. If in doubt, start it — don't wait.
+
 ### When to spawn vs. answer directly
 
 Answer directly (no spawn) for:
@@ -115,6 +157,8 @@ Answer directly (no spawn) for:
 - Config questions — "which model are you using?"
 
 Spawn for everything else. **Default to spawning eagerly** — if an agent could usefully start work, start them. Don't wait to spawn Agent B until Agent A finishes unless B's work literally depends on A's output.
+
+**Anticipatory spawning (opt-in).** For substantial tasks, you may optionally spawn downstream agents on *setup work* while the primary builder works — scaffolding test environments, writing stubs, preparing fixtures. Do not spawn agents to run tests against incomplete output. If the primary builder's output is rejected and the spec changes, Guild Master owns re-briefing any anticipatorily-spawned agents.
 
 ### Single vs. parallel spawning
 
@@ -129,6 +173,10 @@ Spawn for everything else. **Default to spawning eagerly** — if an agent could
 
 **Parallel is the default.** Sequential is only justified when there's a real data dependency.
 
+**Before spawning a second concurrent builder on a system another builder is already modifying:** call a Design Review — bring both builders and Guild Master to align on interfaces, contracts, and risk before work diverges. Record the outcome via `memory:decision:create`.
+
+**After an auditor rejects the same work twice:** call a Retrospective — builder, auditor, and Guild Master discuss what failed, root cause, and what changes. Record the pattern via `memory:insight:create`.
+
 ### Briefing quality
 
 A poor brief produces poor output and requires re-work. Before spawning any agent, verify the brief has:
@@ -142,10 +190,16 @@ A poor brief produces poor output and requires re-work. Before spawning any agen
 
 ### Failure handling
 
+A **blocked** task requires external input before it can proceed — it is not merely slow. A slow task is still making progress. The distinction matters: slow tasks get more time; blocked tasks get the escalation ladder immediately.
+
 - One agent failing does not stop others — continue parallel work and surface the failure
 - If an agent returns output that doesn't meet the output contract, send it back with specific feedback (see Maker-Checker)
-- If an agent fails twice on the same task, try a different agent or decompose the task further
-- Cap retries at 3 — after that, surface to the user with a clear description of what failed and why
+- If an agent fails twice on the same task or declares itself blocked:
+  1. Return with specific, actionable feedback — name exactly what is missing
+  2. Re-decompose: break the task smaller or approach it from a different angle
+  3. Re-route to a different agent with a fresh brief
+  4. Surface to the user — call `memory:context:update` first so no state is lost
+- Cap the full ladder at 3 iterations before surfacing unconditionally
 
 ### Direct response handling
 
@@ -281,10 +335,9 @@ Every delegation that produces an artifact gets a tracking issue. No invisible w
 | Task | What to do |
 |------|-----------|
 | Ambiguous request | Ask one clarifying question before planning |
-| Blocked agent | Trigger `memory:context:update`, surface to user |
-| Stalled task (no progress after 2 rounds) | Stop looping — escalate to user with a clear description of what is stuck and why |
+| Blocked or stalled task | Follow escalation ladder: feedback → re-decompose → re-route → surface to user (call `memory:context:update` before surfacing) |
 | Agent out of scope | Re-route to correct specialist |
-| No specialist available | Implement directly, trigger `memory:decision:create` |
+| No specialist available | Explain the gap; offer to train a new agent via `train-agent` |
 | Repeated failure | Cap at 3 attempts, escalate |
 | End of session | Trigger `memory:context:update`; trigger `inbox:message:create` if handoff needed |
 | Stray files found in repo | Delete them; re-capture content via `memory:insight:create` |
