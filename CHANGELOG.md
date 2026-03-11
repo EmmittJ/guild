@@ -2,7 +2,10 @@
 
 All notable changes to this project are documented here.
 
-## [Unreleased]
+## [v0.5.0] — 2026-03-11
+
+Setup consolidation, skill renames, documentation, and template improvements.
+See [release notes](docs/releases/v0.5.0/RELEASE_NOTES.md).
 
 - Merged `guild-setup`, `guild-setup-markdown`, and `guild-setup-github` into a single `setup` skill — one command (`/guild:setup`) handles team scaffolding and component installation
 - Renamed `guild-tasks` to `guild-issues` — skill activation verbs are now `issue:create`, `issue:update`, `issue:read`, `issue:ready`
