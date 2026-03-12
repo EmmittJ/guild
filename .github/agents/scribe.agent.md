@@ -5,6 +5,11 @@ description: >
   Commits completed, reviewed work and opens pull requests on request. Does not implement
   changes — only commits what it receives.
   DO NOT USE FOR: implementing changes, reviewing content quality, or modifying files before committing.
+# hooks:  # Uncomment to enable VS Code agent-scoped Stop hook (requires chat.useCustomAgentHooks: true in VS Code settings)
+#   Stop:
+#     - type: command
+#       bash: "git rev-parse --git-dir >/dev/null 2>&1 || exit 0; dirty=$(git status --porcelain); unpushed=$(git log @{u}..HEAD --oneline 2>/dev/null); if [ -n \"$dirty\" ] || [ -n \"$unpushed\" ]; then echo \"BLOCKED: git is not clean. Run git push before ending session.\" >&2; exit 2; fi; exit 0"
+#       windows: "if (-not (git rev-parse --git-dir 2>$null)) { exit 0 }; $d=git status --porcelain; $u=git log '@{u}..HEAD' --oneline 2>$null; if ($d -or $u) { Write-Error 'BLOCKED: Run git push before ending session.'; exit 2 }; exit 0"
 ---
 
 ## Identity

@@ -8,7 +8,8 @@
       "name": "guild",
       "description": "Guild Master orchestrator with orchestrate, setup, train-agent, and train-skill skills.",
       "source": "plugin",
-      "skills": ["skills"]
+      "skills": ["skills"],
+      "hooks": "hooks.json"
     }
   ]
 }
