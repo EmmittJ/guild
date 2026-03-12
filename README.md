@@ -325,7 +325,7 @@ copilot plugin marketplace add EmmittJ/guild
 copilot plugin marketplace browse guild
 ```
 
-Available plugins: `core@guild` (includes guild-master, orchestrate, train-agent, train-skill, markdown-memory, github-issues, markdown-inbox).
+Available plugins: `guild@guild` (includes orchestrate, setup, train-agent, train-skill).
 
 ---
 

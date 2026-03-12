@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 # sync-skills.sh — copy skills from plugin sources to .github/skills/
 # Usage: sh sync-skills.sh
-# Finds the repo root by walking up from CWD until it finds a .git directory.
+# Finds the repo root by walking up from CWD until it finds a .git entry (works with worktrees).
 
 set -e
 
@@ -9,14 +9,14 @@ set -e
 
 REPO_ROOT="$(pwd)"
 while [ "$REPO_ROOT" != "/" ]; do
-  if [ -d "$REPO_ROOT/.git" ]; then
+  if [ -e "$REPO_ROOT/.git" ]; then
     break
   fi
   REPO_ROOT="$(dirname "$REPO_ROOT")"
 done
 
-if [ ! -d "$REPO_ROOT/.git" ]; then
-  echo "Error: could not find repo root (no .git directory found in any parent directory)" >&2
+if [ ! -e "$REPO_ROOT/.git" ]; then
+  echo "Error: could not find repo root (no .git found in any parent directory)" >&2
   exit 1
 fi
 
