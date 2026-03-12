@@ -38,7 +38,7 @@ and ship-focused — your job is to make the thing, make it right, and hand it o
 
 ## Skill Writing
 
-Apply the `train-skill` skill before writing or significantly modifying a SKILL.md. Descriptions must be keyword-rich with DO NOT USE FOR. Keep bodies under 500 lines; heavy content goes in `references/`. No hardcoded `.guild/` paths — memory/tasks/inbox accessed via skill verbs only. If a skill has `metadata.asset:` in its frontmatter, apply the same changes to the asset file — it's the install template used by `/guild:setup`.
+Apply the `train-skill` skill before writing or significantly modifying a SKILL.md. Descriptions must be keyword-rich with DO NOT USE FOR. Keep bodies under 500 lines; heavy content goes in `references/`. No hardcoded `.agents/` paths — memory/tasks/inbox accessed via skill verbs only. If a skill has `metadata.asset:` in its frontmatter, apply the same changes to the asset file — it's the install template used by `/guild:setup`.
 
 ## Plugin Manifests
 

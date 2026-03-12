@@ -111,11 +111,11 @@ install_guild_memory() {
   echo ""
   echo "Installing memory..."
   if [ "$NON_INTERACTIVE" = "1" ]; then
-    MEMORY_ROOT="${GUILD_MEMORY_ROOT:-.guild/memory}"
+    MEMORY_ROOT="${GUILD_MEMORY_ROOT:-.agents/memory}"
   else
-    printf "  Memory root [.guild/memory]: "
+    printf "  Memory root [.agents/memory]: "
     read -r input
-    MEMORY_ROOT="${input:-.guild/memory}"
+    MEMORY_ROOT="${input:-.agents/memory}"
   fi
   ensure_dir "$REPO_ROOT/$GUILD_MEMORY_ROOT/decisions"
   ensure_dir "$REPO_ROOT/$GUILD_MEMORY_ROOT/insights"
@@ -147,11 +147,11 @@ install_guild_tasks() {
   echo ""
   echo "Installing tasks..."
   if [ "$NON_INTERACTIVE" = "1" ]; then
-    TASKS_ROOT="${GUILD_TASKS_ROOT:-.guild/tasks}"
+    TASKS_ROOT="${GUILD_TASKS_ROOT:-.agents/tasks}"
   else
-    printf "  Tasks root [.guild/tasks]: "
+    printf "  Tasks root [.agents/tasks]: "
     read -r input
-    TASKS_ROOT="${input:-.guild/tasks}"
+    TASKS_ROOT="${input:-.agents/tasks}"
   fi
   ensure_dir "$REPO_ROOT/$GUILD_TASKS_ROOT/open"
   ensure_dir "$REPO_ROOT/$GUILD_TASKS_ROOT/in_progress"
@@ -172,11 +172,11 @@ install_guild_inbox() {
   echo ""
   echo "Installing inbox..."
   if [ "$NON_INTERACTIVE" = "1" ]; then
-    INBOX_ROOT="${GUILD_INBOX_ROOT:-.guild/inbox}"
+    INBOX_ROOT="${GUILD_INBOX_ROOT:-.agents/inbox}"
   else
-    printf "  Inbox root [.guild/inbox]: "
+    printf "  Inbox root [.agents/inbox]: "
     read -r input
-    INBOX_ROOT="${input:-.guild/inbox}"
+    INBOX_ROOT="${input:-.agents/inbox}"
   fi
   ensure_dir "$REPO_ROOT/$GUILD_INBOX_ROOT"
 

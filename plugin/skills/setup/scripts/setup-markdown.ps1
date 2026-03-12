@@ -105,10 +105,10 @@ function Add-GitignoreEntry($entry) {
 function Install-Guild-Memory {
     Write-Host "`nInstalling memory..."
     if (-not $NonInteractive) {
-        $input = Read-Host "  Memory root [.guild/memory]"
-        $GuildMemoryRoot = if ($input) { $input } else { ".guild/memory" }
+        $input = Read-Host "  Memory root [.agents/memory]"
+        $GuildMemoryRoot = if ($input) { $input } else { ".agents/memory" }
     } else {
-        $GuildMemoryRoot = if ($env:GUILD_MEMORY_ROOT) { $env:GUILD_MEMORY_ROOT } else { ".guild/memory" }
+        $GuildMemoryRoot = if ($env:GUILD_MEMORY_ROOT) { $env:GUILD_MEMORY_ROOT } else { ".agents/memory" }
     }
     Ensure-Dir (Join-Path $RepoRoot "$GuildMemoryRoot\decisions")
     Ensure-Dir (Join-Path $RepoRoot "$GuildMemoryRoot\insights")
@@ -141,10 +141,10 @@ function Install-Guild-Memory {
 function Install-Guild-Tasks {
     Write-Host "`nInstalling tasks..."
     if (-not $NonInteractive) {
-        $input = Read-Host "  Tasks root [.guild/tasks]"
-        $GuildTasksRoot = if ($input) { $input } else { ".guild/tasks" }
+        $input = Read-Host "  Tasks root [.agents/tasks]"
+        $GuildTasksRoot = if ($input) { $input } else { ".agents/tasks" }
     } else {
-        $GuildTasksRoot = if ($env:GUILD_TASKS_ROOT) { $env:GUILD_TASKS_ROOT } else { ".guild/tasks" }
+        $GuildTasksRoot = if ($env:GUILD_TASKS_ROOT) { $env:GUILD_TASKS_ROOT } else { ".agents/tasks" }
     }
     foreach ($dir in @("open","in_progress","closed")) {
         $dirPath = Join-Path $RepoRoot "$GuildTasksRoot\$dir"
@@ -164,10 +164,10 @@ function Install-Guild-Tasks {
 function Install-Guild-Inbox {
     Write-Host "`nInstalling inbox..."
     if (-not $NonInteractive) {
-        $input = Read-Host "  Inbox root [.guild/inbox]"
-        $GuildInboxRoot = if ($input) { $input } else { ".guild/inbox" }
+        $input = Read-Host "  Inbox root [.agents/inbox]"
+        $GuildInboxRoot = if ($input) { $input } else { ".agents/inbox" }
     } else {
-        $GuildInboxRoot = if ($env:GUILD_INBOX_ROOT) { $env:GUILD_INBOX_ROOT } else { ".guild/inbox" }
+        $GuildInboxRoot = if ($env:GUILD_INBOX_ROOT) { $env:GUILD_INBOX_ROOT } else { ".agents/inbox" }
     }
     $inboxDir = Join-Path $RepoRoot $GuildInboxRoot
     Ensure-Dir $inboxDir

@@ -115,9 +115,9 @@ These files are scaffolded once and then belong to your repo. Edit them freely:
 | `.github/agents/*.agent.md`       | Your team's agent files, created by `/guild:setup`        |
 | `.github/skills/routing/SKILL.md` | Team roster, routing rules, **model names for each tier** |
 | `.beads/`                         | Beads database — issues, decisions, insights (if using beads) |
-| `.guild/memory/`                  | Decisions, insights, context (if using markdown memory)   |
-| `.guild/issues/`                  | Work items (if using markdown issues)                     |
-| `.guild/inbox/`                   | Agent-to-agent messages (if using markdown inbox)         |
+| `.agents/memory/`                  | Decisions, insights, context (if using markdown memory)   |
+| `.agents/issues/`                  | Work items (if using markdown issues)                     |
+| `.agents/inbox/`                   | Agent-to-agent messages (if using markdown inbox)         |
 
 The `routing` skill is the primary configuration surface. It's where you set the model names that correspond to the Fast / Standard / Premium tiers used by the orchestrate skill.
 
@@ -201,7 +201,7 @@ plugin/
 
 ```
 # repo artifact — created on first use, written by agents
-.guild/
+.agents/
   memory/
     context/
       {agent}.md
@@ -238,10 +238,10 @@ The `beads` skill (`.github/skills/beads/SKILL.md`) teaches agents the full bd w
 
 ### Markdown (Lightweight)
 
-The markdown-based components store memory as plain files in `.guild/` — no external tools required:
+The markdown-based components store memory as plain files in `.agents/` — no external tools required:
 
 ```
-.guild/
+.agents/
   memory/
     context/         # Working memory: what each agent is doing
     decisions/       # Episodic: why we chose X

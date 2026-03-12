@@ -258,14 +258,14 @@ For each selected component, prompt for:
 
 - **Where skills live** — default `.github/skills`
 - **Root path** for each component:
-  - Memory → `.guild/memory`
-  - Issues → `.guild/issues`
-  - Inbox → `.guild/inbox`
+  - Memory → `.agents/memory`
+  - Issues → `.agents/issues`
+  - Inbox → `.agents/inbox`
 
 **Memory component:**
 
 ```
-.guild/memory/
+.agents/memory/
   decisions/_summary.md
   insights/
   context/
@@ -275,7 +275,7 @@ For each selected component, prompt for:
 **Issues component:**
 
 ```
-.guild/issues/
+.agents/issues/
   open/
   in_progress/
   closed/
@@ -285,7 +285,7 @@ For each selected component, prompt for:
 **Inbox component:**
 
 ```
-.guild/inbox/              ← agent subdirs created on first message
+.agents/inbox/              ← agent subdirs created on first message
 {skills-dir}/markdown-inbox/SKILL.md
 ```
 
@@ -354,17 +354,17 @@ AGENTS.md                                  ← constitutional rules (if absent)
 .beads/                                    ← Dolt database (initialized by bd init)
 
 # From Step 5B (markdown — lightweight):
-.guild/memory/decisions/_summary.md        ← memory component
-.guild/memory/insights/
-.guild/memory/context/
+.agents/memory/decisions/_summary.md        ← memory component
+.agents/memory/insights/
+.agents/memory/context/
 {skills-dir}/markdown-memory/SKILL.md
 
-.guild/issues/open/                        ← issues component
-.guild/issues/in_progress/
-.guild/issues/closed/
+.agents/issues/open/                        ← issues component
+.agents/issues/in_progress/
+.agents/issues/closed/
 {skills-dir}/markdown-issues/SKILL.md
 
-.guild/inbox/                              ← inbox component (subdirs on first message)
+.agents/inbox/                              ← inbox component (subdirs on first message)
 {skills-dir}/markdown-inbox/SKILL.md
 
 # From Step 5C (GitHub Issues — replaces markdown issues):
