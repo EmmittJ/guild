@@ -10,9 +10,9 @@ description: >
 
 Every agent should run these before doing substantive work:
 
-1. Apply `beads` skill (`memory:context:read`, `memory:decision:read`) — if installed
-2. Apply `beads` skill (`inbox:message:read`) — check for waiting messages, delete after reading
-3. Apply `beads` skill (`issue:read`) — resume or unclaim in-progress issues, then check open
+1. Apply the skill for `memory:context:read` and `memory:decision:read` — if installed
+2. Apply the skill for `inbox:message:read` — check for waiting messages, delete after reading
+3. Apply the skill for `issue:read` — resume or unclaim in-progress issues, then check open
 
 ---
 

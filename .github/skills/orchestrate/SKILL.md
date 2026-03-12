@@ -246,7 +246,7 @@ Enforce this strictly in every peer review brief — the reviewing specialist re
 
 ## Memory, Issues, and Inbox
 
-All three capabilities are provided by the `beads` skill. Invoke it when these situations arise:
+These verbs are provided by whichever backing skill is listed in the routing skill's **Installed Skills** table. Apply the skill for the verb when these situations arise:
 
 **Memory:**
 - `memory:decision:create` — a meaningful choice was made
@@ -299,7 +299,7 @@ Agents must only create files that are a **deliverable of their assigned role** 
 
 When briefing any agent that will research, explore, or analyze:
 
-> Do not write findings to files. Use the `beads` skill to record anything worth keeping — insights via `memory:insight:create`, decisions via `memory:decision:create`. Only create files that are a direct deliverable of your role (e.g. a skill file, an agent file, a script).
+> Do not write findings to files. Record anything worth keeping via `memory:insight:create` and `memory:decision:create` using a skill. Only create files that are a direct deliverable of your role (e.g. a skill file, an agent file, a script).
 
 If a spawned agent produces stray files, delete them and re-capture the content through the appropriate skill before the session ends.
 
