@@ -26,6 +26,9 @@ SRC_DIR="$REPO_ROOT/plugin/skills"
 DST_DIR="$REPO_ROOT/.github/skills"
 SKILLS="orchestrate train-agent train-skill"
 
+# beads lives in a different source location
+BEADS_SRC="$REPO_ROOT/plugin/skills/setup/assets/skills/beads"
+
 # ── Verify sources ────────────────────────────────────────────────────────────
 
 for skill in $SKILLS; do
@@ -34,6 +37,10 @@ for skill in $SKILLS; do
     exit 1
   fi
 done
+if [ ! -d "$BEADS_SRC" ]; then
+  echo "Error: source directory not found: $BEADS_SRC" >&2
+  exit 1
+fi
 
 # ── Ensure destination exists ─────────────────────────────────────────────────
 
@@ -43,7 +50,7 @@ mkdir -p "$DST_DIR"
 
 stamp_asset() {
   file="$DST_DIR/$1/SKILL.md"
-  asset="../../../plugin/skills/$1/SKILL.md"
+  asset="$2"
   [ -f "$file" ] || return 0
   awk -v asset="$asset" '
     BEGIN { n=0; delim=0 }
@@ -74,8 +81,13 @@ stamp_asset() {
 
 for skill in $SKILLS; do
   cp -r "$SRC_DIR/$skill" "$DST_DIR/"
-  stamp_asset "$skill"
+  stamp_asset "$skill" "../../../plugin/skills/$skill/SKILL.md"
   echo "Synced $skill -> .github/skills/$skill"
 done
+
+# Sync beads from its asset location
+cp -r "$BEADS_SRC" "$DST_DIR/"
+stamp_asset "beads" "../../../plugin/skills/setup/assets/skills/beads/SKILL.md"
+echo "Synced beads -> .github/skills/beads"
 
 exit 0

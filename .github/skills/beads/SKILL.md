@@ -13,8 +13,8 @@ description: >
 license: MIT
 compatibility: Requires bd CLI v0.47.0+ in PATH. Run `bd --version` to verify.
 metadata:
-  version: "0.2"
   asset: ../../../plugin/skills/setup/assets/skills/beads/SKILL.md
+  version: "0.2"
 ---
 
 ## Overview

@@ -26,6 +26,9 @@ $SrcDir = Join-Path $RepoRoot "plugin\skills"
 $DstDir = Join-Path $RepoRoot ".github\skills"
 $Skills = @("orchestrate", "train-agent", "train-skill")
 
+# beads lives in a different source location
+$BeadsSrc = Join-Path $RepoRoot "plugin\skills\setup\assets\skills\beads"
+
 # ── Verify sources ────────────────────────────────────────────────────────────
 
 foreach ($skill in $Skills) {
@@ -34,6 +37,10 @@ foreach ($skill in $Skills) {
         Write-Error "Error: source directory not found: $srcPath"
         exit 1
     }
+}
+if (-not (Test-Path $BeadsSrc -PathType Container)) {
+    Write-Error "Error: source directory not found: $BeadsSrc"
+    exit 1
 }
 
 # ── Ensure destination exists ─────────────────────────────────────────────────
@@ -80,5 +87,12 @@ foreach ($skill in $Skills) {
     Add-AssetToFrontmatter $skillMd $assetRel
     Write-Host "Synced $skill -> .github/skills/$skill"
 }
+
+# Sync beads from its asset location
+Copy-Item -Recurse -Force -Path $BeadsSrc -Destination $DstDir
+$beadsSkillMd = Join-Path $DstDir "beads\SKILL.md"
+$beadsAssetRel = "../../../plugin/skills/setup/assets/skills/beads/SKILL.md"
+Add-AssetToFrontmatter $beadsSkillMd $beadsAssetRel
+Write-Host "Synced beads -> .github/skills/beads"
 
 exit 0
