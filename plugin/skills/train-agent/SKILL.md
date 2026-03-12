@@ -178,13 +178,18 @@ This prevents confirmation bias where a reviewer who knows what was attempted ra
 
 Check for beads: if `.beads/metadata.json` exists in the repo root, register the new agent.
 
-### 1. Find the matching role
+**Key concept:** Roles are persistent shared definitions that describe a functional position — not
+a specific agent. Multiple agents can point to the same role bead. Always reuse an existing
+role when the new agent fills a role that already exists.
+
+### 1. Find or reuse the matching role
 
 ```bash
 bd list --type=role
 ```
 
-Match the agent's function to an existing role bead. If no suitable role exists, create one first:
+Match the agent's function to an existing role bead. **Prefer reusing an existing role** — only
+create a new one if no existing role covers this agent's function:
 
 ```bash
 bd create "{role-name}" --type=role --description="{what this role owns and does not do}" --json
@@ -202,13 +207,13 @@ Capture the returned `id` (e.g. `guild-wisp-abc1`). Then add the system label so
 bd update {agent-id} --add-label "gt:agent" --json
 ```
 
-### 3. Slot the agent to its role
+### 3. Hook the agent to its role
 
 ```bash
 bd slot set {agent-id} role {role-id}
 ```
 
-This registers the agent in the ZFC state graph and makes it visible to `bd agent show`.
+This hooks the agent to its role definition and makes it visible to `bd agent show` and `bd slot show`.
 
 ### 4. Verify
 

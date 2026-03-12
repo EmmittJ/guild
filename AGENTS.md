@@ -17,12 +17,12 @@ See `README.md` for the full boundary table.
 
 ## Team
 
-| Agent        | Role                    | File                                   | Use for                                                                      |
-| ------------ | ----------------------- | -------------------------------------- | ---------------------------------------------------------------------------- |
-| Guild Master | orchestration           | `.github/agents/guild-master.agent.md` | Default — orchestrates everything                                            |
-| steward      | planning + design       | `.github/agents/steward.agent.md`      | Requirements, user stories, architecture, trade-offs, feature briefs         |
-| wright       | implementation          | `.github/agents/wright.agent.md`       | File creation, editing, skills, scripts, manifests                           |
-| scribe       | version control         | `.github/agents/scribe.agent.md`       | Commits, branches, pull requests                                             |
+| Agent        | Role              | File                                   | Use for                                                              |
+| ------------ | ----------------- | -------------------------------------- | -------------------------------------------------------------------- |
+| Guild Master | orchestration     | `.github/agents/guild-master.agent.md` | Default — orchestrates everything                                    |
+| steward      | planning + design | `.github/agents/steward.agent.md`      | Requirements, user stories, architecture, trade-offs, feature briefs |
+| wright       | implementation    | `.github/agents/wright.agent.md`       | File creation, editing, skills, scripts, manifests                   |
+| scribe       | version control   | `.github/agents/scribe.agent.md`       | Commits, branches, pull requests                                     |
 
 - Guild Master orchestrates; specialists implement
 - Peer review is routed by Guild Master — no dedicated gatekeeper
@@ -42,6 +42,7 @@ Agents only create files that are a **direct deliverable of their role** — nev
 The wright creates code and skills. The scribe commits. No one litters the repo with ad-hoc files.
 
 <!-- BEGIN BEADS INTEGRATION -->
+
 ## Issue Tracking with bd (beads)
 
 **IMPORTANT**: This project uses **bd (beads)** for ALL issue tracking. Do NOT use markdown TODOs, task lists, or other tracking methods.
@@ -147,6 +148,7 @@ For more details, see README.md and docs/QUICKSTART.md.
 7. **Hand off** - Provide context for next session
 
 **CRITICAL RULES:**
+
 - Work is NOT complete until `git push` succeeds
 - NEVER stop before pushing - that leaves work stranded locally
 - NEVER say "ready to push when you are" - YOU must push

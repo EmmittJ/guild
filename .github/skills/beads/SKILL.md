@@ -140,28 +140,36 @@ See [references/RESUMABILITY.md](references/RESUMABILITY.md) for full patterns.
 
 ## Agent Registration — `agent:register`
 
-When a new agent is added to the team, register it in beads so it participates in state tracking.
+When a new agent is added to the team, register it in beads.
+
+**Key concept:** Roles are persistent shared definitions — they describe a functional position,
+not a specific agent. Multiple agents can point to the same role bead. When adding a new agent
+that fills an existing role, hook it to the **existing** role bead — don't create a new one.
+
+Both agent and role beads are **pinned** — they never close, never appear in `bd ready`,
+and persist as infrastructure in the data plane.
 
 ```bash
-# 1. Find the matching role (or create one)
+# 1. Find the matching role — reuse if it exists
 bd list --type=role
+# Only create a new role if no existing one fits:
 bd create "{role-name}" --type=role --description="{what this role owns}" --json
 
 # 2. Create the agent bead
 bd create "{agent-name}" --type=agent --description="{one-liner from agent frontmatter}" --json
 # → returns {agent-id}
 
-# Add system label so slot commands work
+# 3. Add system label (required for slot commands to work)
 bd update {agent-id} --add-label "gt:agent" --json
 
-# 3. Link agent to its role (required — role slot is mandatory for agent beads)
+# 4. Hook agent to its role (required — role slot is mandatory)
 bd slot set {agent-id} role {role-id}
 
-# 4. Verify
+# 5. Verify
 bd slot show {agent-id}
 ```
 
-**Agent states** (the agent reports its own state during work):
+**Agent states** — agents self-report state during work:
 
 ```bash
 bd agent state {agent-id} working    # actively executing
@@ -171,7 +179,14 @@ bd agent heartbeat {agent-id}        # update last_activity
 bd agent show {agent-id}             # full agent details
 ```
 
-See [references/AGENTS.md](references/AGENTS.md) for full agent bead docs.
+**Work dispatch** — attach work to an agent's hook:
+
+```bash
+bd slot set {agent-id} hook {issue-id}   # attach work
+bd slot clear {agent-id} hook            # detach when done
+```
+
+See [references/AGENTS.md](references/AGENTS.md) for full agent bead architecture.
 
 ## Advanced features
 

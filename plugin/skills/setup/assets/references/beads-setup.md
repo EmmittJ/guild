@@ -17,9 +17,23 @@ bd config set types.custom "agent,role"
 bd config set dolt.auto-commit on
 ```
 
+## Key Concepts
+
+**Roles are persistent shared definitions** — a role bead describes a functional position, not a
+specific agent. It carries priming info, capability definitions, and boundaries. Multiple agents
+can point to the same role bead. Create one role per distinct function, then reuse it.
+
+**Agents are persistent identities** — an agent bead is the agent's persistent identity across
+sessions. Sessions are ephemeral (cattle); agents persist (pets). Each agent has a hook slot
+for work and a role slot pointing to its role definition.
+
+**Both are pinned beads** — they never close, never appear in `bd ready`, and float as persistent
+infrastructure in the data plane.
+
 ## 1. Create Role Beads
 
-One role bead per functional role on the team:
+One role bead per **functional role** on the team — not per agent. If three agents all do
+implementation, they all share one role bead.
 
 ```bash
 bd create "orchestration" --type=role \
@@ -36,7 +50,7 @@ bd create "version-control" --type=role \
 
 Capture each returned `id`.
 
-## 2. Create Agent Beads and Slot to Roles
+## 2. Create Agent Beads and Hook to Roles
 
 For each agent scaffolded by `/guild:setup`:
 
@@ -45,9 +59,11 @@ For each agent scaffolded by `/guild:setup`:
 bd create "{agent-name}" --type=agent \
   --description="{one-liner from agent frontmatter description}" --json
 # → returns {agent-id}
-# Add system label so slot commands work
+
+# Add system label (required for slot commands to work)
 bd update {agent-id} --add-label "gt:agent" --json
-# Link to role (mandatory)
+
+# Hook to role — reuse an existing role bead, don't create a new one
 bd slot set {agent-id} role {role-id}
 
 # Verify
@@ -57,31 +73,35 @@ bd slot show {agent-id}
 ## 3. Register Later — Adding New Agents
 
 When `train-agent` creates a new agent and beads is present, the train-agent skill
-will prompt to register it. The workflow is the same as Step 2:
+will prompt to register it. The workflow:
 
-1. `bd list --type=role` — find or create the matching role
+1. `bd list --type=role` — **find the existing role first**; only create if no match
 2. `bd create "{name}" --type=agent --description="..." --json` — create agent bead
-3. `bd slot set {agent-id} role {role-id}` — hook to role
+3. `bd update {agent-id} --add-label "gt:agent" --json` — required label
+4. `bd slot set {agent-id} role {role-id}` — hook to role
 
-## Attaching Work
+## Attaching Work (Hooks)
 
-When an agent claims a task, attach it to the agent's hook slot:
+Every agent has a hook slot (0..1 cardinality) — this is where work is dispatched.
 
 ```bash
-bd slot set {agent-id} hook {issue-id}    # attach
+bd slot set {agent-id} hook {issue-id}    # attach work
 bd slot clear {agent-id} hook             # detach when done
 ```
+
+**GUPP:** If there is work on your hook, you must run it. Agents check their hook on startup
+and begin working immediately.
 
 ## Agent State Reporting
 
 Agents self-report state during work:
 
-| State      | When                         |
-|------------|------------------------------|
-| `idle`     | Waiting for work             |
-| `working`  | Actively executing           |
-| `stuck`    | Blocked, needs intervention  |
-| `done`     | Completed current task       |
+| State     | When                        |
+| --------- | --------------------------- |
+| `idle`    | Waiting for work            |
+| `working` | Actively executing          |
+| `stuck`   | Blocked, needs intervention |
+| `done`    | Completed current task      |
 
 ```bash
 bd agent state {agent-id} working
