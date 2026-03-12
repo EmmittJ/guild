@@ -12,6 +12,8 @@ metadata:
   version: "0.5"
 ---
 
+> **Read this entire file before acting.** This skill is approximately 335 lines. If your first `read_file` call did not return the full content, call it again with a higher `endLine` (e.g. 400) to retrieve the remaining sections — Maker-Checker, Memory/Issues/Inbox, Conflict Resolution, Synthesizing Results, File Output Discipline, Issue Lifecycle, and Quick Reference are all below the midpoint.
+
 ## Pattern Selection
 
 Before reaching for the table, run this decision in order:
