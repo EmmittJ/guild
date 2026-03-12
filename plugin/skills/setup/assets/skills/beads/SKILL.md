@@ -1,20 +1,41 @@
 ---
 name: beads
 description: >
-  Git-backed issue tracker for multi-session work with dependencies and persistent memory.
-  Activate when: issue:create — work needs tracking across sessions; issue:update — claiming,
-  updating, or completing an issue; issue:read — checking available or in-progress work;
-  issue:ready — finding actionable work at session start or before planning.
-  DO NOT USE FOR: decisions, insights, or context — use memory:decision:create.
-  Inbox messages — use inbox:message:create.
+  Persistent memory system for multi-session AI work. Git-backed issue tracker with
+  dependency graphs, compaction-safe notes, session handoff, and agent coordination.
+  Activate when: issue:create — work needs tracking across sessions; issue:update —
+  claiming, updating, or completing an issue; issue:read — checking available or
+  in-progress work; issue:ready — finding actionable work at session start or before
+  planning; memory — writing notes that survive compaction; session handoff — handing
+  off context to a future session; agent coordination — tracking multi-agent work.
+  DO NOT USE FOR: single-session checklists (use TodoWrite). Decisions, insights, or
+  team context — use memory:decision:create. Inbox messages — use inbox:message:create.
 license: MIT
+compatibility: Requires bd CLI v0.47.0+ in PATH. Run `bd --version` to verify.
 metadata:
-  version: "0.1"
+  version: "0.2"
 ---
 
 ## Overview
 
-beads is a `bd` CLI graph issue tracker. Issues are stored in a Dolt database inside the repo and survive conversation compaction. Use `bd prime` for AI-optimized full context; `bd <command> --help` for syntax.
+beads (`bd`) is a persistent memory system for AI agents. Issues live in a Dolt database
+inside the repo — they survive conversation compaction, session resets, and long gaps between
+sessions. Use beads when work spans multiple sessions, has dependencies, or needs to survive
+context loss.
+
+Run `bd prime` for AI-optimized full workflow context.
+Run `bd <command> --help` for command syntax.
+
+**bd vs TodoWrite:**
+
+| bd (persistent) | TodoWrite (ephemeral) |
+|-----------------|-----------------------|
+| Multi-session work | Single-session tasks |
+| Complex dependencies | Linear execution |
+| Survives compaction | Conversation-scoped |
+| Git-backed, team sync | Local to session |
+
+See [references/BOUNDARIES.md](references/BOUNDARIES.md) for detailed decision criteria.
 
 ## Prerequisites
 
@@ -24,82 +45,106 @@ bd --version  # requires v0.47.0+
 
 - `bd` CLI installed and in PATH
 - Git repository (`bd` requires git)
-- `bd init` run once by a human — agents must NOT run `bd init`
+- `bd init` run once by a human — **agents must NOT run `bd init`**
 
-## issue:ready — Session start
+## Session Start — `issue:ready`
 
-Find unblocked work before planning:
+Always run at session start when bd is available:
 
 ```bash
-bd ready --json
+bd ready --json          # unblocked work ready to claim
+bd status --json         # database snapshot (like git status)
 ```
 
-## issue:create — Create an issue
+If in_progress issues exist from a prior session, run `bd show <id> --json` for each and read the `notes` field to recover context.
+
+## Create — `issue:create`
 
 ```bash
 # Basic
-bd create "Title" --description="Detailed context" -t bug|feature|task -p 0-4 --json
+bd create "Title" --description="Detailed context" -t bug|feature|task|epic|chore -p 0-4 --json
 
-# Use stdin for descriptions with special characters (backticks, !, nested quotes)
-echo 'Description with `backticks`' | bd create "Title" --description=- --json
+# Special characters in description — use stdin
+echo 'Description with `backticks` and "quotes"' | bd create "Title" --description=- --json
 
-# With dependencies
-bd create "Title" --description="…" -p 1 --deps discovered-from:<parent-id> --json
+# With dependency (discovered during other work)
+bd create "Title" --description="…" --deps discovered-from:<parent-id> --json
 ```
 
-Priority scale:
+Priority: `0` critical · `1` high · `2` medium (default) · `3` low · `4` backlog
 
-- `0` — Critical (security, data loss, broken builds)
-- `1` — High
-- `2` — Medium (default)
-- `3` — Low
-- `4` — Backlog
+See [references/ISSUE_CREATION.md](references/ISSUE_CREATION.md) for when and how to create issues.
 
-Issue types: `bug`, `feature`, `task`, `epic`, `chore`
-
-## issue:read — Read issues
+## Read — `issue:read`
 
 ```bash
-bd show <id> --json                          # full context for one issue
-bd list --status open --json                 # all open issues
-bd list --status open --priority 1 --json   # filtered
+bd show <id> --json                           # full context for one issue
+bd list --status open --json                  # all open issues
+bd list --status open --priority 1 --json     # filtered
+bd ready --json                               # unblocked issues only
+bd stale --days 30 --json                     # forgotten issues
 ```
 
-## issue:update — Update and claim
+## Update — `issue:update`
 
 ```bash
-bd update <id> --claim --json               # claim atomically
+bd update <id> --claim --json                 # claim atomically (sets in-progress)
 bd update <id> --status in-progress --json
 bd update <id> --priority 1 --json
-bd update <id> --description "new text" --json
+bd update <id> --notes "COMPLETED: x. IN PROGRESS: y. NEXT: z." --json
 
 # stdin for special chars
 echo 'Updated text' | bd update <id> --description=- --json
 ```
 
-Do NOT use `bd edit` — it opens an interactive editor that agents cannot use.
+**DO NOT use `bd edit`** — opens an interactive editor agents cannot use.
 
-## issue:update (complete) — Close an issue
+See [references/RESUMABILITY.md](references/RESUMABILITY.md) for how to write notes that survive compaction.
+
+## Close — `issue:update` (complete)
 
 ```bash
-bd close <id> --reason "What was done" --json
+bd close <id> --reason "What was done and why" --json
 ```
 
 ## Sync
 
 ```bash
-bd sync   # sync with Dolt remote (if configured)
+bd sync                 # sync with Dolt remote (if configured)
+bd dolt push            # explicit Dolt push
 ```
+
+## Dependencies
+
+```bash
+bd dep add <id> blocks <other-id>             # A blocks B
+bd dep add <id> discovered-from <parent-id>   # side quest link
+bd dep tree <id>                              # visualize graph
+```
+
+See [references/DEPENDENCIES.md](references/DEPENDENCIES.md) for dependency semantics.
+
+## Compaction Survival
+
+Write structured notes before any context-heavy operation:
+
+```bash
+bd update <id> --notes "COMPLETED: what's done. IN PROGRESS: current state.
+NEXT: what comes next. KEY DECISIONS: why we chose X." --json
+```
+
+After compaction — run `bd list --status in_progress --json` then `bd show` each one.
+
+See [references/RESUMABILITY.md](references/RESUMABILITY.md) for full patterns.
 
 ## Advanced features
 
-Agents can run `bd prime` or `bd <cmd> --help` for depth.
-
-| Feature | Command |
-|---------|---------|
-| Molecules (templates) | `bd mol --help` |
-| Chemistry (pour/wisp) | `bd pour --help`, `bd wisp --help` |
-| Agent beads | `bd agent --help` |
-| Async gates | `bd gate --help` |
-| Worktrees | `bd worktree --help` |
-| Full AI context | `bd prime` |
+| Feature | Command | Reference |
+|---------|---------|----------|
+| Molecules (templates) | `bd mol --help` | [MOLECULES.md](references/MOLECULES.md) |
+| Chemistry (pour/wisp) | `bd pour --help` | [CHEMISTRY_PATTERNS.md](references/CHEMISTRY_PATTERNS.md) |
+| Agent beads | `bd agent --help` | [AGENTS.md](references/AGENTS.md) |
+| Async gates | `bd gate --help` | [ASYNC_GATES.md](references/ASYNC_GATES.md) |
+| Worktrees | `bd worktree --help` | [WORKTREES.md](references/WORKTREES.md) |
+| Workflows | `bd prime` | [WORKFLOWS.md](references/WORKFLOWS.md) |
+| Full CLI | `bd <cmd> --help` | [CLI_REFERENCE.md](references/CLI_REFERENCE.md) |
