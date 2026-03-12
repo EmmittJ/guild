@@ -53,19 +53,14 @@ Orient yourself before touching anything:
   agents/                          ← agent files for this repo's team
   skills/                          ← project-local skills
     routing/
-    markdown-memory/
-    github-issues/
-    markdown-inbox/
+    beads/
 plugin/
   skills/
     orchestrate/
     train-agent/
     train-skill/
     setup/                         ← team scaffolding + component installer
-.guild/
-  memory/                          ← team memory (decisions, insights, context)
-  issues/                          ← issue store (open/, in_progress/, closed/)
-  inbox/                           ← async agent-to-agent messages
+.beads/                            ← beads database (decisions, insights, issues)
 AGENTS.md
 README.md
 ```

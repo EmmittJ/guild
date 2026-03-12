@@ -72,7 +72,7 @@ GitHub. Use `gh` CLI for all platform operations.
 Flag blockers immediately. Factual accuracy over narrative flair.
 ```
 
-Memory configuration lives in `.guild/config.json`, not in AGENTS.md. A repo on ADO puts its ADO patterns here. Guild never needs to know what ADO is.
+Memory configuration lives in `.beads/config.yaml` when using beads, or in `.guild/config.json` for markdown-based memory. A repo on ADO puts its ADO patterns here. Guild never needs to know what ADO is.
 
 ---
 
@@ -87,7 +87,7 @@ After install, open a chat with Guild Master and say:
 Guild Master will:
 
 1. Silently scan your repo (language, framework, CI, existing agents)
-2. Show you what it found and ask: universe casting or manual team definition?
+2. Show you what it found and ask for a universe to cast your team from
 3. Guide you through casting your team and scaffolding agent files
 4. Optionally install memory, issues, and inbox components
 
@@ -95,7 +95,7 @@ When it's done you'll have:
 
 - `.github/agents/` populated with your team
 - `.github/skills/routing/SKILL.md` with your roster and routing rules
-- Optionally: `.github/skills/markdown-memory/`, `github-issues/`, `markdown-inbox/` installed
+- Optionally: beads (bd) for persistent issue tracking, or `.github/skills/markdown-memory/`, `github-issues/`, `markdown-inbox/` for markdown-based components
 
 To verify: check `.github/agents/` for agent files and `.github/skills/routing/SKILL.md` for your team roster.
 
@@ -114,9 +114,10 @@ These files are scaffolded once and then belong to your repo. Edit them freely:
 | `AGENTS.md`                       | Platform, conventions, team constitution                  |
 | `.github/agents/*.agent.md`       | Your team's agent files, created by `/guild:setup`        |
 | `.github/skills/routing/SKILL.md` | Team roster, routing rules, **model names for each tier** |
-| `.guild/memory/`                  | Decisions, insights, context — written by your agents     |
-| `.guild/issues/`                  | Work items — written by your agents                       |
-| `.guild/inbox/`                   | Agent-to-agent messages                                   |
+| `.beads/`                         | Beads database — issues, decisions, insights (if using beads) |
+| `.guild/memory/`                  | Decisions, insights, context (if using markdown memory)   |
+| `.guild/issues/`                  | Work items (if using markdown issues)                     |
+| `.guild/inbox/`                   | Agent-to-agent messages (if using markdown inbox)         |
 
 The `routing` skill is the primary configuration surface. It's where you set the model names that correspond to the Fast / Standard / Premium tiers used by the orchestrate skill.
 
@@ -139,9 +140,10 @@ These skills are copied into your repo by `/guild:setup`. Once installed, they b
 
 | File / Directory                  | Installed by   |
 | --------------------------------- | -------------- |
-| `.github/skills/markdown-memory/` | `/guild:setup` |
-| `.github/skills/github-issues/`   | `/guild:setup` |
-| `.github/skills/markdown-inbox/`  | `/guild:setup` |
+| `.github/skills/markdown-memory/` | `/guild:setup` (markdown) |
+| `.github/skills/github-issues/`   | `/guild:setup` (markdown) |
+| `.github/skills/markdown-inbox/`  | `/guild:setup` (markdown) |
+| `.github/skills/beads/`           | `/guild:setup` (beads)    |
 
 They also power this repo's self-managing team. If you need to customise how memory, tasks, or inbox work for your project, these are the files to edit.
 
@@ -215,14 +217,28 @@ plugin/
 
 ---
 
-## Memory
+## Memory & Issue Tracking
 
-The `markdown-memory` skill ships with the core plugin. It teaches agents how to read and write memory.
-Agents write data to `.guild/memory/` — the persistent, version-controlled memory that travels with the code.
+Guild supports two backends for persistent memory and issue tracking:
 
-The `github-issues` skill manages procedural memory — what needs to be done, what's in progress, and what's closed.
+### Beads (Recommended)
 
-The `markdown-inbox` skill manages agent-to-agent async messaging.
+Beads (`bd`) is a Git-backed issue tracker powered by Dolt. It stores decisions, insights, and issues in a version-controlled database that syncs via Dolt remotes.
+
+```bash
+bd init                          # Initialize beads database
+bd dolt remote add origin <url>  # Configure sync remote
+bd ready                         # See actionable work
+bd list --type=decision          # Browse decisions
+```
+
+Data lives in `.beads/dolt/` (gitignored) and syncs independently via `bd dolt push`/`bd dolt pull`. On a fresh clone, running any `bd` command auto-bootstraps from the remote.
+
+The `beads` skill (`.github/skills/beads/SKILL.md`) teaches agents the full bd workflow.
+
+### Markdown (Legacy)
+
+The markdown-based components store memory as plain files in `.guild/`:
 
 ```
 .guild/

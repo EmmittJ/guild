@@ -10,7 +10,7 @@ Skills installed in this repo: `.github/skills/beads`
 
 ## Customization
 
-Host-owned files (edit freely): `AGENTS.md`, `.github/agents/`, `.github/skills/routing/SKILL.md`, `.guild/`
+Host-owned files (edit freely): `AGENTS.md`, `.github/agents/`, `.github/skills/routing/SKILL.md`
 Plugin-owned files (do not modify): all other `.github/skills/` directories
 
 See `README.md` for the full boundary table.

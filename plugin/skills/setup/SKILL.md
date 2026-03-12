@@ -211,11 +211,47 @@ After scaffolding agents, update `{skills-dir}/routing/SKILL.md`:
 
 ## Step 5: Install Components
 
-After scaffolding the team, ask whether to install Guild components.
+After scaffolding the team, ask which persistence backend to use.
 
-### Step 5A: Markdown Components
+### Step 5A: Beads (Recommended)
 
-> Do you want to install markdown-based memory, issues, or inbox components?
+> Do you want to use **beads** for issue tracking and memory?
+> Beads stores decisions, insights, and issues in a Dolt database with Git-like version control.
+> Requires: `bd` CLI v0.47.0+ (`bd --version`)
+
+If yes:
+
+1. **Verify prerequisites**: `bd --version` must return v0.47.0+
+2. **Initialize** (if not already done): `bd init`
+3. **Enable custom types**: `bd config set types.custom "agent,role,decision,insight"`
+4. **Enable auto-commit**: `bd config set dolt.auto-commit on`
+5. **Configure Dolt remote** for data persistence across clones:
+
+```bash
+# Use the same GitHub repo (stores data under refs/dolt/data, separate from git refs)
+bd dolt remote add origin https://github.com/{owner}/{repo}.git
+
+# Or use SSH if the repo uses SSH
+bd dolt remote add origin git+ssh://git@github.com/{owner}/{repo}.git
+
+# Push initial data
+bd dolt push
+```
+
+6. **Register agents and roles** — see [references/beads-setup.md](assets/references/beads-setup.md) for the full workflow
+7. **Install the beads skill**:
+
+```
+{skills-dir}/beads/SKILL.md    ← from assets/skills/beads/
+```
+
+> **Why a Dolt remote?** Without one, `.beads/dolt/` is gitignored and local-only.
+> On a fresh clone, `bd list` auto-bootstraps from the Dolt remote — all issues,
+> decisions, and agent registrations are preserved.
+
+### Step 5B: Markdown Components (Legacy)
+
+> Do you want to use markdown-based memory, issues, or inbox components instead?
 > (none / memory / issues / inbox / all)
 
 For each selected component, prompt for:
@@ -253,7 +289,7 @@ For each selected component, prompt for:
 {skills-dir}/markdown-inbox/SKILL.md
 ```
 
-### Step 5B: GitHub Issues Backend (optional)
+### Step 5C: GitHub Issues Backend (optional)
 
 > Do you want to use GitHub Issues instead of markdown files for task tracking?
 > Requires `gh` CLI.
@@ -313,7 +349,11 @@ AGENTS.md                                  ← constitutional rules (if absent)
 {agents-dir}/{character-name}.agent.md     ← one per cast role
 {skills-dir}/routing/SKILL.md              ← team roster + routing rules
 
-# Optional — from Step 5A:
+# From Step 5A (beads — recommended):
+{skills-dir}/beads/SKILL.md                ← beads skill (from assets/skills/beads/)
+.beads/                                    ← Dolt database (initialized by bd init)
+
+# From Step 5B (markdown — legacy):
 .guild/memory/decisions/_summary.md        ← memory component
 .guild/memory/insights/
 .guild/memory/context/
@@ -322,12 +362,12 @@ AGENTS.md                                  ← constitutional rules (if absent)
 .guild/issues/open/                        ← issues component
 .guild/issues/in_progress/
 .guild/issues/closed/
-{skills-dir}/github-issues/SKILL.md
+{skills-dir}/markdown-issues/SKILL.md
 
 .guild/inbox/                              ← inbox component (subdirs on first message)
 {skills-dir}/markdown-inbox/SKILL.md
 
-# Optional — from Step 5B (replaces markdown issues):
+# From Step 5C (GitHub Issues — replaces markdown issues):
 {skills-dir}/github-issues/SKILL.md        ← GitHub-backed, repo slug baked in
 ```
 

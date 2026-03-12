@@ -16,13 +16,9 @@ metadata:
 | guild-master | guild-master | `guild-master.agent.md` | Default — orchestrates everything |
 
 <!-- Add your team members here. Example:
-| charter | product-owner | `charter.agent.md` | Requirements, user stories, backlog, acceptance criteria, PRDs |
-| architect | technical-architect | `architect.agent.md` | Architecture decisions, design patterns, technical trade-offs, cost/quality balance with product owner |
-| engineer | engineer | `engineer.agent.md` | File creation, editing, script implementation |
-| smith | skill-writer | `smith.agent.md` | Writing or reviewing SKILL.md files |
-| invoker | copilot-cli | `invoker.agent.md` | Plugin manifests, marketplace, CLI compatibility |
-| auditor | reviewer | `auditor.agent.md` | Quality gate before committing |
-| scribe | scribe | `scribe.agent.md` | Commits, branches, pull requests |
+| steward | planning + design | `steward.agent.md` | Requirements, user stories, architecture, trade-offs, feature briefs |
+| wright | implementation | `wright.agent.md` | File creation, editing, skills, scripts, manifests |
+| scribe | version control | `scribe.agent.md` | Commits, branches, pull requests |
 -->
 
 ---
@@ -33,13 +29,10 @@ metadata:
 | ------- | ---- |
 
 <!-- Add routing patterns here. Example:
-| requirements, user stories, PRD, acceptance criteria, backlog, prioritization | product-owner role (agent: charter) |
-| architecture, design patterns, technical strategy, tech debt, technical trade-off, design debate | technical-architect role (agent: architect) |
-| file creation, editing, scripts, implementation | engineer role (agent: engineer) |
-| skill write, skill review, SKILL.md | skill-writer role (agent: smith) |
-| manifest, plugin.json, marketplace | copilot-cli role (agent: invoker) |
-| review, quality gate, approve | reviewer role (agent: auditor) |
-| commit, PR, branch, push | scribe role (agent: scribe) |
+| requirements, user stories, PRD, acceptance criteria, architecture, design, trade-offs | planning + design role (agent: steward) |
+| file creation, editing, scripts, implementation, skills, manifests, plugin | implementation role (agent: wright) |
+| review, quality gate, approve | peer review (routed by guild-master) |
+| commit, PR, branch, push | version control role (agent: scribe) |
 -->
 
 ---
