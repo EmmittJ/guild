@@ -16,9 +16,9 @@ metadata:
 | guild-master | guild-master | `guild-master.agent.md` | Default — orchestrates everything |
 
 <!-- Add your team members here. Example:
-| steward | planning + design | `steward.agent.md` | Requirements, user stories, architecture, trade-offs, feature briefs |
-| wright | implementation | `wright.agent.md` | File creation, editing, skills, scripts, manifests |
-| scribe | version control | `scribe.agent.md` | Commits, branches, pull requests |
+| {agent-name} | {role}         | `{agent-name}.agent.md` | {what they handle}                    |
+| {agent-name} | {role}         | `{agent-name}.agent.md` | {what they handle}                    |
+| {agent-name} | version control | `{agent-name}.agent.md` | Commits, branches, pull requests     |
 -->
 
 ---
@@ -29,10 +29,10 @@ metadata:
 | ------- | ---- |
 
 <!-- Add routing patterns here. Example:
-| requirements, user stories, PRD, acceptance criteria, architecture, design, trade-offs | planning + design role (agent: steward) |
-| file creation, editing, scripts, implementation, skills, manifests, plugin | implementation role (agent: wright) |
-| review, quality gate, approve | peer review (routed by guild-master) |
-| commit, PR, branch, push | version control role (agent: scribe) |
+| {keywords that match this role's domain}  | {role} (agent: {agent-name}) |
+| {keywords that match this role's domain}  | {role} (agent: {agent-name}) |
+| review, quality gate, approve             | peer review (routed by guild-master) |
+| commit, PR, branch, push                  | version control (agent: {agent-name}) |
 -->
 
 ---
@@ -50,13 +50,20 @@ guild-master → {your agents here}
 Skills installed by `/guild:setup`. Update this table when adding, removing, or renaming a skill.
 Orchestrate reads this at session start and applies each skill in order.
 
+<!-- If using beads: -->
+| Order | Skill directory | Session-start action                                                        |
+| ----- | --------------- | --------------------------------------------------------------------------- |
+| 1     | `beads/`        | `memory:context:read` — load context, decisions, insights, per-agent notes  |
+| 2     | `beads/`        | `issue:ready` — surface actionable work                                     |
+| 3     | `beads/`        | `inbox:message:read` — check waiting messages from other agents             |
+
+<!-- If using markdown components instead:
 | Order | Skill directory    | Session-start action                                             |
 | ----- | ------------------ | ---------------------------------------------------------------- |
 | 1     | `markdown-memory/` | `memory:context:read` — load context, decisions, per-agent notes |
 | 2     | `github-issues/`   | `issue:ready` — surface actionable work                          |
 | 3     | `markdown-inbox/`  | `inbox:message:read` — check waiting messages from other agents  |
-
-<!-- Add or remove rows to match what /guild:setup installed. -->
+-->
 
 ---
 
