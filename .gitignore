@@ -1,11 +1,6 @@
 res/
 guild.code-workspace
 
-# guild-managed
-.guild/memory/context/
-.guild/inbox/
-# end guild-managed
-
 # Dolt database files (added by bd init)
 .dolt/
 *.db
