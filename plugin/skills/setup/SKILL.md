@@ -37,8 +37,8 @@ metadata:
 `/guild-setup` (or `/setup`) is interactive. Steps:
 
 1. **Discover the codebase** — silent scan before asking anything
-2. **Casting choice** — manual team definition or universe casting
-3. **Team size** — how many agents (default 5 including orchestrator)
+2. **Universe + team size** — pick a fictional universe and team size
+3. **Cast the team** — derive roles from stack, cast characters, scaffold agents
 4. **Routing rules** — confirm or adjust routing patterns
 5. **Install components** — markdown memory/issues/inbox and/or GitHub Issues backend
 
@@ -72,9 +72,9 @@ Existing agents: {list or "none"}
 
 ---
 
-## Step 2: Present Discovery + Ask Casting Mode
+## Step 2: Present Discovery + Ask for Universe
 
-Show the user a brief summary of what was found:
+Show the user a brief summary of what was found, then ask for their universe and team size:
 
 > I found a **{type}** project using **{stack}**. Here's what I'll base the team on:
 >
@@ -83,20 +83,14 @@ Show the user a brief summary of what was found:
 > - CI: {ci system}
 > - Docs: {present/absent}
 >
-> How do you want to set up your team?
-> **A) Universe casting** — pick a fictional universe; I'll cast characters as your agents
-> **B) Manual** — define team members yourself
+> What universe do you want your team cast from? (Any show, film, book, game — no limits)
+> How many agents? (default: 5, including your orchestrator)
 
 ---
 
-## Step 3A: Universe Casting Flow
+## Step 3: Cast the Team
 
-If the user picks **A**:
-
-### Ask for universe and team size
-
-> What universe? (Any show, film, book, game — no limits)
-> How many agents? (default: 5, including your orchestrator)
+Once you have a universe and team size:
 
 ### Derive roles from the stack
 
@@ -202,63 +196,6 @@ Each template has structural sections already written. Only fill what's marked a
 **File naming:** `{kebab-case-character-name}.agent.md` — e.g. `han-solo.agent.md`, `hermione-granger.agent.md`
 
 The orchestrator replaces the generic `guild-master.agent.md` — write it as `{kebab-name}.agent.md` and note in AGENTS.md that this character IS the orchestrator.
-
----
-
-## Step 3B: Manual Flow
-
-If the user picks **B**:
-
-### Ask for team size and roles
-
-> How many agents do you want? (default: 5, including your orchestrator)
-> For each team member, I'll need a **display name** and a **role**.
-
-Collect the following for each member:
-
-| Prompt                              | Example                                                   |
-| ----------------------------------- | --------------------------------------------------------- |
-| Display name (shown in chat picker) | `Alex`, `The Reviewer`, `Ops Bot`                         |
-| Role / function in one sentence     | "Handles backend API development and database migrations" |
-
-After collecting the full list, confirm before proceeding:
-
-> Here's your team:
->
-> | Name   | Role   |
-> | ------ | ------ |
-> | {name} | {role} |
-> | ...    | ...    |
->
-> Ready to scaffold? You can rename or swap roles before I start.
-
-### Select the template
-
-Pick the best-fit template from `assets/agents/` based on what the role does:
-
-- **`orchestrator.agent.md`** — the team lead; routes work, tracks decisions, delegates to specialists. Use for exactly one agent per team.
-- **`builder.agent.md`** — any agent that directly produces artifacts: code, scripts, configs, infrastructure. Use for engineers, QA, DevOps, security, and similar hands-on roles.
-- **`advisor.agent.md`** — any agent whose primary output is guidance, review, or domain expertise rather than production artifacts.
-- **`scribe.agent.md`** — the agent that owns version control: commits, branches, pull requests.
-
-### Fill placeholders
-
-Use the same placeholder tables documented in Step 3A — **All templates**, **Advisor**, **Builder**, **Orchestrator**, and **Scribe** sections.
-
-For manual teams, the character-flavored placeholders still apply — just use the team member's display name and role description instead of a fictional character:
-
-- `{CHARACTER_NAME}` → the display name (e.g. `Alex`)
-- `{CHARACTER_VOICE_NOTE}` → a brief working-style note (e.g. "direct and methodical")
-- `{CHARACTER_DESCRIPTION}` → skip or write a one-liner about how this person approaches the role
-- `{CHARACTER_STYLE_PARAGRAPH}` → describe tone and decision style in 2–3 sentences
-
-All other structural placeholders (`{CORE_MISSION}`, `{DELIVERABLE}`, `{CRITICAL_RULE}`, etc.) fill the same way as in universe casting.
-
-### File naming and orchestrator note
-
-**File naming:** `{kebab-case-name}.agent.md` — e.g. `alex.agent.md`, `ops-bot.agent.md`
-
-The orchestrator replaces the generic `guild-master.agent.md` — write it as `{kebab-name}.agent.md` and note in AGENTS.md that this agent IS the orchestrator.
 
 ---
 
