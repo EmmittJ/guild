@@ -195,7 +195,7 @@ case "$COMPONENTS" in
 esac
 
 echo ""
-echo "Done. Next: add the installed skills to your plugin.json or AGENTS.md:"
+echo "Done. Next: add the installed skills to your AGENTS.md:"
 echo ""
 case "$COMPONENTS" in
   markdown-memory) echo "  \"skills\": [\"$SKILLS_DIR/markdown-memory\"]"

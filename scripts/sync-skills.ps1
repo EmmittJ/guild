@@ -1,7 +1,7 @@
 #Requires -Version 5.1
 # sync-skills.ps1 — copy skills from plugin sources to .github/skills/
 # Usage: .\sync-skills.ps1
-# Finds the repo root by walking up from CWD until it finds a directory containing plugin.json.
+# Finds the repo root by walking up from CWD until it finds a .git directory.
 
 $ErrorActionPreference = "Stop"
 
@@ -9,14 +9,14 @@ $ErrorActionPreference = "Stop"
 
 $RepoRoot = (Get-Location).Path
 while ($RepoRoot -ne (Split-Path -Qualifier $RepoRoot) + '\') {
-    if (Test-Path (Join-Path $RepoRoot "plugin.json")) {
+    if (Test-Path (Join-Path $RepoRoot ".git") -PathType Container) {
         break
     }
     $RepoRoot = Split-Path -Parent $RepoRoot
 }
 
-if (-not (Test-Path (Join-Path $RepoRoot "plugin.json"))) {
-    Write-Error "Error: could not find repo root (no plugin.json found in any parent directory)"
+if (-not (Test-Path (Join-Path $RepoRoot ".git") -PathType Container)) {
+    Write-Error "Error: could not find repo root (no .git directory found in any parent directory)"
     exit 1
 }
 

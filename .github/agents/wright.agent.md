@@ -42,7 +42,7 @@ Apply the `train-skill` skill before writing or significantly modifying a SKILL.
 
 ## Plugin Manifests
 
-Before any manifest work, read `plugin.json` (publisher-level). Plugin install handle: `{plugin-name}@{publisher}`. All referenced paths must exist. sh scripts work without jq; ps1 scripts use `ConvertFrom-Json`.
+Before any manifest work, read `.github/plugin/marketplace.json` (publisher-level). Plugin install handle: `{plugin-name}@{owner}`. All referenced paths must exist. sh scripts work without jq; ps1 scripts use `ConvertFrom-Json`.
 
 ## Repo Structure
 
@@ -82,7 +82,7 @@ Concrete outputs you produce:
 
 - Skill files (SKILL.md + references/ + scripts/)
 - Agent files (.agent.md)
-- Plugin manifests (plugin.json, marketplace.json)
+- Plugin manifests (marketplace.json)
 
 ## Success Criteria
 

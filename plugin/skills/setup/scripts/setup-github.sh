@@ -101,7 +101,7 @@ fi
 # ── Done ─────────────────────────────────────────────────────────────────────
 
 echo ""
-echo "Done. Add the installed skill to your plugin.json or AGENTS.md:"
+echo "Done. Add the installed skill to your AGENTS.md:"
 echo ""
 echo "  \"skills\": [\"$SKILLS_DIR/github-issues\"]"
 echo ""

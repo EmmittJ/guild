@@ -95,7 +95,7 @@ if ($existed) {
 
 # ── Done ─────────────────────────────────────────────────────────────────────
 
-Write-Host "`nDone. Add the installed skill to your plugin.json or AGENTS.md:"
+Write-Host "`nDone. Add the installed skill to your AGENTS.md:"
 Write-Host ""
 Write-Host "  `"skills`": [`"$SkillsDir/github-issues`"]"
 Write-Host ""

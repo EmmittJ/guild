@@ -107,4 +107,4 @@ description: >
 
 1. If the skill is long, move detailed sections to `references/` and link from SKILL.md
 2. Add the skill to the `AGENTS.md` skills section if it's project-specific
-3. If the skill should ship as a plugin, add it to `plugin.json`
+3. If the skill should ship as a plugin, add it to `.github/plugin/marketplace.json`

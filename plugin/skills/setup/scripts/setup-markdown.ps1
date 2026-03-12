@@ -188,7 +188,7 @@ switch ($Components) {
     default  { Install-Guild-Memory; Install-Guild-Tasks; Install-Guild-Inbox }
 }
 
-Write-Host "`nDone. Next: add the installed skills to your plugin.json or AGENTS.md:"
+Write-Host "`nDone. Next: add the installed skills to your AGENTS.md:"
 Write-Host ""
 switch ($Components) {
     "markdown-memory" { Write-Host "  `"skills`": [`"$SkillsDir/markdown-memory`"]"
