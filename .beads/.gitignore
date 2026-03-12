@@ -35,7 +35,6 @@ dolt-server.activity
 dolt-monitor.pid
 dolt-monitor.pid.lock
 
-
 # Backup data (auto-exported JSONL, local-only)
 backup/
 
