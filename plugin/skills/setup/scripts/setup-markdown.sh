@@ -117,28 +117,27 @@ install_guild_memory() {
     read -r input
     MEMORY_ROOT="${input:-.agents/memory}"
   fi
-  ensure_dir "$REPO_ROOT/$GUILD_MEMORY_ROOT/decisions"
-  ensure_dir "$REPO_ROOT/$GUILD_MEMORY_ROOT/insights"
-  ensure_dir "$REPO_ROOT/$GUILD_MEMORY_ROOT/context"
-  ensure_dir "$REPO_ROOT/$GUILD_MEMORY_ROOT/inbox"
+  ensure_dir "$REPO_ROOT/$MEMORY_ROOT/decisions"
+  ensure_dir "$REPO_ROOT/$MEMORY_ROOT/insights"
+  ensure_dir "$REPO_ROOT/$MEMORY_ROOT/context"
 
   # Keep dirs in git
-  for dir in decisions insights inbox; do
-    local keep="$REPO_ROOT/$GUILD_MEMORY_ROOT/$dir/.gitkeep"
-    [ -f "$keep" ] || { touch "$keep" && echo "  created $GUILD_MEMORY_ROOT/$dir/.gitkeep"; }
+  for dir in decisions insights; do
+    local keep="$REPO_ROOT/$MEMORY_ROOT/$dir/.gitkeep"
+    [ -f "$keep" ] || { touch "$keep" && echo "  created $MEMORY_ROOT/$dir/.gitkeep"; }
   done
 
   # Context files are ephemeral — keep out of git
-  gitignore_add "$GUILD_MEMORY_ROOT/context/"
+  gitignore_add "$MEMORY_ROOT/context/"
 
   # Seed _summary.md if not present
-  local summary="$REPO_ROOT/$GUILD_MEMORY_ROOT/decisions/_summary.md"
+  local summary="$REPO_ROOT/$MEMORY_ROOT/decisions/_summary.md"
   if [ ! -f "$summary" ]; then
     printf '# Decision Summary\n\n_No decisions recorded yet._\n' > "$summary"
-    echo "  created $GUILD_MEMORY_ROOT/decisions/_summary.md"
+    echo "  created $MEMORY_ROOT/decisions/_summary.md"
   fi
 
-  copy_skill "markdown-memory" "$GUILD_MEMORY_ROOT"
+  copy_skill "markdown-memory" "$MEMORY_ROOT"
 }
 
 # ── Install tasks ────────────────────────────────────────────────────────────
@@ -153,17 +152,17 @@ install_guild_tasks() {
     read -r input
     TASKS_ROOT="${input:-.agents/tasks}"
   fi
-  ensure_dir "$REPO_ROOT/$GUILD_TASKS_ROOT/open"
-  ensure_dir "$REPO_ROOT/$GUILD_TASKS_ROOT/in_progress"
-  ensure_dir "$REPO_ROOT/$GUILD_TASKS_ROOT/closed"
+  ensure_dir "$REPO_ROOT/$TASKS_ROOT/open"
+  ensure_dir "$REPO_ROOT/$TASKS_ROOT/in_progress"
+  ensure_dir "$REPO_ROOT/$TASKS_ROOT/closed"
 
   # Keep dirs in git
   for dir in open in_progress closed; do
-    local keep="$REPO_ROOT/$GUILD_TASKS_ROOT/$dir/.gitkeep"
-    [ -f "$keep" ] || touch "$keep" && echo "  created $GUILD_TASKS_ROOT/$dir/.gitkeep"
+    local keep="$REPO_ROOT/$TASKS_ROOT/$dir/.gitkeep"
+    [ -f "$keep" ] || touch "$keep" && echo "  created $TASKS_ROOT/$dir/.gitkeep"
   done
 
-  copy_skill "markdown-issues" "$GUILD_TASKS_ROOT"
+  copy_skill "markdown-issues" "$TASKS_ROOT"
 }
 
 # ── Install inbox ────────────────────────────────────────────────────────────
@@ -178,12 +177,12 @@ install_guild_inbox() {
     read -r input
     INBOX_ROOT="${input:-.agents/inbox}"
   fi
-  ensure_dir "$REPO_ROOT/$GUILD_INBOX_ROOT"
+  ensure_dir "$REPO_ROOT/$INBOX_ROOT"
 
   # Inbox messages are ephemeral — keep out of git
-  gitignore_add "$GUILD_INBOX_ROOT/"
+  gitignore_add "$INBOX_ROOT/"
 
-  copy_skill "markdown-inbox" "$GUILD_INBOX_ROOT"
+  copy_skill "markdown-inbox" "$INBOX_ROOT"
 }
 
 # ── Run ──────────────────────────────────────────────────────────────────────

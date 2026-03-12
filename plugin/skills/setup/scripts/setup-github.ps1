@@ -79,25 +79,25 @@ gh label create "priority:low"    --color "#cfd3d7" --force -R $GuildRepo | Out-
 
 # ── Install tasks skill ──────────────────────────────────────────────────────
 
-Write-Host "`nInstalling guild-tasks skill..."
-$dest = Join-Path $SkillsAbs, "guild-tasks\SKILL.md"
+Write-Host "`nInstalling github-issues skill..."
+$dest = Join-Path $SkillsAbs "github-issues\SKILL.md"
 $destDir = Split-Path $dest
 New-Item -ItemType Directory -Path $destDir -Force | Out-Null
 $existed = Test-Path $dest
-$content = Get-Content (Join-Path $AssetsDir, "guild-tasks\SKILL.md") -Raw
+$content = Get-Content (Join-Path $AssetsDir "github-issues\SKILL.md") -Raw
 $content = $content.Replace('${github_repo}', $GuildRepo)
 Set-Content $dest $content -Encoding UTF8
 if ($existed) {
-    Write-Host "  replaced $SkillsDir\guild-tasks\SKILL.md with GitHub Issues backend (repo: $GuildRepo)"
+    Write-Host "  replaced $SkillsDir\github-issues\SKILL.md with GitHub Issues backend (repo: $GuildRepo)"
 } else {
-    Write-Host "  copied   $SkillsDir\guild-tasks\SKILL.md (repo: $GuildRepo)"
+    Write-Host "  copied   $SkillsDir\github-issues\SKILL.md (repo: $GuildRepo)"
 }
 
 # ── Done ─────────────────────────────────────────────────────────────────────
 
 Write-Host "`nDone. Add the installed skill to your plugin.json or AGENTS.md:"
 Write-Host ""
-Write-Host "  `"skills`": [`"$SkillsDir/guild-tasks`"]"
+Write-Host "  `"skills`": [`"$SkillsDir/github-issues`"]"
 Write-Host ""
 Write-Host "  Repo: $GuildRepo"
 Write-Host ""

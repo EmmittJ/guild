@@ -88,14 +88,14 @@ gh label create "priority:low"    --color "#cfd3d7" --force -R "$GITHUB_REPO" &&
 
 echo ""
 echo "Installing tasks skill..."
-DEST="$SKILLS_ABS/guild-tasks/SKILL.md"
-mkdir -p "$SKILLS_ABS/guild-tasks"
+DEST="$SKILLS_ABS/github-issues/SKILL.md"
+mkdir -p "$SKILLS_ABS/github-issues"
 if [ -f "$DEST" ]; then
-  sed "s|\${github_repo}|$GITHUB_REPO|g" "$ASSETS_DIR/guild-tasks/SKILL.md" > "$DEST"
-  echo "  replaced $SKILLS_DIR/guild-tasks/SKILL.md with GitHub Issues backend (repo: $GITHUB_REPO)"
+  sed "s|\${github_repo}|$GITHUB_REPO|g" "$ASSETS_DIR/github-issues/SKILL.md" > "$DEST"
+  echo "  replaced $SKILLS_DIR/github-issues/SKILL.md with GitHub Issues backend (repo: $GITHUB_REPO)"
 else
-  sed "s|\${github_repo}|$GITHUB_REPO|g" "$ASSETS_DIR/guild-tasks/SKILL.md" > "$DEST"
-  echo "  copied   $SKILLS_DIR/guild-tasks/SKILL.md (repo: $GITHUB_REPO)"
+  sed "s|\${github_repo}|$GITHUB_REPO|g" "$ASSETS_DIR/github-issues/SKILL.md" > "$DEST"
+  echo "  copied   $SKILLS_DIR/github-issues/SKILL.md (repo: $GITHUB_REPO)"
 fi
 
 # ── Done ─────────────────────────────────────────────────────────────────────
@@ -103,7 +103,7 @@ fi
 echo ""
 echo "Done. Add the installed skill to your plugin.json or AGENTS.md:"
 echo ""
-echo "  \"skills\": [\"$SKILLS_DIR/guild-tasks\"]"
+echo "  \"skills\": [\"$SKILLS_DIR/github-issues\"]"
 echo ""
 echo "  Repo: $GITHUB_REPO"
 echo ""
