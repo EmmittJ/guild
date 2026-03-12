@@ -92,11 +92,11 @@ Show the user a brief summary of what was found, then ask for their universe and
 
 Once you have a universe and team size:
 
-### Derive roles from the stack
+### Suggest roles from the stack
 
-Based on the discovery summary, pick N−1 specialist roles to complement the orchestrator. Use this priority table — pick roles that match the project's actual needs:
+Based on the discovery summary, suggest N−1 specialist roles to complement the orchestrator. Use the table below as a menu of common roles — propose whichever ones fit the project, but the user can pick, drop, or invent roles freely:
 
-| Role                | Cast when                                            |
+| Role                | Good fit when                                        |
 | ------------------- | ---------------------------------------------------- |
 | Orchestrator        | Always — 1 per team                                  |
 | Backend Engineer    | Server code, API routes, databases present           |
@@ -109,15 +109,15 @@ Based on the discovery summary, pick N−1 specialist roles to complement the or
 | Technical Writer    | `docs/` present, SDK, developer-facing library       |
 | Scribe              | Always valuable for commit/PR discipline             |
 
-Present the proposed roles before casting:
+Present suggestions and let the user shape the final roster:
 
-> For a **{type}** project in **{stack}**, I'd cast these {N} roles:
+> Based on your **{type}** project in **{stack}**, here are my suggested roles:
 >
 > - Orchestrator
 > - {role 2}
 > - ...
 >
-> Does this look right? You can adjust before I cast.
+> Add, drop, or swap any of these before I cast.
 
 ### Cast characters
 
