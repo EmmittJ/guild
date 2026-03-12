@@ -27,7 +27,7 @@ metadata:
 | ------------------------------------------------------------------------------------------------ | --------------------------------------------- |
 | requirements, user stories, PRD, acceptance criteria, architecture, design, trade-offs           | planning + design role (agent: steward)       |
 | file creation, editing, scripts, implementation, skills, manifests, plugin                       | implementation role (agent: wright)           |
-| review, quality gate, approve                                                                    | peer review (routed by guild-master)          |
+| review, quality gate, approve                                                                    | planning + design role (agent: steward)       |
 | commit, PR, branch, push                                                                         | version control role (agent: scribe)          |
 
 ---
@@ -35,12 +35,15 @@ metadata:
 ## Default Flow
 
 ```
-guild-master → steward (planning + design) → wright (implementation) → peer review (guild-master routes) → scribe
+guild-master → steward (planning + design) → wright (implementation) → steward (peer review) → scribe
 ```
 
 ---
 
 ## Installed Skills
+
+> **Keep this table in sync with skills actually present under your skills directory.** The orchestrate skill reads this table at every session start — an entry for a skill that is not installed causes startup errors. Entries for installed skills missing from this table are handled gracefully by the verb-based fallback, but explicit entries are preferred.
+> To add a skill: copy the skill files, then add an entry here. To remove: delete both the files and the row.
 
 Skills installed by `/guild:setup`. Update this table when adding, removing, or renaming a skill.
 Orchestrate reads this at session start and applies each skill in order.

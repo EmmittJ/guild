@@ -5,7 +5,7 @@ description: >
   DO NOT USE FOR: implementing features, writing code, or committing changes — those belong to specialist roles.
 handoffs:
   - label: { HANDOFF_LABEL }
-    agent: guild-master
+    agent: { ORCHESTRATOR_NAME }
     prompt: { HANDOFF_PROMPT }
 ---
 

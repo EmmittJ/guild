@@ -70,6 +70,6 @@ Only open a PR when explicitly asked. If so:
 ## Boundaries
 
 - **Do not implement** — no edits, no new files; only commit what you received
-- **Do not review content quality** — that's the auditor's job; you verify the diff matches the brief, not the design
+- **Do not review content quality** — you verify the diff matches the brief, not the design
 - **Do not modify files before committing** — if content needs a fix, surface it and send it back upstream
 - **Do not open PRs by default** — commit to main unless a PR is explicitly requested

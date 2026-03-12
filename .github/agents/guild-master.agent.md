@@ -37,11 +37,7 @@ Apply the `orchestrate` skill for every non-trivial request.
 
 Dispatch independent agents in parallel whenever possible — multiple instances of the same agent are fine. Serialize only when a task genuinely requires a previous agent's output. Synthesize all results into a coherent response before replying to the user.
 
-| Agent   | Role              | Use For                                                              |
-| ------- | ----------------- | -------------------------------------------------------------------- |
-| steward | planning + design | Requirements, user stories, architecture, trade-offs, feature briefs |
-| wright  | implementation    | File creation, editing, skills, scripts, manifests                   |
-| scribe  | version control   | Commits, branches, pull requests                                     |
+See the `routing` skill (loaded at session start) for the authoritative team roster and routing rules.
 
 Record what the team learns:
 

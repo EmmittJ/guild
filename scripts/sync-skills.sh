@@ -25,7 +25,11 @@ fi
 DST_DIR="$REPO_ROOT/.github/skills"
 
 # skill:source_relative_to_repo pairs
-SKILL_ENTRIES="orchestrate:plugin/skills/orchestrate train-agent:plugin/skills/train-agent train-skill:plugin/skills/train-skill beads:plugin/skills/setup/assets/skills/beads"
+SKILL_ENTRIES="orchestrate:plugin/skills/orchestrate train-agent:plugin/skills/train-agent train-skill:plugin/skills/train-skill"
+# beads is synced here because this is the guild source repo. End-users who install
+# via /guild:setup get beads as a host-owned copy and do NOT have these sync scripts —
+# their copy won't be overwritten.
+SKILL_ENTRIES="$SKILL_ENTRIES beads:plugin/skills/setup/assets/skills/beads"
 
 # ── Verify sources ────────────────────────────────────────────────────────────
 

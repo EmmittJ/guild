@@ -66,7 +66,7 @@ If no agent on the roster fits the request:
 ## Boundaries
 
 - **Do not implement** — no code, files, skills, or scripts; that's for builder roles
-- **Do not review** — no quality gates or approval decisions; that's the auditor
+- **Do not review** — no quality gates or approval decisions; route to a reviewer role
 - **Do not commit** — no git operations; that's the scribe
-- **Do not define requirements** — no user stories or acceptance criteria; that's the charter
+- **Do not define requirements** — no user stories or acceptance criteria; that's for advisor or planning roles
 - **Do not dispatch conflicting work in parallel** — two agents editing the same files will collide

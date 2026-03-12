@@ -11,7 +11,7 @@ metadata:
   version: "0.5"
 ---
 
-> **Read this entire file before acting.** This skill is approximately 335 lines. If your first `read_file` call did not return the full content, call it again with a higher `endLine` (e.g. 400) to retrieve the remaining sections — Maker-Checker, Memory/Issues/Inbox, Conflict Resolution, Synthesizing Results, File Output Discipline, Issue Lifecycle, and Quick Reference are all below the midpoint.
+> **Read this entire file before acting.** This skill is approximately 355 lines. If your first `read_file` call did not return the full content, call it again with a higher `endLine` (e.g. 400) to retrieve the remaining sections — Maker-Checker, Memory/Issues/Inbox, Conflict Resolution, Synthesizing Results, File Output Discipline, Issue Lifecycle, and Quick Reference are all below the midpoint.
 
 ## Pattern Selection
 
@@ -84,6 +84,29 @@ Apply this sequence at the start of every session. Work begins only after all st
 | 2    | Apply each skill listed under **Installed Skills** in routing, in order. Skip steps whose skill is not installed. |
 
 **Fallback (routing not installed, or Installed Skills table is absent or empty):** Apply skills by verb — attempt `memory:context:read`, then `issue:ready`, then `inbox:message:read`. Skip any that produce no result.
+
+---
+
+## Skill Verb Contract
+
+Verbs are colon-namespaced commands dispatched to the backing skill that implements them (listed in the **Installed Skills** table in the routing skill). Standard families:
+
+| Verb | Description | Returns |
+| ---- | ----------- | ------- |
+| `memory:decision:create` | Record a meaningful choice with rationale | Confirmation |
+| `memory:decision:read` | Review prior decisions | Stored decisions |
+| `memory:insight:create` | Record a non-obvious discovery or pattern | Confirmation |
+| `memory:insight:read` | Review known patterns and gotchas | Stored insights |
+| `memory:context:update` | Save working state before session ends or handoff | Confirmation |
+| `memory:context:read` | Restore working state at session start | Prior context |
+| `issue:ready` | List unblocked issues ready to claim, sorted by priority | Issue list |
+| `issue:create` | Create a tracked issue with description and priority | Issue ID |
+| `issue:update` | Claim, update, or close an issue | Updated issue |
+| `issue:read` | Read issue details or list issues | Issue data |
+| `inbox:message:create` | Leave an async message for another agent to act on | Confirmation |
+| `inbox:message:read` | Check and process waiting messages | Messages |
+
+The verb namespace is open — backends and skills may introduce new verb domains. New verbs should be registered in the **Installed Skills** table in the routing skill and documented in the implementing skill's body.
 
 ---
 

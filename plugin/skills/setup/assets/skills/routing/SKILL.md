@@ -31,7 +31,7 @@ metadata:
 <!-- Add routing patterns here. Example:
 | {keywords that match this role's domain}  | {role} (agent: {agent-name}) |
 | {keywords that match this role's domain}  | {role} (agent: {agent-name}) |
-| review, quality gate, approve             | peer review (routed by guild-master) |
+| review, quality gate, approve             | planning + design role (agent: {advisor-name}) |
 | commit, PR, branch, push                  | version control (agent: {agent-name}) |
 -->
 
@@ -40,12 +40,15 @@ metadata:
 ## Default Flow
 
 ```
-guild-master → {your agents here}
+guild-master → {advisor-name} (planning + design) → {builder-name} (implementation) → {advisor-name} (peer review) → {scribe-name}
 ```
 
 ---
 
 ## Installed Skills
+
+> **Keep this table in sync with skills actually present under your skills directory.** The orchestrate skill reads this table at every session start — an entry for a skill that is not installed causes startup errors. Entries for installed skills missing from this table are handled gracefully by the verb-based fallback, but explicit entries are preferred.
+> To add a skill: copy the skill files, then add an entry here. To remove: delete both the files and the row.
 
 Skills installed by `/guild:setup`. Update this table when adding, removing, or renaming a skill.
 Orchestrate reads this at session start and applies each skill in order.

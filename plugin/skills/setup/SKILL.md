@@ -163,6 +163,7 @@ Each template has structural sections already written. Only fill what's marked a
 
 | Placeholder                | Replace with                                                                                                     |
 | -------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `{ORCHESTRATOR_NAME}`      | The orchestrator agent's name, e.g. guild-master or your themed name                                            |
 | `{HANDOFF_PROMPT}`         | One sentence telling the reviewer what to check — e.g. "Review changes to {artifact} for correctness and style." |
 | `{HANDOFF_LABEL}`          | Short label for the handoff button — e.g. "Escalate Decision"                                                    |
 | `{EXPERTISE_ITEM}` (×7)    | One domain skill per bullet — be specific, not generic                                                           |
@@ -211,7 +212,7 @@ After scaffolding agents, update `{skills-dir}/routing/SKILL.md`:
 
 ## Step 5: Install Components
 
-After scaffolding the team, ask which persistence backend to use.
+After scaffolding the team, ask which persistence components to install. Issue tracking, memory, and inbox are separate concerns — choose the combination that fits your team. Beads covers all three; markdown components are à la carte; GitHub Issues covers task tracking only and pairs with markdown memory + inbox.
 
 ### Step 5A: Beads (Recommended)
 
@@ -289,9 +290,10 @@ For each selected component, prompt for:
 {skills-dir}/markdown-inbox/SKILL.md
 ```
 
-### Step 5C: GitHub Issues Backend (optional)
+### Step 5C: GitHub Issues (issue tracking component)
 
-> Do you want to use GitHub Issues instead of markdown files for task tracking?
+> Do you want to use GitHub Issues for task tracking?
+> GitHub Issues covers tasks and work items only — it has no equivalent for memory (decisions, insights, context) or agent inbox. If you need those, also install memory and inbox from Step 5B alongside this.
 > Requires `gh` CLI.
 
 If yes:
@@ -367,7 +369,7 @@ AGENTS.md                                  ← constitutional rules (if absent)
 .agents/inbox/                              ← inbox component (subdirs on first message)
 {skills-dir}/markdown-inbox/SKILL.md
 
-# From Step 5C (GitHub Issues — replaces markdown issues):
+# From Step 5C (GitHub Issues — issue tracking only; pair with Step 5B memory + inbox for full persistence):
 {skills-dir}/github-issues/SKILL.md        ← GitHub-backed, repo slug baked in
 ```
 
