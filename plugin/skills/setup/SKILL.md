@@ -249,7 +249,7 @@ bd dolt push
 > On a fresh clone, `bd list` auto-bootstraps from the Dolt remote — all issues,
 > decisions, and agent registrations are preserved.
 
-### Step 5B: Markdown Components (Legacy)
+### Step 5B: Markdown Components (Lightweight)
 
 > Do you want to use markdown-based memory, issues, or inbox components instead?
 > (none / memory / issues / inbox / all)
@@ -353,7 +353,7 @@ AGENTS.md                                  ← constitutional rules (if absent)
 {skills-dir}/beads/SKILL.md                ← beads skill (from assets/skills/beads/)
 .beads/                                    ← Dolt database (initialized by bd init)
 
-# From Step 5B (markdown — legacy):
+# From Step 5B (markdown — lightweight):
 .guild/memory/decisions/_summary.md        ← memory component
 .guild/memory/insights/
 .guild/memory/context/

@@ -236,9 +236,9 @@ Data lives in `.beads/dolt/` (gitignored) and syncs independently via `bd dolt p
 
 The `beads` skill (`.github/skills/beads/SKILL.md`) teaches agents the full bd workflow.
 
-### Markdown (Legacy)
+### Markdown (Lightweight)
 
-The markdown-based components store memory as plain files in `.guild/`:
+The markdown-based components store memory as plain files in `.guild/` — no external tools required:
 
 ```
 .guild/
