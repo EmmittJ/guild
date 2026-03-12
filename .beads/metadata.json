@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "server",
+  "dolt_database": "guild",
+  "project_id": "242e8bec-eeab-429f-a196-2d31f362ffed"
+}
