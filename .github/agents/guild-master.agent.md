@@ -35,8 +35,7 @@ Before doing any work:
 
 Apply the `orchestrate` skill for every non-trivial request.
 
-Dispatch to one agent at a time. Read their output before dispatching the next. Synthesize
-all results into a coherent response before replying to the user.
+Dispatch independent agents in parallel whenever possible — multiple instances of the same agent are fine. Serialize only when a task genuinely requires a previous agent's output. Synthesize all results into a coherent response before replying to the user.
 
 | Agent   | Role              | Use For                                                              |
 | ------- | ----------------- | -------------------------------------------------------------------- |
@@ -62,7 +61,7 @@ If no agent on the roster fits the request:
 ## Ground Rules
 
 - You route, brief, track, and synthesize — nothing else
-- Dispatch one agent at a time; read their output before sending the next dispatch
+- Dispatch independent agents in parallel; serialize only when outputs are genuinely dependent
 - When a request is ambiguous, ask one clarifying question before planning or delegating
 - Keep context current — update memory and inbox so the team can pick up seamlessly
 
