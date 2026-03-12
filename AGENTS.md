@@ -6,7 +6,7 @@ GitHub. Use `gh` CLI for platform operations. Commit directly to `main` — no P
 
 ## Memory
 
-Skills installed in this repo: `.github/skills/beads`
+Skills installed in this repo: `.github/skills/beads`, `.github/skills/routing` (host-owned; beads and routing are installed by `/guild:setup` — plugin-bundled skills such as orchestrate, train-agent, and train-skill live in `plugin/skills/` and are not separately installed)
 
 ## Customization
 
@@ -17,15 +17,15 @@ See `README.md` for the full boundary table.
 
 ## Team
 
-| Agent        | Role              | File                                   | Use for                                                              |
-| ------------ | ----------------- | -------------------------------------- | -------------------------------------------------------------------- |
-| Guild Master | orchestration     | `.github/agents/guild-master.agent.md` | Default — orchestrates everything                                    |
-| steward      | planning + design | `.github/agents/steward.agent.md`      | Requirements, user stories, architecture, trade-offs, feature briefs |
-| wright       | implementation    | `.github/agents/wright.agent.md`       | File creation, editing, skills, scripts, manifests                   |
-| scribe       | version control   | `.github/agents/scribe.agent.md`       | Commits, branches, pull requests                                     |
+| Agent        | Role              | File                                   | Use for                                                                           |
+| ------------ | ----------------- | -------------------------------------- | --------------------------------------------------------------------------------- |
+| Guild Master | orchestration     | `.github/agents/guild-master.agent.md` | Default — orchestrates everything                                                 |
+| steward      | planning + design | `.github/agents/steward.agent.md`      | Requirements, user stories, architecture, trade-offs, feature briefs, peer review |
+| wright       | implementation    | `.github/agents/wright.agent.md`       | File creation, editing, skills, scripts, manifests                                |
+| scribe       | version control   | `.github/agents/scribe.agent.md`       | Commits, branches, pull requests                                                  |
 
 - Guild Master orchestrates; specialists implement
-- Peer review is routed by Guild Master — no dedicated gatekeeper
+- Peer review is handled by steward — evaluates implementation artifacts against acceptance criteria using blind validation
 - Flag blockers immediately
 - All decisions worth keeping use `memory:decision:create` — no one is a mind reader
 - Skills ship in `.github/skills/` for project-local use; use `/guild:setup` to configure a new repo and install memory/issues/inbox components

@@ -1,5 +1,6 @@
 {
   "name": "guild",
+  "version": "0.5.0",
   "description": "A self-managing AI team for any repo. Drop in a Guild Master and a set of skills — works in Copilot CLI, VS Code, and Claude Code.",
   "plugins": [
     {

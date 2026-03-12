@@ -41,7 +41,7 @@ curl --create-dirs -o .github/skills/setup/SKILL.md \
 
 ```sh
 copilot plugin marketplace add EmmittJ/guild
-copilot plugin install core@guild             # Guild Master + orchestrate + train skills
+copilot plugin install guild@guild            # Guild Master + orchestrate + train skills
 
 # add the setup skill to bootstrap your team
 copilot skill install setup@guild
@@ -141,7 +141,7 @@ These skills are copied into your repo by `/guild:setup`. Once installed, they b
 | File / Directory                  | Installed by   |
 | --------------------------------- | -------------- |
 | `.github/skills/markdown-memory/` | `/guild:setup` (markdown) |
-| `.github/skills/github-issues/`   | `/guild:setup` (markdown) |
+| `.github/skills/github-issues/`   | `/guild:setup` (github)   |
 | `.github/skills/markdown-inbox/`  | `/guild:setup` (markdown) |
 | `.github/skills/beads/`           | `/guild:setup` (beads)    |
 
@@ -168,11 +168,12 @@ plugin/
           advisor.agent.md
           scribe.agent.md
         skills/
-          routing/
-          markdown-memory/
-          markdown-issues/
-          markdown-inbox/
+          beads/
           github-issues/
+          markdown-inbox/
+          markdown-issues/
+          markdown-memory/
+          routing/
       scripts/
         setup-markdown.sh
         setup-markdown.ps1
@@ -219,7 +220,7 @@ plugin/
 
 ## Memory & Issue Tracking
 
-Guild supports two backends for persistent memory and issue tracking:
+Guild supports configurable persistence across three concerns — memory, issue tracking, and inbox. Choose the combination that fits your team:
 
 ### Beads (Recommended)
 
@@ -255,6 +256,16 @@ The markdown-based components store memory as plain files in `.agents/` — no e
 
 Each agent owns its own `context/{agent}.md` file — concurrent sessions don't conflict. The orchestrator
 reads all context files to synthesize team-wide state when needed.
+
+### GitHub Issues + Markdown (Combo)
+
+Use GitHub Issues for task tracking alongside markdown components for memory and inbox. The right choice if your team already uses GitHub Issues for work items and wants native issue management without adopting beads.
+
+- GitHub Issues handles tasks, work items, and labels
+- Markdown memory stores decisions, insights, and per-agent context
+- Markdown inbox handles agent-to-agent messaging
+
+During `/guild:setup`, select GitHub Issues in Step 5C **and** memory + inbox in Step 5B. The two install in parallel and do not conflict.
 
 ---
 
