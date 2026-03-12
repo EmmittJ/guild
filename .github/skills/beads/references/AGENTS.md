@@ -35,7 +35,7 @@ A **Role Bead** is a domain definition — it describes a functional position, n
 - **Capability definitions** — what this role can do
 - **Boundaries** — what this role should not do
 
-Roles are **shared**. Multiple agents can point to the same role bead. When you add a new agent that fills an existing functional role, hook it to the **same** role bead — don't create a new one.
+Roles are **shared**. Multiple agents can point to the same role bead. When you add a new agent that fills an existing functional role, slot it to the **same** role bead — don't create a new one.
 
 ```bash
 # Create a role once

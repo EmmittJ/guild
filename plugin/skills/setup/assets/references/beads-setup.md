@@ -50,7 +50,7 @@ bd create "version-control" --type=role \
 
 Capture each returned `id`.
 
-## 2. Create Agent Beads and Hook to Roles
+## 2. Create Agent Beads and Slot to Roles
 
 For each agent scaffolded by `/guild:setup`:
 
@@ -63,7 +63,7 @@ bd create "{agent-name}" --type=agent \
 # Add system label (required for slot commands to work)
 bd update {agent-id} --add-label "gt:agent" --json
 
-# Hook to role — reuse an existing role bead, don't create a new one
+# Slot to role — reuse an existing role bead, don't create a new one
 bd slot set {agent-id} role {role-id}
 
 # Verify
@@ -78,7 +78,7 @@ will prompt to register it. The workflow:
 1. `bd list --type=role` — **find the existing role first**; only create if no match
 2. `bd create "{name}" --type=agent --description="..." --json` — create agent bead
 3. `bd update {agent-id} --add-label "gt:agent" --json` — required label
-4. `bd slot set {agent-id} role {role-id}` — hook to role
+4. `bd slot set {agent-id} role {role-id}` — slot to role
 
 ## Attaching Work (Hooks)
 

@@ -208,13 +208,13 @@ Capture the returned `id` (e.g. `guild-wisp-abc1`). Then add the system label so
 bd update {agent-id} --add-label "gt:agent" --json
 ```
 
-### 3. Hook the agent to its role
+### 3. Slot the agent to its role
 
 ```bash
 bd slot set {agent-id} role {role-id}
 ```
 
-This hooks the agent to its role definition and makes it visible to `bd agent show` and `bd slot show`.
+This slots the agent to its role definition and makes it visible to `bd agent show` and `bd slot show`.
 
 ### 4. Verify
 

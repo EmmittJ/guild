@@ -144,7 +144,7 @@ When a new agent is added to the team, register it in beads.
 
 **Key concept:** Roles are persistent shared definitions — they describe a functional position,
 not a specific agent. Multiple agents can point to the same role bead. When adding a new agent
-that fills an existing role, hook it to the **existing** role bead — don't create a new one.
+that fills an existing role, slot it to the **existing** role bead — don't create a new one.
 
 Both agent and role beads are **pinned** — they never close, never appear in `bd ready`,
 and persist as infrastructure in the data plane.
@@ -162,7 +162,7 @@ bd create "{agent-name}" --type=agent --description="{one-liner from agent front
 # 3. Add system label (required for slot commands to work)
 bd update {agent-id} --add-label "gt:agent" --json
 
-# 4. Hook agent to its role (required — role slot is mandatory)
+# 4. Slot agent to its role (required — role slot is mandatory)
 bd slot set {agent-id} role {role-id}
 
 # 5. Verify
