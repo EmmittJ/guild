@@ -176,7 +176,7 @@ Spawn for everything else. **Default to spawning eagerly** — if an agent could
 
 **Before spawning a second concurrent builder on a system another builder is already modifying:** call a Design Review — bring both builders and Guild Master to align on interfaces, contracts, and risk before work diverges. Record the outcome via `memory:decision:create`.
 
-**After an auditor rejects the same work twice:** call a Retrospective — builder, auditor, and Guild Master discuss what failed, root cause, and what changes. Record the pattern via `memory:insight:create`.
+**After a peer reviewer rejects the same work twice:** call a Retrospective — builder, reviewer, and Guild Master discuss what failed, root cause, and what changes. Record the pattern via `memory:insight:create`.
 
 ### Briefing quality
 
@@ -231,7 +231,7 @@ Don't loop forever. Three rounds is the limit.
 
 ### Blind Validation
 
-When the checker is a reviewer-type agent, apply **blind validation**:
+When the checker is a specialist performing peer review, apply **blind validation**:
 
 - Give the reviewer only the output artifacts (files, diffs, deliverables)
 - Do **not** share the maker's prompt, working notes, or intent
@@ -239,7 +239,7 @@ When the checker is a reviewer-type agent, apply **blind validation**:
 
 > **Brief template:** "Review these files for [criteria]. You have no prior context — judge the artifacts on their own merit."
 
-If a reviewer-type agent's description says "receives output artifacts only," enforce this strictly in your brief.
+Enforce this strictly in every peer review brief — the reviewing specialist receives artifacts only, never the maker's working notes or intent.
 
 ---
 
@@ -322,7 +322,7 @@ Guild Master owns delegated work from creation through closure.
 | 1. Create   | Guild Master              | Create tracking issue with clear "Done When" criteria     |
 | 2. Delegate | Guild Master → Specialist | Brief specialist; specialist claims issue (`in-progress`) |
 | 3. Monitor  | Guild Master              | Poll progress; intervene if stalled                       |
-| 4. Review   | reviewer agent            | Validate against acceptance criteria                      |
+| 4. Review   | peer reviewer (specialist) | Validate against acceptance criteria                      |
 | 5. Commit   | version control agent     | Commit changes; issue closes                              |
 
 **Guild Master's task is not complete until the issue is closed.** If an issue is `in-progress` with no activity, check in — ask "what's blocking?" Escalate to the user only when genuinely blocked: external dependency or a stall exceeding 24 hours.
