@@ -6,6 +6,7 @@ description: >
   skill with frontmatter, progressive disclosure, and optional references directory.
 license: MIT
 metadata:
+  asset: ../../../plugin/skills/train-skill/SKILL.md
   version: "0.1"
 ---
 

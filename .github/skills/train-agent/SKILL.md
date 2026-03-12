@@ -7,6 +7,7 @@ description: >
   VS Code and the GitHub Copilot CLI.
 license: MIT
 metadata:
+  asset: ../../../plugin/skills/train-agent/SKILL.md
   version: "0.3"
 ---
 

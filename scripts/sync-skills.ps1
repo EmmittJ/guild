@@ -42,11 +42,42 @@ if (-not (Test-Path $DstDir)) {
     New-Item -ItemType Directory -Path $DstDir | Out-Null
 }
 
+# ── Stamp metadata.asset in installed SKILL.md copies ────────────────────────
+
+function Add-AssetToFrontmatter {
+    param([string]$SkillMd, [string]$AssetPath)
+    if (-not (Test-Path $SkillMd)) { return }
+    $lines = Get-Content $SkillMd
+    $delim = 0; $metaIdx = -1; $assetIdx = -1; $closeIdx = -1
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        if ($lines[$i] -eq '---') {
+            $delim++
+            if ($delim -eq 2) { $closeIdx = $i; break }
+        }
+        if ($delim -eq 1) {
+            if ($lines[$i] -match '^metadata:') { $metaIdx  = $i }
+            if ($lines[$i] -match '^  asset:')  { $assetIdx = $i }
+        }
+    }
+    $assetLine = "  asset: $AssetPath"
+    if ($assetIdx -ge 0) {
+        $lines[$assetIdx] = $assetLine
+    } elseif ($metaIdx -ge 0) {
+        $lines = $lines[0..$metaIdx] + $assetLine + $lines[($metaIdx + 1)..($lines.Count - 1)]
+    } elseif ($closeIdx -ge 0) {
+        $lines = $lines[0..($closeIdx - 1)] + 'metadata:' + $assetLine + $lines[$closeIdx..($lines.Count - 1)]
+    } else { return }
+    Set-Content $SkillMd $lines
+}
+
 # ── Copy skills ───────────────────────────────────────────────────────────────
 
 foreach ($skill in $Skills) {
     $srcPath = Join-Path $SrcDir $skill
     Copy-Item -Recurse -Force -Path $srcPath -Destination $DstDir
+    $skillMd  = Join-Path $DstDir "$skill\SKILL.md"
+    $assetRel = "../../../plugin/skills/$skill/SKILL.md"
+    Add-AssetToFrontmatter $skillMd $assetRel
     Write-Host "Synced $skill -> .github/skills/$skill"
 }
 

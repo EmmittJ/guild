@@ -8,6 +8,7 @@ description: >
   DO NOT USE FOR: simple questions answerable directly without spawning agents.
 license: MIT
 metadata:
+  asset: ../../../plugin/skills/orchestrate/SKILL.md
   version: "0.5"
 ---
 
