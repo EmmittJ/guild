@@ -144,15 +144,12 @@ Ask: "Happy with this cast? Name any swaps."
 
 ### Select the template
 
-Each role maps to a category template in `assets/agents/`. Pick the best fit:
+Pick the best-fit template from `assets/agents/` based on what the role does:
 
-| Role                                            | Category template       |
-| ----------------------------------------------- | ----------------------- |
-| Orchestrator                                    | `orchestrator.agent.md` |
-| Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`      |
-| Tester / QA                                     | `builder.agent.md`      |
-| Security Engineer                               | `builder.agent.md`      |
-| Platform / DevOps                               | `builder.agent.md`      |
+- **`orchestrator.agent.md`** — the team lead; routes work, tracks decisions, delegates to specialists. Use for exactly one agent per team.
+- **`builder.agent.md`** — any agent that directly produces artifacts: code, scripts, configs, infrastructure. Use for engineers, QA, DevOps, security, and similar hands-on roles.
+- **`advisor.agent.md`** — any agent whose primary output is guidance, review, or domain expertise rather than production artifacts.
+- **`scribe.agent.md`** — the agent that owns version control: commits, branches, pull requests.
 
 Each template has structural sections already written. Only fill what's marked as a placeholder:
 
@@ -237,15 +234,12 @@ After collecting the full list, confirm before proceeding:
 
 ### Select the template
 
-For each team member, map their role to the best-fit category template in `assets/agents/`:
+Pick the best-fit template from `assets/agents/` based on what the role does:
 
-| Role                                            | Category template       |
-| ----------------------------------------------- | ----------------------- |
-| Orchestrator                                    | `orchestrator.agent.md` |
-| Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`      |
-| Tester / QA                                     | `builder.agent.md`      |
-| Security Engineer                               | `builder.agent.md`      |
-| Platform / DevOps                               | `builder.agent.md`      |
+- **`orchestrator.agent.md`** — the team lead; routes work, tracks decisions, delegates to specialists. Use for exactly one agent per team.
+- **`builder.agent.md`** — any agent that directly produces artifacts: code, scripts, configs, infrastructure. Use for engineers, QA, DevOps, security, and similar hands-on roles.
+- **`advisor.agent.md`** — any agent whose primary output is guidance, review, or domain expertise rather than production artifacts.
+- **`scribe.agent.md`** — the agent that owns version control: commits, branches, pull requests.
 
 ### Fill placeholders
 
