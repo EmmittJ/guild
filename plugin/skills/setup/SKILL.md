@@ -111,6 +111,7 @@ Based on the discovery summary, pick N−1 specialist roles to complement the or
 | Data Engineer       | ORM migrations, analytics, ETL, heavy query patterns |
 | Platform / DevOps   | Dockerfile, CI config, infra-as-code present         |
 | Tester / QA         | Test directory present or notable gap                |
+| Security Engineer   | Public API, auth code, sensitive data handling       |
 | Technical Writer    | `docs/` present, SDK, developer-facing library       |
 | Scribe              | Always valuable for commit/PR discipline             |
 
@@ -150,12 +151,8 @@ Each role maps to a category template in `assets/agents/`. Pick the best fit:
 | Orchestrator                                    | `orchestrator.agent.md` |
 | Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`      |
 | Tester / QA                                     | `builder.agent.md`      |
+| Security Engineer                               | `builder.agent.md`      |
 | Platform / DevOps                               | `builder.agent.md`      |
-| Technical Writer                                | `builder.agent.md`      |
-| Architect / Product Owner / Domain Expert       | `advisor.agent.md`      |
-| Scribe / Version Control                        | `scribe.agent.md`       |
-
-### Fill category-shared placeholders
 
 Each template has structural sections already written. Only fill what's marked as a placeholder:
 
@@ -247,12 +244,8 @@ For each team member, map their role to the best-fit category template in `asset
 | Orchestrator                                    | `orchestrator.agent.md` |
 | Backend / Frontend / Full-stack / Data Engineer | `builder.agent.md`      |
 | Tester / QA                                     | `builder.agent.md`      |
+| Security Engineer                               | `builder.agent.md`      |
 | Platform / DevOps                               | `builder.agent.md`      |
-| Technical Writer                                | `builder.agent.md`      |
-| Architect / Product Owner / Domain Expert       | `advisor.agent.md`      |
-| Scribe / Version Control                        | `scribe.agent.md`       |
-
-If a role doesn't map cleanly, pick the closest template and trim what doesn't apply.
 
 ### Fill placeholders
 
