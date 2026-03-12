@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# sync-skills.sh — copy orchestrate, train-agent, and train-skill from plugin/skills/ to .github/skills/
+# sync-skills.sh — copy skills from plugin sources to .github/skills/
 # Usage: sh sync-skills.sh
 # Finds the repo root by walking up from CWD until it finds a directory containing plugin.json.
 
@@ -24,23 +24,20 @@ fi
 
 SRC_DIR="$REPO_ROOT/plugin/skills"
 DST_DIR="$REPO_ROOT/.github/skills"
-SKILLS="orchestrate train-agent train-skill"
 
-# beads lives in a different source location
-BEADS_SRC="$REPO_ROOT/plugin/skills/setup/assets/skills/beads"
+# skill:source_relative_to_repo pairs
+SKILL_ENTRIES="orchestrate:plugin/skills/orchestrate train-agent:plugin/skills/train-agent train-skill:plugin/skills/train-skill beads:plugin/skills/setup/assets/skills/beads"
 
 # ── Verify sources ────────────────────────────────────────────────────────────
 
-for skill in $SKILLS; do
-  if [ ! -d "$SRC_DIR/$skill" ]; then
-    echo "Error: source directory not found: $SRC_DIR/$skill" >&2
+for entry in $SKILL_ENTRIES; do
+  skill="${entry%%:*}"
+  src_rel="${entry#*:}"
+  if [ ! -d "$REPO_ROOT/$src_rel" ]; then
+    echo "Error: source directory not found: $REPO_ROOT/$src_rel" >&2
     exit 1
   fi
 done
-if [ ! -d "$BEADS_SRC" ]; then
-  echo "Error: source directory not found: $BEADS_SRC" >&2
-  exit 1
-fi
 
 # ── Ensure destination exists ─────────────────────────────────────────────────
 
@@ -79,15 +76,14 @@ stamp_asset() {
 
 # ── Copy skills ───────────────────────────────────────────────────────────────
 
-for skill in $SKILLS; do
-  cp -r "$SRC_DIR/$skill" "$DST_DIR/"
-  stamp_asset "$skill" "../../../plugin/skills/$skill/SKILL.md"
+for entry in $SKILL_ENTRIES; do
+  skill="${entry%%:*}"
+  src_rel="${entry#*:}"
+  # asset path: from .github/skills/{name}/SKILL.md back to repo root (3 levels) then to source
+  asset_rel="../../../$src_rel/SKILL.md"
+  cp -r "$REPO_ROOT/$src_rel" "$DST_DIR/"
+  stamp_asset "$skill" "$asset_rel"
   echo "Synced $skill -> .github/skills/$skill"
 done
-
-# Sync beads from its asset location
-cp -r "$BEADS_SRC" "$DST_DIR/"
-stamp_asset "beads" "../../../plugin/skills/setup/assets/skills/beads/SKILL.md"
-echo "Synced beads -> .github/skills/beads"
 
 exit 0

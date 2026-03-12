@@ -1,5 +1,5 @@
 #Requires -Version 5.1
-# sync-skills.ps1 — copy orchestrate, train-agent, and train-skill from plugin/skills/ to .github/skills/
+# sync-skills.ps1 — copy skills from plugin sources to .github/skills/
 # Usage: .\sync-skills.ps1
 # Finds the repo root by walking up from CWD until it finds a directory containing plugin.json.
 
@@ -24,23 +24,23 @@ if (-not (Test-Path (Join-Path $RepoRoot "plugin.json"))) {
 
 $SrcDir = Join-Path $RepoRoot "plugin\skills"
 $DstDir = Join-Path $RepoRoot ".github\skills"
-$Skills = @("orchestrate", "train-agent", "train-skill")
 
-# beads lives in a different source location
-$BeadsSrc = Join-Path $RepoRoot "plugin\skills\setup\assets\skills\beads"
+# Map: skill name -> source directory (relative to repo root)
+$SkillSources = [ordered]@{
+    "orchestrate"  = "plugin\skills\orchestrate"
+    "train-agent"  = "plugin\skills\train-agent"
+    "train-skill"  = "plugin\skills\train-skill"
+    "beads"        = "plugin\skills\setup\assets\skills\beads"
+}
 
 # ── Verify sources ────────────────────────────────────────────────────────────
 
-foreach ($skill in $Skills) {
-    $srcPath = Join-Path $SrcDir $skill
+foreach ($skill in $SkillSources.Keys) {
+    $srcPath = Join-Path $RepoRoot $SkillSources[$skill]
     if (-not (Test-Path $srcPath -PathType Container)) {
         Write-Error "Error: source directory not found: $srcPath"
         exit 1
     }
-}
-if (-not (Test-Path $BeadsSrc -PathType Container)) {
-    Write-Error "Error: source directory not found: $BeadsSrc"
-    exit 1
 }
 
 # ── Ensure destination exists ─────────────────────────────────────────────────
@@ -77,22 +77,26 @@ function Add-AssetToFrontmatter {
     Set-Content $SkillMd $lines
 }
 
+# ── Compute relative path from dest SKILL.md to source SKILL.md ──────────────
+
+function Get-AssetRelPath {
+    param([string]$SrcRelToRepo)
+    # dest is .github/skills/{name}/SKILL.md — 3 dirs up reaches repo root
+    $depth = (".github/skills/x" -split '/').Count  # 3
+    $up = (".." * $depth) -replace '\.\.', '../' -replace '/$', ''
+    $prefix = ((1..$depth) | ForEach-Object { ".." }) -join '/'
+    return "$prefix/$($SrcRelToRepo -replace '\\','/')/SKILL.md"
+}
+
 # ── Copy skills ───────────────────────────────────────────────────────────────
 
-foreach ($skill in $Skills) {
-    $srcPath = Join-Path $SrcDir $skill
+foreach ($skill in $SkillSources.Keys) {
+    $srcPath = Join-Path $RepoRoot $SkillSources[$skill]
     Copy-Item -Recurse -Force -Path $srcPath -Destination $DstDir
     $skillMd  = Join-Path $DstDir "$skill\SKILL.md"
-    $assetRel = "../../../plugin/skills/$skill/SKILL.md"
+    $assetRel = Get-AssetRelPath $SkillSources[$skill]
     Add-AssetToFrontmatter $skillMd $assetRel
     Write-Host "Synced $skill -> .github/skills/$skill"
 }
-
-# Sync beads from its asset location
-Copy-Item -Recurse -Force -Path $BeadsSrc -Destination $DstDir
-$beadsSkillMd = Join-Path $DstDir "beads\SKILL.md"
-$beadsAssetRel = "../../../plugin/skills/setup/assets/skills/beads/SKILL.md"
-Add-AssetToFrontmatter $beadsSkillMd $beadsAssetRel
-Write-Host "Synced beads -> .github/skills/beads"
 
 exit 0
