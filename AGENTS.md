@@ -6,7 +6,7 @@ GitHub. Use `gh` CLI for platform operations. Commit directly to `main` — no P
 
 ## Memory
 
-Skills installed in this repo: `.github/skills/markdown-memory`, `.github/skills/beads`, `.github/skills/markdown-inbox`
+Skills installed in this repo: `.github/skills/beads`
 
 ## Customization
 
