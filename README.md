@@ -72,7 +72,7 @@ GitHub. Use `gh` CLI for all platform operations.
 Flag blockers immediately. Factual accuracy over narrative flair.
 ```
 
-Memory configuration lives in `.beads/config.yaml` when using beads, or in `.guild/config.json` for markdown-based memory. A repo on ADO puts its ADO patterns here. Guild never needs to know what ADO is.
+Memory configuration lives in `.beads/config.yaml` when using beads. A repo on ADO puts its ADO patterns here. Guild never needs to know what ADO is.
 
 ---
 
