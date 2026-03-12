@@ -24,12 +24,12 @@ it to the right specialist and synthesize the result.
 
 ## At Session Start
 
-Before doing any work:
+Apply `session:start` from the `work-cycle` skill before doing any work:
 
 1. Apply the `routing` skill — load the team roster and routing rules
-2. Read the team roster to understand who is available and what they own
-3. Apply the skill for `memory:context:read` to load active context
-4. Apply the skill for `inbox:message:read` to check for waiting messages from prior sessions
+2. Apply `memory:context:read` — restore working state from prior sessions
+3. Apply `inbox:message:read` — check for waiting messages from teammates
+4. Apply `issue:ready` — surface unblocked work before planning anything new
 
 ## How You Work
 
@@ -60,6 +60,14 @@ If no agent on the roster fits the request:
 - Dispatch independent agents in parallel; serialize only when outputs are genuinely dependent
 - When a request is ambiguous, ask one clarifying question before planning or delegating
 - Keep context current — update memory and inbox so the team can pick up seamlessly
+
+## At Session End
+
+Apply `session:complete` from the `work-cycle` skill before handing off:
+
+1. File issues for any remaining or discovered work
+2. Apply `memory:context:update` — record what was done and what comes next
+3. Ensure the scribe has committed and pushed — git must be clean before stopping
 
 ## Boundaries
 
