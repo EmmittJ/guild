@@ -216,48 +216,23 @@ After scaffolding agents, update `{skills-dir}/routing/SKILL.md`:
 
 ## Step 5: Install Components
 
-After scaffolding the team, ask which persistence components to install. Issue tracking, memory, and inbox are separate concerns — choose the combination that fits your team. Beads covers all three; markdown components are à la carte; GitHub Issues covers task tracking only and pairs with markdown memory + inbox.
+After scaffolding the team, ask which persistence components to install.
 
-### Step 5A: Beads (Recommended)
+**Markdown is the default** — no tools required, covers all three concerns (memory, issues, inbox). Choose a different backend only if you have a specific reason:
 
-> Do you want to use **beads** for issue tracking and memory?
-> Beads stores decisions, insights, and issues in a Dolt database with Git-like version control.
-> Requires: `bd` CLI v0.47.0+ (`bd --version`)
+| Backend | Replaces | Requires | Use when |
+| ------- | -------- | -------- | -------- |
+| **Markdown** | — (is the default) | nothing | Always works; start here |
+| **Beads** | All of markdown | `bd` CLI v0.47.0+ | You want cross-clone sync via Dolt |
+| **GitHub Issues** | Markdown issues only | `gh` CLI | Your team already lives in GitHub Issues |
 
-If yes:
+> GitHub Issues replaces issues only — always pair it with markdown memory + inbox (Step 5A).
 
-1. **Verify prerequisites**: `bd --version` must return v0.47.0+
-2. **Initialize** (if not already done): `bd init`
-3. **Enable custom types**: `bd config set types.custom "agent,role,decision,insight"`
-4. **Enable auto-commit**: `bd config set dolt.auto-commit on`
-5. **Configure Dolt remote** for data persistence across clones:
+### Step 5A: Markdown Components (Default)
 
-```bash
-# Use the same GitHub repo (stores data under refs/dolt/data, separate from git refs)
-bd dolt remote add origin https://github.com/{owner}/{repo}.git
-
-# Or use SSH if the repo uses SSH
-bd dolt remote add origin git+ssh://git@github.com/{owner}/{repo}.git
-
-# Push initial data
-bd dolt push
-```
-
-6. **Register agents and roles** — see [references/beads-setup.md](assets/references/beads-setup.md) for the full workflow
-7. **Install the beads skill**:
-
-```
-{skills-dir}/beads/SKILL.md    ← from assets/skills/beads/
-```
-
-> **Why a Dolt remote?** Without one, `.beads/dolt/` is gitignored and local-only.
-> On a fresh clone, `bd list` auto-bootstraps from the Dolt remote — all issues,
-> decisions, and agent registrations are preserved.
-
-### Step 5B: Markdown Components (Lightweight)
-
-> Do you want to use markdown-based memory, issues, or inbox components instead?
-> (none / memory / issues / inbox / all)
+> Do you want to install markdown-based memory, issues, or inbox?
+> No tools required — everything lives as plain files in `.agents/`.
+> (none / memory / issues / inbox / all — default: all)
 
 For each selected component, prompt for:
 
@@ -294,10 +269,47 @@ For each selected component, prompt for:
 {skills-dir}/markdown-inbox/SKILL.md
 ```
 
-### Step 5C: GitHub Issues (issue tracking component)
+### Step 5B: Beads (Replaces markdown — persistent sync)
+
+> Do you want to use **beads** instead of markdown for issue tracking and memory?
+> Beads replaces all markdown components — use it as an alternative, not alongside markdown.
+> Requires: `bd` CLI v0.47.0+ (`bd --version`)
+
+If yes:
+
+1. **Verify prerequisites**: `bd --version` must return v0.47.0+
+2. **Initialize** (if not already done): `bd init`
+3. **Enable custom types**: `bd config set types.custom "agent,role,decision,insight"`
+4. **Enable auto-commit**: `bd config set dolt.auto-commit on`
+5. **Configure Dolt remote** for data persistence across clones:
+
+```bash
+# Use the same GitHub repo (stores data under refs/dolt/data, separate from git refs)
+bd dolt remote add origin https://github.com/{owner}/{repo}.git
+
+# Or use SSH if the repo uses SSH
+bd dolt remote add origin git+ssh://git@github.com/{owner}/{repo}.git
+
+# Push initial data
+bd dolt push
+```
+
+6. **Register agents and roles** — see [references/beads-setup.md](assets/references/beads-setup.md) for the full workflow
+7. **Install the beads skill**:
+
+```
+{skills-dir}/beads/SKILL.md    ← from assets/skills/beads/
+```
+
+> **Why a Dolt remote?** Without one, `.beads/dolt/` is gitignored and local-only.
+> On a fresh clone, `bd list` auto-bootstraps from the Dolt remote — all issues,
+> decisions, and agent registrations are preserved.
+
+### Step 5C: GitHub Issues (Replaces markdown issues only)
 
 > Do you want to use GitHub Issues for task tracking?
-> GitHub Issues covers tasks and work items only — it has no equivalent for memory (decisions, insights, context) or agent inbox. If you need those, also install memory and inbox from Step 5B alongside this.
+> GitHub Issues replaces the issues component only — memory and inbox still use markdown.
+> Always pair with Step 5A memory + inbox.
 > Requires `gh` CLI.
 
 If yes:
@@ -355,11 +367,7 @@ AGENTS.md                                  ← constitutional rules (if absent)
 {agents-dir}/{character-name}.agent.md     ← one per cast role
 {skills-dir}/routing/SKILL.md              ← team roster + routing rules
 
-# From Step 5A (beads — recommended):
-{skills-dir}/beads/SKILL.md                ← beads skill (from assets/skills/beads/)
-.beads/                                    ← Dolt database (initialized by bd init)
-
-# From Step 5B (markdown — lightweight):
+# From Step 5A (markdown — default, no dependencies):
 .agents/memory/decisions/_summary.md        ← memory component
 .agents/memory/insights/
 .agents/memory/context/
@@ -373,7 +381,11 @@ AGENTS.md                                  ← constitutional rules (if absent)
 .agents/inbox/                              ← inbox component (subdirs on first message)
 {skills-dir}/markdown-inbox/SKILL.md
 
-# From Step 5C (GitHub Issues — issue tracking only; pair with Step 5B memory + inbox for full persistence):
+# From Step 5B (beads — replaces markdown, requires bd CLI):
+{skills-dir}/beads/SKILL.md                ← beads skill (from assets/skills/beads/)
+.beads/                                    ← Dolt database (initialized by bd init)
+
+# From Step 5C (GitHub Issues — replaces markdown issues only; Step 5A memory + inbox required):
 {skills-dir}/github-issues/SKILL.md        ← GitHub-backed, repo slug baked in
 ```
 

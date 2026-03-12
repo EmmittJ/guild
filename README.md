@@ -220,11 +220,36 @@ plugin/
 
 ## Memory & Issue Tracking
 
-Guild supports configurable persistence across three concerns — memory, issue tracking, and inbox. Choose the combination that fits your team:
+Guild supports three backends for memory, issue tracking, and inbox. **Markdown is the default** — no tools to install, no accounts to configure.
 
-### Beads (Recommended)
+| Backend | What it replaces | Requires |
+| ------- | ---------------- | -------- |
+| **Markdown** | — (is the default) | nothing |
+| **Beads** | All of markdown | `bd` CLI v0.47.0+ |
+| **GitHub Issues** | Markdown issues only | `gh` CLI |
 
-Beads (`bd`) is a Git-backed issue tracker powered by Dolt. It stores decisions, insights, and issues in a version-controlled database that syncs via Dolt remotes.
+### Markdown (Default)
+
+Plain files in `.agents/` — survives compaction, works offline, no dependencies.
+
+```
+.agents/
+  memory/
+    context/         # Working memory: what each agent is doing
+    decisions/       # Why we chose X
+    insights/        # What's true about this codebase
+  issues/
+    open/            # Needs to be done — type, priority, blocked-by, discovered-from
+    in_progress/     # Work in flight — Notes field for compaction survival
+    closed/          # Completed work — audit trail, never delete
+  inbox/             # Agent-to-agent messages
+```
+
+Issues support type, priority, `blocked-by`, `discovered-from` lineage, and a `## Notes` field for writing `COMPLETED / IN PROGRESS / NEXT` snapshots before context is lost. Each agent owns its own `context/{agent}.md` — concurrent sessions don't conflict.
+
+### Beads (Replaces markdown — persistent sync)
+
+[Beads (`bd`)](https://github.com/EmmittJ/gastown) is a Git-backed issue tracker powered by Dolt. Use it **instead of markdown** when you want issues and memory to persist across clones and sync via a Dolt remote. Beads covers all three concerns — once you adopt beads, skip the markdown components during `/guild:setup`.
 
 ```bash
 bd init                          # Initialize beads database
@@ -233,39 +258,17 @@ bd ready                         # See actionable work
 bd list --type=decision          # Browse decisions
 ```
 
-Data lives in `.beads/dolt/` (gitignored) and syncs independently via `bd dolt push`/`bd dolt pull`. On a fresh clone, running any `bd` command auto-bootstraps from the remote.
+Data lives in `.beads/dolt/` and syncs independently of git via `bd dolt push`/`bd dolt pull`. On a fresh clone, any `bd` command auto-bootstraps from the remote. Requires `bd` CLI v0.47.0+.
 
-The `beads` skill (`.github/skills/beads/SKILL.md`) teaches agents the full bd workflow.
+### GitHub Issues (Replaces markdown issues only)
 
-### Markdown (Lightweight)
+GitHub Issues replaces the **issues component only** — it has no equivalent for memory (decisions, insights, context) or inbox. Always pair it with markdown memory + inbox.
 
-The markdown-based components store memory as plain files in `.agents/` — no external tools required:
+- GitHub Issues handles tasks, work items, labels, and compaction-survival via issue comments
+- Markdown memory still stores decisions, insights, and per-agent context
+- Markdown inbox still handles agent-to-agent messaging
 
-```
-.agents/
-  memory/
-    context/         # Working memory: what each agent is doing
-    decisions/       # Episodic: why we chose X
-    insights/        # Semantic: what's true about this codebase
-  issues/
-    open/            # Procedural: needs to be done
-    in_progress/     # Procedural: work in flight
-    closed/          # Procedural: completed work
-  inbox/             # Communication: agent-to-agent messages
-```
-
-Each agent owns its own `context/{agent}.md` file — concurrent sessions don't conflict. The orchestrator
-reads all context files to synthesize team-wide state when needed.
-
-### GitHub Issues + Markdown (Combo)
-
-Use GitHub Issues for task tracking alongside markdown components for memory and inbox. The right choice if your team already uses GitHub Issues for work items and wants native issue management without adopting beads.
-
-- GitHub Issues handles tasks, work items, and labels
-- Markdown memory stores decisions, insights, and per-agent context
-- Markdown inbox handles agent-to-agent messaging
-
-During `/guild:setup`, select GitHub Issues in Step 5C **and** memory + inbox in Step 5B. The two install in parallel and do not conflict.
+During `/guild:setup`, select GitHub Issues in Step 5C **and** memory + inbox from Step 5A. The two install in parallel and do not conflict.
 
 ---
 
