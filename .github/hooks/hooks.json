@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "hooks": {
+    "preCompact": [
+      {
+        "type": "command",
+        "bash": "command -v bd >/dev/null 2>&1 || exit 0; bd list --status in_progress --json 2>/dev/null | jq -r '.[].id' 2>/dev/null | while read id; do [ -n \"$id\" ] && bd update \"$id\" --append-notes \"INTERRUPTED: $(date -u +%Y-%m-%dT%H:%M:%SZ)\"; done; exit 0",
+        "powershell": "if (-not (Get-Command bd -ErrorAction SilentlyContinue)) { exit 0 }; $ids = bd list --status in_progress --json 2>$null | ConvertFrom-Json | Select-Object -ExpandProperty id; foreach ($id in $ids) { if ($id) { bd update $id --append-notes \"INTERRUPTED: $(Get-Date -Format 'yyyy-MM-ddTHH:mm:ssZ')\" } }; exit 0",
+        "cwd": ".",
+        "timeout": 30
+      },
+      {
+        "type": "command",
+        "bash": "dir=\".agents/issues/in_progress\"; [ -d \"$dir\" ] || exit 0; ts=$(date -u +%Y-%m-%dT%H:%M:%SZ); for f in \"$dir\"/*.md; do [ -f \"$f\" ] || continue; if grep -q \"^## Notes\" \"$f\"; then sed -i \"/^## Notes/a INTERRUPTED: $ts\" \"$f\"; else printf \"\\n## Notes\\nINTERRUPTED: %s\\n\" \"$ts\" >> \"$f\"; fi; done; exit 0",
+        "powershell": "$dir = '.agents/issues/in_progress'; if (-not (Test-Path $dir)) { exit 0 }; $ts = Get-Date -Format 'yyyy-MM-ddTHH:mm:ssZ'; Get-ChildItem \"$dir/*.md\" -ErrorAction SilentlyContinue | ForEach-Object { $content = Get-Content $_.FullName -Raw; if ($content -match '(?m)^## Notes') { $content = $content -replace '(?m)(^## Notes)', \"`$1`nINTERRUPTED: $ts\" } else { $content += \"`n## Notes`nINTERRUPTED: $ts`n\" }; Set-Content $_.FullName $content }; exit 0",
+        "cwd": ".",
+        "timeout": 30
+      }
+    ],
+    "sessionEnd": [
+      {
+        "type": "command",
+        "bash": "git rev-parse --git-dir >/dev/null 2>&1 || exit 0; dirty=$(git status --porcelain 2>/dev/null); unpushed=$(git log @{u}..HEAD --oneline 2>/dev/null); if [ -n \"$dirty\" ] || [ -n \"$unpushed\" ]; then echo \"BLOCKED: git is not clean. Uncommitted changes: ${dirty:-none}. Unpushed commits: ${unpushed:-none}. Run git push before ending session.\" >&2; exit 2; fi; exit 0",
+        "powershell": "try { git rev-parse --git-dir 2>$null | Out-Null } catch { exit 0 }; if ($LASTEXITCODE -ne 0) { exit 0 }; $dirty = git status --porcelain 2>$null; $unpushed = git log '@{u}..HEAD' --oneline 2>$null; if ($dirty -or $unpushed) { Write-Error \"BLOCKED: git is not clean. Uncommitted: $($dirty -join ', '). Unpushed: $($unpushed -join ', '). Run git push before ending session.\"; exit 2 }; exit 0",
+        "cwd": ".",
+        "timeout": 15
+      }
+    ]
+  }
+}
