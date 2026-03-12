@@ -9,7 +9,7 @@ description: >
   DO NOT USE FOR: decisions, insights, or context — use `memory:decision:create`. Inbox messages — use `inbox:message:create`.
 license: MIT
 metadata:
-  version: "0.3"
+  version: "0.4"
 ---
 
 ## Overview
@@ -42,12 +42,23 @@ completed issue.
 
 ## Session Start
 
-Run these two commands at the top of each session:
+Run these commands at the top of each session:
 
 ```sh
-gh issue list -R ${github_repo} -l in-progress   # tasks claimed in a prior session (resume or unclaim)
-gh issue list -R ${github_repo} --state open --search "-label:blocked"  # available work
+# 1. Your claimed work from prior sessions
+gh issue list -R ${github_repo} -l in-progress
+
+# 2. Available unblocked work
+gh issue list -R ${github_repo} --state open --search "-label:blocked"
 ```
+
+**Recovery from prior session:** For each in-progress issue you own, check its comment thread for a progress note:
+
+```sh
+gh issue view -R ${github_repo} {number} --comments
+```
+
+Find the most recent comment containing `COMPLETED:` / `IN PROGRESS:` / `NEXT:` — that is your resumption point.
 
 ---
 
@@ -130,6 +141,57 @@ gh issue create -R ${github_repo} -t "{Task title}" -b $body -l priority:medium
 
 ---
 
+## Compaction Survival
+
+Context compaction discards conversation history. Before any long operation or when ending a session, post a progress comment on each in-progress issue you own.
+
+**Progress comment format:**
+
+```sh
+gh issue comment -R ${github_repo} {number} -b "$(cat << 'EOF'
+COMPLETED: {what is fully done}
+IN PROGRESS: {exact current state — be specific}
+NEXT: {first concrete action when resuming}
+KEY DECISIONS: {choices made that affect future work}
+EOF
+)"
+```
+
+**PowerShell:**
+
+```powershell
+$progress = @"
+COMPLETED: {what is fully done}
+IN PROGRESS: {exact current state}
+NEXT: {first concrete action when resuming}
+KEY DECISIONS: {choices made}
+"@
+gh issue comment -R ${github_repo} {number} -b $progress
+```
+
+**When to post a progress comment:**
+- Before any file-heavy implementation run
+- When ending a session or handing off
+- Any time you would lose context if the conversation reset right now
+
+**Recovery:** `gh issue view -R ${github_repo} {number} --comments` — find the most recent `COMPLETED:` comment and resume from `NEXT:`.
+
+---
+
+## Discovered-from
+
+When you find side work while working on another issue, create the new issue and reference the parent in the body:
+
+```markdown
+## Context
+
+Discovered while working on #{parent-number}.
+```
+
+This creates a visible lineage trail in the GitHub UI without requiring any special labels.
+
+---
+
 ## Update `issue:update`
 
 | Transition            | Command                                                                                   |
@@ -177,13 +239,13 @@ document the dependency in the issue body:
 ```markdown
 ## Context
 
-Blocked by #42.
+Blocked by #{number}. {Brief reason.}
 ```
 
 Before claiming an issue, check whether any referenced blocking issues are still open:
 
 ```sh
-gh issue view -R ${github_repo} 42   # check if still open
+gh issue view -R ${github_repo} {number}   # check if still open
 ```
 
 ---

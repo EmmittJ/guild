@@ -36,8 +36,6 @@ Use `memory:insight:create` when you notice a recurring pattern — e.g. commit 
 {type}({scope}): {short description}
 
 {optional body — what changed and why, if not obvious from the subject}
-
-Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
 ```
 
 **Types:**

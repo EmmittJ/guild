@@ -68,7 +68,10 @@ CI: {system or "none"}
 Docs: {present/absent, location}
 Security surface: {brief — e.g. "public REST API with auth"}
 Existing agents: {list or "none"}
+Agent path detected: {.github/agents | .claude/agents | .agents | none}
 ```
+
+Use the detected agent path to set `{agents-dir}`. If `.claude/agents/` exists (Claude Code), default to that. If `.github/agents/` exists, default to that. If neither exists, default to `.github/agents/`.
 
 ---
 
@@ -82,6 +85,7 @@ Show the user a brief summary of what was found, then ask for their universe and
 > - Tests: {test runner}
 > - CI: {ci system}
 > - Docs: {present/absent}
+> - Agent files will go in: `{agents-dir}` ← change this if wrong (e.g. `.claude/agents/` for Claude Code)
 >
 > What universe do you want your team cast from? (Any show, film, book, game — no limits)
 > How many agents? (default: 5, including your orchestrator)

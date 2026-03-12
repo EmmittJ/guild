@@ -3,8 +3,8 @@ name: train-agent
 description: >
   Scaffold a new agent file for this repo's team. Use when asked to create a new specialist,
   add a team member, or define a new role. Produces a .agent.md file with correct
-  frontmatter and a focused body. Agents live in .github/agents/ and are auto-detected by
-  VS Code and the GitHub Copilot CLI.
+  frontmatter and a focused body. Agents live in .github/agents/ (or .claude/agents/ for
+  Claude Code) and are auto-detected by VS Code, Copilot CLI, Claude Code, and compatible tools.
 license: MIT
 metadata:
   version: "0.3"
@@ -48,7 +48,7 @@ Four pre-built category templates live at `plugin/skills/setup/assets/agents/`. 
 
 ## Agent File Format
 
-Agents are `.agent.md` files auto-detected by VS Code and the GitHub Copilot CLI. Both read any `.md` file in `.github/agents/`.
+Agents are `.agent.md` files. VS Code, Copilot CLI, Claude Code, and other compatible AI coding tools pick them up from `.github/agents/` (or `.claude/agents/` for Claude Code).
 
 ```markdown
 ---
