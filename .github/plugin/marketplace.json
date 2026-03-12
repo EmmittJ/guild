@@ -1,10 +1,13 @@
 {
   "name": "guild",
-  "owner": "EmmittJ",
+  "owner": {
+    "name": "EmmittJ"
+  },
   "plugins": [
     {
       "name": "guild",
       "description": "Guild Master orchestrator with orchestrate, setup, train-agent, and train-skill skills.",
+      "source": ".",
       "skills": ["./plugin/skills/"]
     }
   ]
