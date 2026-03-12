@@ -78,13 +78,13 @@ Memory configuration lives in `.beads/config.yaml` when using beads. A repo on A
 
 ## First Session
 
-After install, open a chat with Guild Master and say:
+After install, run the setup skill:
 
 ```
 /guild:setup
 ```
 
-Guild Master will:
+Any agent with access to the setup skill can run it. It will:
 
 1. Silently scan your repo (language, framework, CI, existing agents)
 2. Show you what it found and ask for a universe to cast your team from
