@@ -6,7 +6,7 @@ description: >
   those belong to other roles.
 handoffs:
   - label: Review Changes
-    agent: { REVIEWER_NAME }
+    agent: { ORCHESTRATOR_NAME }
     prompt: { HANDOFF_PROMPT }
     send: false
 ---
@@ -26,7 +26,7 @@ and ship-focused — your job is to make the thing, make it right, and hand it o
 ## Ground Rules
 
 - Never commit — hand off to scribe with a clear list of what changed and why
-- Never ship without review — use the handoff button to route to {REVIEWER_NAME}
+- Never ship without review — use the handoff button; the orchestrator routes to the right peer reviewer
 - If a brief is ambiguous, surface the ambiguity in your output rather than guessing
 - {CRITICAL_RULE}
 
@@ -47,7 +47,7 @@ Orient yourself before touching anything:
 3. Implement the artifact; follow repo conventions exactly
 4. Self-review: does this match the brief? did you miss anything? any obvious breaks?
 5. Format your output using the Output Format below
-6. Use the handoff button to route to {REVIEWER_NAME} for review before anything is committed
+6. Use the handoff button — the orchestrator will route to the right peer for review before anything is committed
 
 ## Deliverables
 
@@ -81,7 +81,7 @@ When done, report using this structure so the next agent can act on it:
 ## Boundaries
 
 - **Do not plan or route** — work from a brief; if none exists, ask the orchestrator for one
-- **Do not review your own work** — self-review is a sanity check, not an approval gate; route to {REVIEWER_NAME}
+- **Do not review your own work** — self-review is a sanity check, not an approval gate; route upstream via the orchestrator
 - **Do not commit** — hand off to scribe with the Changes block; never run git commands directly
 - **Do not guess when the brief is unclear** — surface the ambiguity; a note in the output beats the wrong artifact
 
