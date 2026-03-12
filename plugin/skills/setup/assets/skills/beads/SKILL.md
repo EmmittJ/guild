@@ -137,6 +137,41 @@ After compaction — run `bd list --status in_progress --json` then `bd show` ea
 
 See [references/RESUMABILITY.md](references/RESUMABILITY.md) for full patterns.
 
+## Agent Registration — `agent:register`
+
+When a new agent is added to the team, register it in beads so it participates in state tracking.
+
+```bash
+# 1. Find the matching role (or create one)
+bd list --type=role
+bd create "{role-name}" --type=role --description="{what this role owns}" --json
+
+# 2. Create the agent bead
+bd create "{agent-name}" --type=agent --description="{one-liner from agent frontmatter}" --json
+# → returns {agent-id}
+
+# Add system label so slot commands work
+bd update {agent-id} --add-label "gt:agent" --json
+
+# 3. Link agent to its role (required — role slot is mandatory for agent beads)
+bd slot set {agent-id} role {role-id}
+
+# 4. Verify
+bd slot show {agent-id}
+```
+
+**Agent states** (the agent reports its own state during work):
+
+```bash
+bd agent state {agent-id} working    # actively executing
+bd agent state {agent-id} stuck      # blocked, needs help
+bd agent state {agent-id} idle       # waiting for work
+bd agent heartbeat {agent-id}        # update last_activity
+bd agent show {agent-id}             # full agent details
+```
+
+See [references/AGENTS.md](references/AGENTS.md) for full agent bead docs.
+
 ## Advanced features
 
 | Feature | Command | Reference |

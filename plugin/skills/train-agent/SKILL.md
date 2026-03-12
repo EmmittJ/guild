@@ -170,3 +170,50 @@ This prevents confirmation bias where a reviewer who knows what was attempted ra
 3. Use `memory:insight:create` to seed a per-agent insight entry for this role (even if empty — signals to future agents that insights should accumulate here)
 4. Tell Guild Master: "I've added a {name} agent for {domain}"
 5. If this agent needs memory access, ensure the memory skill is installed in the repo
+6. **If beads is active** — register the agent in beads (see below)
+
+---
+
+## If Beads Is Active
+
+Check for beads: if `.beads/metadata.json` exists in the repo root, register the new agent.
+
+### 1. Find the matching role
+
+```bash
+bd list --type=role
+```
+
+Match the agent's function to an existing role bead. If no suitable role exists, create one first:
+
+```bash
+bd create "{role-name}" --type=role --description="{what this role owns and does not do}" --json
+```
+
+### 2. Create the agent bead
+
+```bash
+bd create "{agent-name}" --type=agent --description="{one-liner from the agent's description frontmatter}" --json
+```
+
+Capture the returned `id` (e.g. `guild-wisp-abc1`). Then add the system label so slot commands work:
+
+```bash
+bd update {agent-id} --add-label "gt:agent" --json
+```
+
+### 3. Slot the agent to its role
+
+```bash
+bd slot set {agent-id} role {role-id}
+```
+
+This registers the agent in the ZFC state graph and makes it visible to `bd agent show`.
+
+### 4. Verify
+
+```bash
+bd slot show {agent-id}
+```
+
+Should show `role → {role-id}` under slots.
