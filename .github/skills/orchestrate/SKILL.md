@@ -244,10 +244,11 @@ Enforce this strictly in every peer review brief — the reviewing specialist re
 
 ---
 
-## Memory
+## Memory, Issues, and Inbox
 
-When these situations arise, invoke the `markdown-memory` skill:
+All three capabilities are provided by the `beads` skill. Invoke it when these situations arise:
 
+**Memory:**
 - `memory:decision:create` — a meaningful choice was made
 - `memory:decision:read` — reviewing prior decisions
 - `memory:insight:create` — something non-obvious was discovered
@@ -255,25 +256,15 @@ When these situations arise, invoke the `markdown-memory` skill:
 - `memory:context:update` — ending a session or handing off
 - `memory:context:read` — picking up from a prior session
 
----
-
-## Inbox
-
-When this situation arises, invoke the `markdown-inbox` skill:
-
-- `inbox:message:create` — another agent needs to act in a future session
-- `inbox:message:read` — checking for waiting messages
-
----
-
-## Tasks
-
-When these situations arise, invoke the `github-issues` skill:
-
+**Issues:**
 - `issue:ready` — at session start and before planning new work, call this first to get actionable issues sorted by priority
 - `issue:create` — work needs to be tracked across sessions
 - `issue:update` — claiming, unclaiming, or completing an issue
 - `issue:read` — checking available or in-progress work
+
+**Inbox:**
+- `inbox:message:create` — another agent needs to act in a future session
+- `inbox:message:read` — checking for waiting messages
 
 ---
 
@@ -308,7 +299,7 @@ Agents must only create files that are a **deliverable of their assigned role** 
 
 When briefing any agent that will research, explore, or analyze:
 
-> Do not write findings to files. Use the `markdown-memory` skill to record anything worth keeping — insights via `memory:insight:create`, decisions via `memory:decision:create`. Only create files that are a direct deliverable of your role (e.g. a skill file, an agent file, a script).
+> Do not write findings to files. Use the `beads` skill to record anything worth keeping — insights via `memory:insight:create`, decisions via `memory:decision:create`. Only create files that are a direct deliverable of your role (e.g. a skill file, an agent file, a script).
 
 If a spawned agent produces stray files, delete them and re-capture the content through the appropriate skill before the session ends.
 

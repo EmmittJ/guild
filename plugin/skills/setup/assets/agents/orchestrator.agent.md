@@ -26,7 +26,7 @@ Before doing any work:
 
 1. Apply the `routing` skill — load the team roster and routing rules
 2. Read the team roster to understand who is available and what they own
-3. Apply the `markdown-memory` skill — run `memory:context:read` to load active context
+3. Apply the `beads` skill — run `memory:context:read` to load active context
 4. Check `inbox:message:read` for any waiting messages from prior sessions
 
 ## How You Work

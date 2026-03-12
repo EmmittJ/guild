@@ -45,11 +45,11 @@ guild-master → steward (planning + design) → wright (implementation) → pee
 Skills installed by `/guild:setup`. Update this table when adding, removing, or renaming a skill.
 Orchestrate reads this at session start and applies each skill in order.
 
-| Order | Skill directory    | Session-start action                                             |
-| ----- | ------------------ | ---------------------------------------------------------------- |
-| 1     | `markdown-memory/` | `memory:context:read` — load context, decisions, per-agent notes |
-| 2     | `github-issues/`   | `issue:ready` — surface actionable work                          |
-| 3     | `markdown-inbox/`  | `inbox:message:read` — check waiting messages from other agents  |
+| Order | Skill directory | Session-start action                                                        |
+| ----- | --------------- | --------------------------------------------------------------------------- |
+| 1     | `beads/`        | `memory:context:read` — load context, decisions, insights, per-agent notes  |
+| 2     | `beads/`        | `issue:ready` — surface actionable work                                     |
+| 3     | `beads/`        | `inbox:message:read` — check waiting messages from other agents             |
 
 ---
 
