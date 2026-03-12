@@ -22,7 +22,6 @@ if (-not (Test-Path (Join-Path $RepoRoot "plugin.json"))) {
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
-$SrcDir = Join-Path $RepoRoot "plugin\skills"
 $DstDir = Join-Path $RepoRoot ".github\skills"
 
 # Map: skill name -> source directory (relative to repo root)
@@ -82,9 +81,7 @@ function Add-AssetToFrontmatter {
 function Get-AssetRelPath {
     param([string]$SrcRelToRepo)
     # dest is .github/skills/{name}/SKILL.md — 3 dirs up reaches repo root
-    $depth = (".github/skills/x" -split '/').Count  # 3
-    $up = (".." * $depth) -replace '\.\.', '../' -replace '/$', ''
-    $prefix = ((1..$depth) | ForEach-Object { ".." }) -join '/'
+    $prefix = ((1..3) | ForEach-Object { ".." }) -join '/'
     return "$prefix/$($SrcRelToRepo -replace '\\','/')/SKILL.md"
 }
 

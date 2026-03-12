@@ -22,7 +22,6 @@ fi
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
-SRC_DIR="$REPO_ROOT/plugin/skills"
 DST_DIR="$REPO_ROOT/.github/skills"
 
 # skill:source_relative_to_repo pairs
