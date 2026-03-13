@@ -1,0 +1,4 @@
+# Prettier configuration
+# https://prettier.io/docs/en/options.html
+
+tabWidth: 2
