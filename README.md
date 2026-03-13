@@ -1,14 +1,25 @@
 # Guild
 
-> Craft, not configuration.
+> An AI team for any repo. No runtime, no vendor lock-in — just files.
+
+Drop Guild into a repo and you get a self-managing AI team: a Guild Master that orchestrates, specialists that implement and review, shared memory, and a work queue. It works in Claude Code, GitHub Copilot CLI, VS Code, or anything else that reads `.agent.md` files.
+
+Nothing to run. Nothing to install before you start. One `/guild:setup` command and you have a team.
 
 ---
 
 ## What It Is
 
-Guild is a **Guild Master** agent file and a set of skills in the [agentskills.io](https://agentskills.io) open format. Drop them into any repo and you have a self-managing AI team — one that knows your platform, can train new agents, and can delegate work to specialists.
+Guild is a **Guild Master** agent file and a set of skills in the [agentskills.io](https://agentskills.io) open format. The agents coordinate through skills — structured instructions the AI loads on demand — rather than through a service or runtime.
 
-It runs in Claude Code, GitHub Copilot CLI, VS Code, or anything else that loads agent files and skills. You can install it as a Copilot CLI plugin, or just copy the files in. There's nothing to import or configure beyond what's already in the repo.
+Install as a Copilot CLI plugin or copy the files in directly. Either way, you get:
+
+- **Guild Master** — orchestrates work, delegates to specialists, synthesizes results
+- **Setup skill** — scaffolds your team, memory, and issue tracking in one session
+- **Orchestrate, train-agent, train-skill** — core skills for coordination and team growth
+- **Work-cycle** — backend-agnostic session discipline: orient, claim, work, land cleanly
+
+Memory and issue tracking default to plain markdown files — no install. Switch to [beads](https://github.com/EmmittJ/gastown) when you want cross-clone sync and dependency graphs.
 
 ---
 
@@ -220,15 +231,15 @@ plugin/
 
 ## Memory & Issue Tracking
 
-Guild supports three backends for memory, issue tracking, and inbox. **Markdown is the default** — no tools to install, no accounts to configure.
+Start with markdown. It works immediately — no tools to install, no accounts to configure, nothing that can break in CI. Upgrade to beads when you want more.
 
-| Backend | What it replaces | Requires |
-| ------- | ---------------- | -------- |
-| **Markdown** | — (is the default) | nothing |
-| **Beads** | All of markdown | `bd` CLI v0.47.0+ |
-| **GitHub Issues** | Markdown issues only | `gh` CLI |
+| Backend | What it covers | Requires |
+| ------- | -------------- | -------- |
+| **Markdown** | Memory, issues, inbox | nothing |
+| **Beads** | All of the above + cross-clone sync | `bd` CLI v0.47.0+ |
+| **GitHub Issues** | Issues only (pair with markdown memory) | `gh` CLI |
 
-### Markdown (Default)
+### Markdown (Default — start here)
 
 Plain files in `.agents/` — survives compaction, works offline, no dependencies.
 
@@ -247,9 +258,11 @@ Plain files in `.agents/` — survives compaction, works offline, no dependencie
 
 Issues support type, priority, `blocked-by`, `discovered-from` lineage, and a `## Notes` field for writing `COMPLETED / IN PROGRESS / NEXT` snapshots before context is lost. Each agent owns its own `context/{agent}.md` — concurrent sessions don't conflict.
 
-### Beads (Replaces markdown — persistent sync)
+### Beads (Level up — replaces markdown entirely)
 
-[Beads (`bd`)](https://github.com/EmmittJ/gastown) is a Git-backed issue tracker powered by Dolt. Use it **instead of markdown** when you want issues and memory to persist across clones and sync via a Dolt remote. Beads covers all three concerns — once you adopt beads, skip the markdown components during `/guild:setup`.
+[Beads (`bd`)](https://github.com/EmmittJ/gastown) is a Git-backed issue tracker powered by Dolt. It covers everything markdown does, plus dependency graphs, cross-clone sync, and richer compaction survival. Once you switch to beads, you don't need the markdown components — select it in `/guild:setup` and skip the rest.
+
+Ready to upgrade? Install `bd` and run `/guild:setup` — or just run `bd init` and let Guild Master switch the team over.
 
 ```bash
 bd init                          # Initialize beads database
