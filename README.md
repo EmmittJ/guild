@@ -61,10 +61,7 @@ For the GitHub Copilot CLI (`copilot`). Adds Guild to your global plugin list �
 
 ```sh
 copilot plugin marketplace add EmmittJ/guild
-copilot plugin install guild@guild            # Guild Master + orchestrate + train skills
-
-# add the setup skill to bootstrap your team
-copilot plugin install setup@guild
+copilot plugin install guild@guild            # includes setup, orchestrate, train-agent, train-skill
 ```
 
 Then run `/guild:setup` in any Copilot CLI session.
@@ -96,8 +93,7 @@ Or add it manually to `~/.copilot/config.json`:
 **Step 2 — install the plugin:**
 
 ```sh
-copilot plugin install guild@guild
-copilot plugin install setup@guild
+copilot plugin install guild@guild            # includes setup, orchestrate, train-agent, train-skill
 ```
 
 **Step 3 — restart VS Code**, then run `/guild:setup` in the Copilot Chat panel.
