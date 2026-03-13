@@ -25,7 +25,13 @@ Run `/guild:setup` once. It creates your team in the voice and universe you choo
 
 ## Use It
 
-**Option A — copy into your repo**
+Three paths to the same result. Pick the one that fits your setup.
+
+---
+
+### Option A — copy into your repo (no CLI needed)
+
+Works in any agent — Claude Code, Cursor, VS Code, anything that reads `.github/skills/`. No plugin manager required.
 
 ```sh
 # grab the core plugin skills
@@ -40,24 +46,65 @@ curl --create-dirs -o .github/skills/train-skill/SKILL.md \
 curl --create-dirs -o .github/skills/work-cycle/SKILL.md \
   https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/work-cycle/SKILL.md
 
-# install the setup skill, then run it to scaffold your team
+# install the setup skill to scaffold your team
 curl --create-dirs -o .github/skills/setup/SKILL.md \
   https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/setup/SKILL.md
-# then: /setup
 ```
 
-**Option B — install as a Copilot CLI plugin**
+Then run `/setup` in any agent chat to scaffold your team.
+
+---
+
+### Option B — Copilot CLI plugin
+
+For the GitHub Copilot CLI (`copilot`). Adds Guild to your global plugin list — install once, available in every repo.
 
 ```sh
 copilot plugin marketplace add EmmittJ/guild
 copilot plugin install guild@guild            # Guild Master + orchestrate + train skills
 
 # add the setup skill to bootstrap your team
-copilot skill install setup@guild
-/guild:setup                    # interactive setup — team, memory, issues, inbox
+copilot plugin install setup@guild
 ```
 
-Either way, create an `AGENTS.md` at your repo root to tell Guild Master how your repo works.
+Then run `/guild:setup` in any Copilot CLI session.
+
+---
+
+### Option C — VS Code
+
+For VS Code + GitHub Copilot Chat. The plugin config is shared with the Copilot CLI — adding it once covers both.
+
+**Step 1 — register the marketplace** (in any terminal, including the VS Code integrated terminal):
+
+```sh
+copilot plugin marketplace add EmmittJ/guild
+```
+
+Or add it manually to `~/.copilot/config.json`:
+
+```json
+{
+  "marketplaces": {
+    "guild": {
+      "source": { "source": "github", "repo": "EmmittJ/guild" }
+    }
+  }
+}
+```
+
+**Step 2 — install the plugin:**
+
+```sh
+copilot plugin install guild@guild
+copilot plugin install setup@guild
+```
+
+**Step 3 — restart VS Code**, then run `/guild:setup` in the Copilot Chat panel.
+
+---
+
+Create an `AGENTS.md` at your repo root to tell Guild Master how your repo works.
 
 ---
 
