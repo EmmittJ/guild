@@ -80,6 +80,45 @@ will prompt to register it. The workflow:
 3. `bd update {agent-id} --add-label "gt:agent" --json` — required label
 4. `bd slot set {agent-id} role {role-id}` — slot to role
 
+## 4. Wire Dolt Remote (Recommended)
+
+Wiring a remote lets beads issues survive machine loss, sync across environments, and push with
+`bd sync`. Use the same GitHub repo the guild lives in — beads stores its data under
+`refs/dolt/data` and doesn't interfere with normal git history.
+
+**Requirements:**
+
+- `git` must be installed and in `PATH`
+- The GitHub repo must already have at least one commit (a completely empty repo won't work)
+
+```bash
+# HTTPS (use this if you don't have SSH keys configured)
+bd dolt remote add origin https://github.com/ORG/REPO.git
+
+# SSH (preferred if you have SSH keys)
+bd dolt remote add origin git@github.com:ORG/REPO.git
+```
+
+**Verify the remote is fully wired** — it must show `[SQL + CLI]`, not `[CLI only]`:
+
+```bash
+bd dolt remote list
+# Expected: origin [SQL + CLI]
+# If you see [CLI only]: re-run the remote add command (it's idempotent), then check again
+```
+
+Once wired, push manually or let `bd sync` handle it:
+
+```bash
+bd dolt push --set-upstream origin main   # first push
+bd sync                                   # subsequent syncs (pull + push)
+```
+
+> **Note:** `bd sync` is the preferred day-to-day sync command. Reserve `bd dolt push` for
+> initial setup or when you need explicit control.
+
+---
+
 ## Attaching Work (Hooks)
 
 Every agent has a hook slot (0..1 cardinality) — this is where work is dispatched.
