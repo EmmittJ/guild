@@ -3,8 +3,9 @@ name: beads
 description: >
   Persistent memory system for multi-session AI work. Git-backed issue tracker with
   dependency graphs, compaction-safe notes, session handoff, and agent coordination.
-  Activate when: issue:create — work needs tracking across sessions; issue:update —
-  claiming, updating, or completing an issue; issue:read — checking available or
+  Activate when: issue:create — work needs tracking across sessions; issue:claim —
+  taking atomic ownership of an issue; issue:update — updating metadata, notes, or
+  priority; issue:close — completing an issue; issue:read — checking available or
   in-progress work; issue:ready — finding actionable work at session start or before
   planning; memory — writing notes that survive compaction; session handoff — handing
   off context to a future session; agent coordination — tracking multi-agent work.
@@ -100,6 +101,14 @@ bd stale --days 30 --json                     # forgotten issues
 - `bd ready --json` / `bd list --json` → flat array `[{id, title, status, ...}]`
 - `bd show <id> --json` → nested object `{issue: {id, title, ...}}`
 
+## Claim — `issue:claim`
+
+```bash
+bd update <id> --claim --json   # atomic claim — sets status to in_progress, assigns to current session
+```
+
+Claiming is the contract that prevents two agents from working the same task. Always claim before starting. If `bd update --claim` returns an error, the issue is already claimed by another agent — find a different issue.
+
 ## Update — `issue:update`
 
 ```bash
@@ -119,7 +128,7 @@ There is NO `failed` status — for failures, use `bd update <id> --status=block
 
 See [references/RESUMABILITY.md](references/RESUMABILITY.md) for how to write notes that survive compaction.
 
-## Close — `issue:update` (complete)
+## Close — `issue:close`
 
 ```bash
 bd close <id> --reason "What was done and why" --json   # terminal state — marks work complete

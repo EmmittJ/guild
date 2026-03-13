@@ -102,7 +102,9 @@ Verbs are colon-namespaced commands dispatched to the backing skill that impleme
 | `context:read` | Restore working state at session start | Prior context |
 | `issue:ready` | List unblocked issues ready to claim, sorted by priority | Issue list |
 | `issue:create` | Create a tracked issue with description and priority | Issue ID |
-| `issue:update` | Claim, update, or close an issue | Updated issue |
+| `issue:claim` | Atomically take ownership of an issue before starting work | Updated issue |
+| `issue:update` | Update metadata, priority, notes, or status on an issue | Updated issue |
+| `issue:close` | Mark an issue complete with a reason | Closed issue |
 | `issue:read` | Read issue details or list issues | Issue data |
 | `message:create` | Leave an async message for another agent to act on | Confirmation |
 | `message:read` | Check and process waiting messages | Messages |
@@ -284,7 +286,9 @@ These verbs are provided by whichever backing skill is listed in the routing ski
 **Issues:**
 - `issue:ready` — at session start and before planning new work, call this first to get actionable issues sorted by priority
 - `issue:create` — work needs to be tracked across sessions
-- `issue:update` — claiming, unclaiming, or completing an issue
+- `issue:claim` — atomically take ownership of an issue before starting; prevents two agents from working the same task
+- `issue:update` — update metadata, notes, priority, or status on an in-progress issue
+- `issue:close` — mark an issue complete with a reason at session end or task completion
 - `issue:read` — checking available or in-progress work
 
 **Inbox:**
