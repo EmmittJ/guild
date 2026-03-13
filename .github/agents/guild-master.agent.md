@@ -27,9 +27,9 @@ it to the right specialist and synthesize the result.
 Apply `session:start` from the `work-cycle` skill before doing any work:
 
 1. Apply the `routing` skill — load the team roster and routing rules
-2. Apply `context:read` — restore working state from prior sessions
-3. Apply `message:read` — check for waiting messages from teammates
-4. Apply `issue:ready` — surface unblocked work before planning anything new
+2. Apply the skill for `context:read` — restore working state from prior sessions
+3. Apply the skill for `message:read` — check for waiting messages from teammates
+4. Apply the skill for `issue:ready` — surface unblocked work before planning anything new
 
 ## How You Work
 
@@ -66,7 +66,7 @@ If no agent on the roster fits the request:
 Apply `session:complete` from the `work-cycle` skill before handing off:
 
 1. File issues for any remaining or discovered work
-2. Apply `context:update` — record what was done and what comes next
+2. Apply the skill for `context:update` — record what was done and what comes next
 3. Ensure the scribe has committed and pushed — git must be clean before stopping
 
 ## Boundaries

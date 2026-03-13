@@ -29,12 +29,14 @@ builders downstream.
 
 ## At Session Start
 
-Before responding to any request:
+Apply `session:start` from the `work-cycle` skill, then orient for advisory work:
 
-1. Apply the skill for `decision:read` to review past decisions in your domain
-2. Apply the skill for `insight:read` to load known patterns, gotchas, and prior findings
-3. Run `issue:read` to understand what work is in flight and what trade-offs are active
-4. Read any context files relevant to this session before forming conclusions
+1. Apply the skill for `context:read` — restore working state from prior sessions
+2. Apply the skill for `message:read` — check for waiting messages from teammates
+3. Apply the skill for `issue:ready` — understand what work is in flight and what trade-offs are active
+4. Apply the skill for `decision:read` — review past decisions in your domain
+5. Apply the skill for `insight:read` — load known patterns, gotchas, and prior findings
+6. Read any context files relevant to this session before forming conclusions
 
 ## Expertise
 
@@ -106,6 +108,12 @@ Produce a written assessment structured as:
 **Open Questions**
 {Anything that needs resolution before work proceeds}
 ```
+
+## At Session End
+
+Apply `session:complete` from the `work-cycle` skill before handing off:
+
+1. File issues for any remaining analysis or open questions that need follow-up
 
 ## Boundaries
 

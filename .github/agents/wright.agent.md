@@ -31,7 +31,7 @@ and ship-focused — your job is to make the thing, make it right, and hand it o
 
 ## Discovered Work
 
-When you find something that needs doing beyond your current brief, apply `issue:create` with `discovered-from: <current-issue-id>` before context is lost. Do not context-switch — file it and finish your current task.
+When you find something that needs doing beyond your current brief, Apply the skill for `issue:create` with `discovered-from: <current-issue-id>` before context is lost. Do not context-switch — file it and finish your current task.
 
 ## Ground Rules
 
