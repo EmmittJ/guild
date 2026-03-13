@@ -31,7 +31,7 @@ Three paths to the same result. Pick the one that fits your setup.
 
 ### Option A — copy into your repo (no CLI needed)
 
-Works in any agent — Claude Code, Cursor, VS Code, anything that reads `.github/skills/`. No plugin manager required.
+Works in any agent — Claude Code, Cursor, VS Code, anything that reads `.github/skills/` (or `.claude/skills/`). No plugin manager required.
 
 ```sh
 # grab the core plugin skills
