@@ -32,10 +32,6 @@ The guild's own agents are renamed to match the crafter theme: steward (planning
 
 Both backends are now documented as first-class options. Positioning: markdown = lightweight default, beads = full replacement, github-issues = partial drop-in.
 
-### Plugin hooks
-
-A PreCompact snapshot hook and a session-end git gate are now available as plugin hooks for supporting tools.
-
 ### CI and formatting
 
 A Prettier linting workflow is added — CI checks `npx prettier@3.8.1 --check .` on push and pull request. Node.js 18+ is required. Scribe guidelines updated to reflect the formatting requirement.
