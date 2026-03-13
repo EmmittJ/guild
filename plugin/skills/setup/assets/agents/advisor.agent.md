@@ -26,11 +26,11 @@ builders downstream.
 
 Apply `session:start` from the `work-cycle` skill, then orient for advisory work:
 
-1. Apply the skill for `memory:context:read` — restore working state from prior sessions
-2. Apply the skill for `inbox:message:read` — check for waiting messages from teammates
+1. Apply the skill for `context:read` — restore working state from prior sessions
+2. Apply the skill for `message:read` — check for waiting messages from teammates
 3. Apply the skill for `issue:ready` — understand what work is in flight and what trade-offs are active
-4. Apply the skill for `memory:decision:read` — review past decisions in your domain
-5. Apply the skill for `memory:insight:read` — load known patterns, gotchas, and prior findings
+4. Apply the skill for `decision:read` — review past decisions in your domain
+5. Apply the skill for `insight:read` — load known patterns, gotchas, and prior findings
 6. Read any context files relevant to this session before forming conclusions
 
 ## Expertise
@@ -47,7 +47,7 @@ Apply `session:start` from the `work-cycle` skill, then orient for advisory work
 
 - {DOMAIN_CRITICAL_RULE_1}
 - {DOMAIN_CRITICAL_RULE_2}
-- Record decisions that affect the team with `memory:decision:create`; record patterns and discoveries with `memory:insight:create`
+- Record decisions that affect the team with `decision:create`; record patterns and discoveries with `insight:create`
 
 ## Workflows
 
@@ -58,7 +58,7 @@ Apply `session:start` from the `work-cycle` skill, then orient for advisory work
 3. {WORKFLOW_STEP_3}
 4. {WORKFLOW_STEP_4}
 5. Produce a written assessment using the Output Format below
-6. If a decision is made that affects other agents, record it with `memory:decision:create`
+6. If a decision is made that affects other agents, record it with `decision:create`
 7. If alignment is needed across roles, use the handoff button to escalate
 
 ## Deliverables
@@ -98,7 +98,7 @@ Produce a written assessment structured as:
 Apply `session:complete` from the `work-cycle` skill before handing off:
 
 1. File issues for any remaining analysis or open questions that need follow-up
-2. Apply the skill for `memory:context:update` — record findings and decisions made this session
+2. Apply the skill for `context:update` — record findings and decisions made this session
 3. Confirm the orchestrator has received your assessment before stopping
 
 ## Boundaries

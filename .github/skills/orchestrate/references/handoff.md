@@ -10,8 +10,8 @@ description: >
 
 Every agent should run these before doing substantive work:
 
-1. Apply the skill for `memory:context:read` and `memory:decision:read` — if installed
-2. Apply the skill for `inbox:message:read` — check for waiting messages, delete after reading
+1. Apply the skill for `context:read` and `decision:read` — if installed
+2. Apply the skill for `message:read` — check for waiting messages, delete after reading
 3. Apply the skill for `issue:read` — resume or unclaim in-progress issues, then check open
 
 ---
@@ -51,9 +51,9 @@ If significant, also write a decisions file.}
 
 Before passing work:
 
-1. **Trigger `memory:context:update`** — write current state so the next agent can start immediately
-2. **Trigger `memory:decision:create`** if a meaningful choice was made
-3. **Trigger `inbox:message:create`** if the next agent runs in a separate session
+1. **Trigger `context:update`** — write current state so the next agent can start immediately
+2. **Trigger `decision:create`** if a meaningful choice was made
+3. **Trigger `message:create`** if the next agent runs in a separate session
 4. **Include the output contract** in your response to Guild Master
 
 ### Inline handoff (same session)
@@ -68,7 +68,7 @@ Follow-Up:
 
 ### Async handoff (different session)
 
-Trigger `inbox:message:create` — write to the receiving agent's inbox directory:
+Trigger `message:create` — write to the receiving agent's inbox directory:
 
 ```markdown
 # {Subject}
@@ -86,9 +86,9 @@ Date: YYYY-MM-DD HH:MM
 
 ---
 
-## Context File Format `memory:context:update`
+## Context File Format `context:update`
 
-Trigger `memory:context:update` — the `memory` skill handles the path and file creation.
+Trigger `context:update` — the `memory` skill handles the path and file creation.
 Context files use a short UUID session ID (8 hex characters, e.g. `a3f9c1b2`) and are never committed.
 
 ```markdown

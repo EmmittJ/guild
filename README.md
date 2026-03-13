@@ -33,23 +33,17 @@ Three paths to the same result. Pick the one that fits your setup.
 
 Works in any agent — Claude Code, Cursor, VS Code, anything that reads `.github/skills/` (or `.claude/skills/`). No plugin manager required.
 
+**macOS / Linux:**
 ```sh
-# grab the core plugin skills
-curl --create-dirs -o .github/skills/orchestrate/SKILL.md \
-  https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/orchestrate/SKILL.md
-curl --create-dirs -o .github/skills/orchestrate/references/handoff.md \
-  https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/orchestrate/references/handoff.md
-curl --create-dirs -o .github/skills/train-agent/SKILL.md \
-  https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/train-agent/SKILL.md
-curl --create-dirs -o .github/skills/train-skill/SKILL.md \
-  https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/train-skill/SKILL.md
-curl --create-dirs -o .github/skills/work-cycle/SKILL.md \
-  https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/work-cycle/SKILL.md
-
-# install the setup skill to scaffold your team
-curl --create-dirs -o .github/skills/setup/SKILL.md \
-  https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/setup/SKILL.md
+sh <(curl -fsSL https://raw.githubusercontent.com/EmmittJ/guild/main/scripts/install.sh)
 ```
+
+**Windows (PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/EmmittJ/guild/main/scripts/install.ps1 | iex
+```
+
+Both scripts sparse-clone only the plugin skills into `.github/skills/` and clean up after themselves. Requires git 2.25+.
 
 Then run `/setup` in any agent chat to scaffold your team.
 
@@ -340,7 +334,7 @@ Your installed components — `routing/SKILL.md`, `markdown-memory/`, `markdown-
 
 See [CHANGELOG.md](CHANGELOG.md) for breaking changes and migration notes before upgrading.
 
-**Option A (curl):** Re-run the curl commands from the install section to pull updated files.
+**Option A (install script):** Re-run the install script — it overwrites plugin-owned files with the latest versions.
 
 ---
 

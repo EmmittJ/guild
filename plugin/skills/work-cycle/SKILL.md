@@ -16,8 +16,8 @@ metadata:
 
 Before working on anything, orient:
 
-1. **Read context** — apply `memory:context:read` to restore working state from prior sessions
-2. **Check inbox** — apply `inbox:message:read` to see waiting messages from teammates
+1. **Read context** — apply `context:read` to restore working state from prior sessions
+2. **Check inbox** — apply `message:read` to see waiting messages from teammates
 3. **Find ready work** — apply `issue:ready` to see unblocked issues sorted by priority
 4. **Claim your task** — apply `issue:claim` to take atomic ownership before starting
 
@@ -40,7 +40,7 @@ Before ending any session, complete ALL steps in order:
 1. **File remaining work** — apply `issue:create` for anything that needs follow-up, with context for future sessions
 2. **Run quality gates** — tests, linters, builds (if code changed)
 3. **Update issue status** — apply `issue:close` for finished work; update notes on in-progress items
-4. **Update context** — apply `memory:context:update` so the next session can orient quickly
+4. **Update context** — apply `context:update` so the next session can orient quickly
 5. **Push to remote** — `git pull --rebase` then `git push`; verify `git status` shows clean
 6. **Verify** — do not hand off until git is clean and pushed
 
@@ -65,6 +65,6 @@ Before ending any session, complete ALL steps in order:
 | `issue:claim`           | Before starting a task        | Installed backend skill      |
 | `issue:create`          | Discovered work, new tasks    | Installed backend skill      |
 | `issue:close`           | Task complete                 | Installed backend skill      |
-| `memory:context:read`   | Session start                 | Installed memory skill       |
-| `memory:context:update` | Session end / handoff         | Installed memory skill       |
-| `inbox:message:read`    | Session start                 | Installed inbox skill        |
+| `context:read`   | Session start                 | Installed memory skill       |
+| `context:update` | Session end / handoff         | Installed memory skill       |
+| `message:read`    | Session start                 | Installed inbox skill        |

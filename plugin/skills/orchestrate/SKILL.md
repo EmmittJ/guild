@@ -83,7 +83,7 @@ Apply this sequence at the start of every session. Work begins only after all st
 | 1    | Apply the `routing` skill — loads team roster, routing rules, and the **Installed Skills** table                  |
 | 2    | Apply each skill listed under **Installed Skills** in routing, in order. Skip steps whose skill is not installed. |
 
-**Fallback (routing not installed, or Installed Skills table is absent or empty):** Apply skills by verb — attempt `memory:context:read`, then `issue:ready`, then `inbox:message:read`. Skip any that produce no result.
+**Fallback (routing not installed, or Installed Skills table is absent or empty):** Apply skills by verb — attempt `context:read`, then `issue:ready`, then `message:read`. Skip any that produce no result.
 
 ---
 
@@ -93,18 +93,18 @@ Verbs are colon-namespaced commands dispatched to the backing skill that impleme
 
 | Verb | Description | Returns |
 | ---- | ----------- | ------- |
-| `memory:decision:create` | Record a meaningful choice with rationale | Confirmation |
-| `memory:decision:read` | Review prior decisions | Stored decisions |
-| `memory:insight:create` | Record a non-obvious discovery or pattern | Confirmation |
-| `memory:insight:read` | Review known patterns and gotchas | Stored insights |
-| `memory:context:update` | Save working state before session ends or handoff | Confirmation |
-| `memory:context:read` | Restore working state at session start | Prior context |
+| `decision:create` | Record a meaningful choice with rationale | Confirmation |
+| `decision:read` | Review prior decisions | Stored decisions |
+| `insight:create` | Record a non-obvious discovery or pattern | Confirmation |
+| `insight:read` | Review known patterns and gotchas | Stored insights |
+| `context:update` | Save working state before session ends or handoff | Confirmation |
+| `context:read` | Restore working state at session start | Prior context |
 | `issue:ready` | List unblocked issues ready to claim, sorted by priority | Issue list |
 | `issue:create` | Create a tracked issue with description and priority | Issue ID |
 | `issue:update` | Claim, update, or close an issue | Updated issue |
 | `issue:read` | Read issue details or list issues | Issue data |
-| `inbox:message:create` | Leave an async message for another agent to act on | Confirmation |
-| `inbox:message:read` | Check and process waiting messages | Messages |
+| `message:create` | Leave an async message for another agent to act on | Confirmation |
+| `message:read` | Check and process waiting messages | Messages |
 
 The verb namespace is open — backends and skills may introduce new verb domains. New verbs should be registered in the **Installed Skills** table in the routing skill and documented in the implementing skill's body.
 
@@ -199,9 +199,9 @@ Spawn for everything else. **Default to spawning eagerly** — if an agent could
 
 **Parallel is the default.** Sequential is only justified when there's a real data dependency.
 
-**Before spawning a second concurrent builder on a system another builder is already modifying:** call a Design Review — bring both builders and Guild Master to align on interfaces, contracts, and risk before work diverges. Record the outcome via `memory:decision:create`.
+**Before spawning a second concurrent builder on a system another builder is already modifying:** call a Design Review — bring both builders and Guild Master to align on interfaces, contracts, and risk before work diverges. Record the outcome via `decision:create`.
 
-**After a peer reviewer rejects the same work twice:** call a Retrospective — builder, reviewer, and Guild Master discuss what failed, root cause, and what changes. Record the pattern via `memory:insight:create`.
+**After a peer reviewer rejects the same work twice:** call a Retrospective — builder, reviewer, and Guild Master discuss what failed, root cause, and what changes. Record the pattern via `insight:create`.
 
 ### Briefing quality
 
@@ -224,7 +224,7 @@ A **blocked** task requires external input before it can proceed — it is not m
   1. Return with specific, actionable feedback — name exactly what is missing
   2. Re-decompose: break the task smaller or approach it from a different angle
   3. Re-route to a different agent with a fresh brief
-  4. Surface to the user — call `memory:context:update` first so no state is lost
+  4. Surface to the user — call `context:update` first so no state is lost
 - Cap the full ladder at 3 iterations before surfacing unconditionally
 
 ### Direct response handling
@@ -273,12 +273,12 @@ Enforce this strictly in every peer review brief — the reviewing specialist re
 These verbs are provided by whichever backing skill is listed in the routing skill's **Installed Skills** table. Apply the skill for the verb when these situations arise:
 
 **Memory:**
-- `memory:decision:create` — a meaningful choice was made
-- `memory:decision:read` — reviewing prior decisions
-- `memory:insight:create` — something non-obvious was discovered
-- `memory:insight:read` — reviewing known patterns or gotchas
-- `memory:context:update` — ending a session or handing off
-- `memory:context:read` — picking up from a prior session
+- `decision:create` — a meaningful choice was made
+- `decision:read` — reviewing prior decisions
+- `insight:create` — something non-obvious was discovered
+- `insight:read` — reviewing known patterns or gotchas
+- `context:update` — ending a session or handing off
+- `context:read` — picking up from a prior session
 
 **Issues:**
 - `issue:ready` — at session start and before planning new work, call this first to get actionable issues sorted by priority
@@ -287,8 +287,8 @@ These verbs are provided by whichever backing skill is listed in the routing ski
 - `issue:read` — checking available or in-progress work
 
 **Inbox:**
-- `inbox:message:create` — another agent needs to act in a future session
-- `inbox:message:read` — checking for waiting messages
+- `message:create` — another agent needs to act in a future session
+- `message:read` — checking for waiting messages
 
 ---
 
@@ -312,7 +312,7 @@ When subagents complete:
 1. Collect all outputs
 2. Check for conflicts or gaps
 3. Write a summary in the output contract format (see `references/handoff.md`)
-4. Trigger `memory:context:update` — record working memory before the session ends
+4. Trigger `context:update` — record working memory before the session ends
 5. Route the commit to a version control agent — the implementing agent never commits their own work
 
 ---
@@ -323,7 +323,7 @@ Agents must only create files that are a **deliverable of their assigned role** 
 
 When briefing any agent that will research, explore, or analyze:
 
-> Do not write findings to files. Record anything worth keeping via `memory:insight:create` and `memory:decision:create` using a skill. Only create files that are a direct deliverable of your role (e.g. a skill file, an agent file, a script).
+> Do not write findings to files. Record anything worth keeping via `insight:create` and `decision:create` using a skill. Only create files that are a direct deliverable of your role (e.g. a skill file, an agent file, a script).
 
 If a spawned agent produces stray files, delete them and re-capture the content through the appropriate skill before the session ends.
 
@@ -352,9 +352,9 @@ Every delegation that produces an artifact gets a tracking issue. No invisible w
 | Task                      | What to do                                                                                                                     |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | Ambiguous request         | Ask one clarifying question before planning                                                                                    |
-| Blocked or stalled task   | Follow escalation ladder: feedback → re-decompose → re-route → surface to user (call `memory:context:update` before surfacing) |
+| Blocked or stalled task   | Follow escalation ladder: feedback → re-decompose → re-route → surface to user (call `context:update` before surfacing) |
 | Agent out of scope        | Re-route to correct specialist                                                                                                 |
 | No specialist available   | Explain the gap; offer to train a new agent via `train-agent`                                                                  |
 | Repeated failure          | Cap at 3 attempts, escalate                                                                                                    |
-| End of session            | Trigger `memory:context:update`; trigger `inbox:message:create` if handoff needed                                              |
-| Stray files found in repo | Delete them; re-capture content via `memory:insight:create`                                                                    |
+| End of session            | Trigger `context:update`; trigger `message:create` if handoff needed                                              |
+| Stray files found in repo | Delete them; re-capture content via `insight:create`                                                                    |

@@ -3,9 +3,9 @@ name: markdown-inbox
 description: >
   Async agent-to-agent messaging for a team of AI agents. Messages are markdown files in
   ${inbox_root}/{agent}/ — one file per message, deleted after reading. No write conflicts.
-  Activate when: `inbox:message:create` — another agent needs to act in a future session;
-  `inbox:message:read` — checking for waiting messages at session start.
-  DO NOT USE FOR: decisions, insights, or context — use `memory:decision:create`.
+  Activate when: `message:create` — another agent needs to act in a future session;
+  `message:read` — checking for waiting messages at session start.
+  DO NOT USE FOR: decisions, insights, or context — use `decision:create`.
   Issues — use `issue:create`.
 license: MIT
 metadata:
@@ -34,7 +34,7 @@ Check `${inbox_root}/{your-agent-name}/` for waiting messages. Process each, the
 
 ---
 
-## Message Format `inbox:message:create` `inbox:message:read`
+## Message Format `message:create` `message:read`
 
 Filename: `{timestamp}-{slug}.md` — e.g. `20260309-142300-auth-review-done.md`
 

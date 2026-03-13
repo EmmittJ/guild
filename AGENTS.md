@@ -27,17 +27,17 @@ See `README.md` for the full boundary table.
 - Guild Master orchestrates; specialists implement
 - Peer review is handled by steward — evaluates implementation artifacts against acceptance criteria using blind validation
 - Flag blockers immediately
-- All decisions worth keeping use `memory:decision:create` — no one is a mind reader
+- All decisions worth keeping use `decision:create` — no one is a mind reader
 - Skills ship in `.github/skills/` for project-local use; use `/guild:setup` to configure a new repo and install memory/issues/inbox components
 
 ## File Output Rules
 
 Agents only create files that are a **direct deliverable of their role** — never notes, summaries, scratch files, or analysis artifacts. If it's worth keeping, it goes through a skill:
 
-- Findings and patterns → `memory:insight:create`
-- Decisions → `memory:decision:create`
+- Findings and patterns → `insight:create`
+- Decisions → `decision:create`
 - Issues → `issue:create`
-- Messages for other agents → `inbox:message:create`
+- Messages for other agents → `message:create`
 
 The wright creates code and skills. The scribe commits. No one litters the repo with ad-hoc files.
 

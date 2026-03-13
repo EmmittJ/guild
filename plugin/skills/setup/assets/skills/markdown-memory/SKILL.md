@@ -3,12 +3,12 @@ name: markdown-memory
 description: >
   Persistent memory for this repo's AI team. Stores decisions (why we chose X), insights
   (what we know about this codebase), and context (what's in flight right now).
-  Activate when: `memory:decision:create` — a meaningful choice was made;
-  `memory:decision:read` — reviewing prior decisions; `memory:insight:create` — something
-  non-obvious was discovered; `memory:insight:read` — reviewing known patterns;
-  `memory:context:update` — ending a session or handing off; `memory:context:read` — picking
+  Activate when: `decision:create` — a meaningful choice was made;
+  `decision:read` — reviewing prior decisions; `insight:create` — something
+  non-obvious was discovered; `insight:read` — reviewing known patterns;
+  `context:update` — ending a session or handing off; `context:read` — picking
   up from a prior session.
-  DO NOT USE FOR: async agent-to-agent messages — use `inbox:message:create`.
+  DO NOT USE FOR: async agent-to-agent messages — use `message:create`.
   Issues — use `issue:create`, `issue:update`, or `issue:read`.
 license: MIT
 metadata:
@@ -47,7 +47,7 @@ At the start of every session, read in this order:
 
 ---
 
-## Decisions `memory:decision:create` `memory:decision:read`
+## Decisions `decision:create` `decision:read`
 
 Decisions capture **why** — the reasoning behind architectural choices, tool selections,
 and approaches that future agents should understand.
@@ -92,7 +92,7 @@ Agents: {who was involved}
 
 ---
 
-## Insights `memory:insight:create` `memory:insight:read`
+## Insights `insight:create` `insight:read`
 
 Insights capture patterns and gotchas that help agents avoid repeating mistakes.
 
@@ -149,7 +149,7 @@ Insights capture patterns and gotchas that help agents avoid repeating mistakes.
 
 ---
 
-## Context `memory:context:update` `memory:context:read`
+## Context `context:update` `context:read`
 
 It exists so a new session can pick up where the last one left off without losing state.
 

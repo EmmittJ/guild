@@ -56,16 +56,16 @@ Orchestrate reads this at session start and applies each skill in order.
 <!-- If using beads: -->
 | Order | Skill directory | Session-start action                                                        |
 | ----- | --------------- | --------------------------------------------------------------------------- |
-| 1     | `beads/`        | `memory:context:read` — load context, decisions, insights, per-agent notes  |
+| 1     | `beads/`        | `context:read` — load context, decisions, insights, per-agent notes  |
 | 2     | `beads/`        | `issue:ready` — surface actionable work                                     |
-| 3     | `beads/`        | `inbox:message:read` — check waiting messages from other agents             |
+| 3     | `beads/`        | `message:read` — check waiting messages from other agents             |
 
 <!-- If using markdown components instead:
 | Order | Skill directory    | Session-start action                                             |
 | ----- | ------------------ | ---------------------------------------------------------------- |
-| 1     | `markdown-memory/` | `memory:context:read` — load context, decisions, per-agent notes |
+| 1     | `markdown-memory/` | `context:read` — load context, decisions, per-agent notes |
 | 2     | `github-issues/`   | `issue:ready` — surface actionable work                          |
-| 3     | `markdown-inbox/`  | `inbox:message:read` — check waiting messages from other agents  |
+| 3     | `markdown-inbox/`  | `message:read` — check waiting messages from other agents  |
 -->
 
 ---

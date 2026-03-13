@@ -26,7 +26,7 @@ Installed skill directories use descriptive names rather than the `guild-` prefi
 - `.github/skills/markdown-inbox/` (was `guild-inbox`)
 - `.github/skills/github-issues/` (was `guild-issues`)
 
-Skill activation verbs are unchanged (`memory:decision:create`, `issue:read`, `inbox:message:create`).
+Skill activation verbs are unchanged (`decision:create`, `issue:read`, `message:create`).
 
 ### Documentation
 

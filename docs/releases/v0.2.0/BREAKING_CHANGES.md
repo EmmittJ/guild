@@ -34,7 +34,7 @@ The original skill names (`memory`, `tasks`, `inbox`) are generic enough to coll
 
 - **Consumers of `memory`, `tasks`, or `inbox` by the old names** will find those skills no longer activate after upgrading. Re-running setup resolves this.
 - **No data loss:** All content in `.guild/memory/`, `.guild/tasks/`, and `.guild/inbox/` is unaffected — only the skill names (used to invoke commands) changed, not the storage paths.
-- **No behavioral API changes:** Commands such as `memory:decision:create`, `task:item:read`, and `inbox:message:send` work exactly as before — only the underlying skill directory names changed.
+- **No behavioral API changes:** Commands such as `decision:create`, `task:item:read`, and `inbox:message:send` work exactly as before — only the underlying skill directory names changed.
 
 ### Refer to AGENTS.md
 

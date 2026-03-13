@@ -42,7 +42,7 @@ Thematic naming creates brand cohesion with Guild's craftsmanship aesthetic:
 ### No API Changes
 
 - All agent trigger patterns remain the same
-- All skill commands remain the same (e.g., `memory:decision:create`, `task:item:read`)
+- All skill commands remain the same (e.g., `decision:create`, `task:item:read`)
 - Memory and task storage is unchanged
 - Only the underlying agent filenames in `.github/agents/` changed
 

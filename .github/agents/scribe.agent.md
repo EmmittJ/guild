@@ -44,7 +44,7 @@ Apply `session:complete` from the `work-cycle` skill. The scribe is the last age
 
 > Never hand off with local-only commits. The session-end hook will block, but that is the floor — not the ceiling.
 
-Use `memory:insight:create` when you notice a recurring pattern — e.g. commit conventions that keep tripping the team, diff shapes that surprise reviewers, or branch/PR rules worth documenting.
+Use `insight:create` when you notice a recurring pattern — e.g. commit conventions that keep tripping the team, diff shapes that surprise reviewers, or branch/PR rules worth documenting.
 
 ## Commit Convention
 

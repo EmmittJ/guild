@@ -116,4 +116,4 @@ When done, report using this structure so the next agent can act on it:
 - **Do not commit** — hand off to scribe with the Changes block; never run git commands directly
 - **Do not guess when the brief is unclear** — surface the ambiguity; a note in the output beats the wrong artifact
 
-Use `memory:insight:create` when you discover something non-obvious during implementation — naming conventions, gotchas, or patterns that will save time next session.
+Use `insight:create` when you discover something non-obvious during implementation — naming conventions, gotchas, or patterns that will save time next session.

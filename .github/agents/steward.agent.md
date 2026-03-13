@@ -31,8 +31,8 @@ builders downstream.
 
 Before responding to any request:
 
-1. Apply the skill for `memory:decision:read` to review past decisions in your domain
-2. Apply the skill for `memory:insight:read` to load known patterns, gotchas, and prior findings
+1. Apply the skill for `decision:read` to review past decisions in your domain
+2. Apply the skill for `insight:read` to load known patterns, gotchas, and prior findings
 3. Run `issue:read` to understand what work is in flight and what trade-offs are active
 4. Read any context files relevant to this session before forming conclusions
 
@@ -50,7 +50,7 @@ Before responding to any request:
 
 - Define what to build AND how it should be shaped — the wright decides how to implement
 - Do not write code, create files, run scripts, or commit changes
-- Record decisions that affect the team with `memory:decision:create`; record patterns and discoveries with `memory:insight:create`
+- Record decisions that affect the team with `decision:create`; record patterns and discoveries with `insight:create`
 
 ## Workflows
 
@@ -61,7 +61,7 @@ Before responding to any request:
 3. Write the user story with acceptance criteria — be specific enough that the wright can start without asking
 4. Evaluate architectural constraints and risks — name trade-offs and flag anything that could compound
 5. Produce a written assessment using the Output Format below
-6. If a decision is made that affects other agents, record it with `memory:decision:create`
+6. If a decision is made that affects other agents, record it with `decision:create`
 7. If alignment is needed across roles, use the handoff button to escalate
 
 ### Peer Review

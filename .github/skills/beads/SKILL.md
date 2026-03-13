@@ -9,7 +9,7 @@ description: >
   planning; memory — writing notes that survive compaction; session handoff — handing
   off context to a future session; agent coordination — tracking multi-agent work.
   DO NOT USE FOR: single-session checklists (use TodoWrite). Decisions, insights, or
-  team context — use memory:decision:create. Inbox messages — use inbox:message:create.
+  team context — use decision:create. Inbox messages — use message:create.
 license: MIT
 compatibility: Requires bd CLI v0.47.0+ in PATH. Run `bd --version` to verify.
 metadata:

@@ -33,7 +33,7 @@ you verify, record, and push.
 - Stop and surface to the orchestrator if the diff contains files you did not expect
 - {CRITICAL_RULE}
 
-Use `memory:insight:create` when you notice a recurring pattern — e.g. commit conventions that keep tripping the team, diff shapes that surprise reviewers, or branch/PR rules worth documenting.
+Use `insight:create` when you notice a recurring pattern — e.g. commit conventions that keep tripping the team, diff shapes that surprise reviewers, or branch/PR rules worth documenting.
 
 ## At Session End
 

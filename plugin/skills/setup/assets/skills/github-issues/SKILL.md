@@ -6,7 +6,7 @@ description: >
   Activate when: issue:create — work needs tracking; issue:update — claiming, unclaiming,
   blocking, or completing an issue; issue:read — checking available or in-progress work;
   issue:ready — finding actionable work at session start or before planning.
-  DO NOT USE FOR: decisions, insights, or context — use `memory:decision:create`. Inbox messages — use `inbox:message:create`.
+  DO NOT USE FOR: decisions, insights, or context — use `decision:create`. Inbox messages — use `message:create`.
 license: MIT
 metadata:
   version: "0.4"

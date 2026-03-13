@@ -50,9 +50,9 @@ Orchestrate reads this at session start and applies each skill in order.
 
 | Order | Skill directory | Session-start action                                                        |
 | ----- | --------------- | --------------------------------------------------------------------------- |
-| 1     | `beads/`        | `memory:context:read` — load context, decisions, insights, per-agent notes  |
+| 1     | `beads/`        | `context:read` — load context, decisions, insights, per-agent notes  |
 | 2     | `beads/`        | `issue:ready` — surface actionable work                                     |
-| 3     | `beads/`        | `inbox:message:read` — check waiting messages from other agents             |
+| 3     | `beads/`        | `message:read` — check waiting messages from other agents             |
 
 ---
 

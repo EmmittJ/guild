@@ -68,8 +68,8 @@ You are {role description}.
 ## Required Context
 
 {What does this agent read before starting work? Memory skill files, specific config files.
-Use `memory:insight:read` to load any per-agent insights for this role before starting work.
-Use `memory:insight:create` when you discover something non-obvious — naming conventions,
+Use `insight:read` to load any per-agent insights for this role before starting work.
+Use `insight:create` when you discover something non-obvious — naming conventions,
 gotchas, or patterns a future agent in this role should know.}
 
 ## Expertise
@@ -168,7 +168,7 @@ This prevents confirmation bias where a reviewer who knows what was attempted ra
 
 1. Add the agent to `AGENTS.md` team table
 2. Update the `routing` skill — Team table, Routing Rules table, and Default Flow
-3. Use `memory:insight:create` to seed a per-agent insight entry for this role (even if empty — signals to future agents that insights should accumulate here)
+3. Use `insight:create` to seed a per-agent insight entry for this role (even if empty — signals to future agents that insights should accumulate here)
 4. Tell Guild Master: "I've added a {name} agent for {domain}"
 5. If this agent needs memory access, ensure the memory skill is installed in the repo
 6. **If beads is active** — register the agent in beads (see below)
