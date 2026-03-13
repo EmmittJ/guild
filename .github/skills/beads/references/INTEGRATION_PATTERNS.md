@@ -18,12 +18,14 @@ How bd-issue-tracking integrates with TodoWrite, writing-plans, and other skills
 ### Temporal Layering Pattern
 
 **TodoWrite** (short-term working memory - this hour):
+
 - Tactical execution: "Review Section 3", "Expand Q&A answers"
 - Marked completed as you go
 - Present/future tense ("Review", "Expand", "Create")
 - Ephemeral: Disappears when session ends
 
 **Beads** (long-term episodic memory - this week/month):
+
 - Strategic objectives: "Continue work on strategic planning document"
 - Key decisions and outcomes in notes field
 - Past tense in notes ("COMPLETED", "Discovered", "Blocked by")
@@ -43,6 +45,7 @@ How bd-issue-tracking integrates with TodoWrite, writing-plans, and other skills
 ### Example: TodoWrite tracks execution, Beads capture meaning
 
 **TodoWrite (ephemeral execution view):**
+
 ```
 [completed] Implement login endpoint
 [in_progress] Add password hashing with bcrypt
@@ -50,6 +53,7 @@ How bd-issue-tracking integrates with TodoWrite, writing-plans, and other skills
 ```
 
 **Corresponding bead notes (persistent context):**
+
 ```bash
 bd update issue-123 --notes "COMPLETED: Login endpoint with bcrypt password
 hashing (12 rounds). KEY DECISION: Using JWT tokens (not sessions) for stateless
@@ -58,6 +62,7 @@ NEXT: Need user input on token expiry time (1hr vs 24hr trade-off)."
 ```
 
 **What's different**:
+
 - TodoWrite: Task names (what to do)
 - Beads: Outcomes and decisions (what was learned, why it matters)
 
@@ -66,11 +71,13 @@ NEXT: Need user input on token expiry time (1hr vs 24hr trade-off)."
 ### When to Update Each Tool
 
 **Update TodoWrite** (frequently):
+
 - Mark task completed as you finish each one
 - Add new tasks as you break down work
 - Update in_progress when switching tasks
 
 **Update Beads** (at milestones):
+
 - Completed a significant piece of work
 - Made a key decision that needs documentation
 - Hit a blocker that pauses progress
@@ -85,6 +92,7 @@ NEXT: Need user input on token expiry time (1hr vs 24hr trade-off)."
 **Scenario**: Implement OAuth authentication (multi-session work)
 
 **Session 1 - Planning**:
+
 ```bash
 # Create bd issue
 bd create "Implement OAuth authentication" -t feature -p 0 --design "
@@ -103,6 +111,7 @@ TodoWrite:
 ```
 
 **End of Session 1**:
+
 ```bash
 # Update bd with outcomes
 bd update oauth-1 --notes "COMPLETED: Researched OAuth2 refresh flow. Decided on 7-day refresh tokens.
@@ -114,6 +123,7 @@ NEXT: Configure test provider, then implement token endpoint."
 ```
 
 **Session 2 - Implementation** (after compaction):
+
 ```bash
 # Read bd to reconstruct context
 bd show oauth-1
@@ -145,12 +155,14 @@ NEXT: Implement rotation, add rate limiting, security review."
 ### When to Create Detailed Plans
 
 **Use detailed plans for:**
+
 - Complex features with multiple components
 - Multi-session work requiring systematic breakdown
 - Features where TDD discipline adds value (core logic, critical paths)
 - Work that benefits from explicit task sequencing
 
 **Skip detailed plans for:**
+
 - Simple features (single function, straightforward logic)
 - Exploratory work (API testing, pattern discovery)
 - Infrastructure setup (configuration, wiring)
@@ -162,6 +174,7 @@ NEXT: Implement rotation, add rate limiting, security review."
 When design field needs detailed breakdown, reference the **writing-plans** skill:
 
 **Pattern:**
+
 ```bash
 # Create issue with high-level design
 bd create "Implement OAuth token refresh" --design "
@@ -174,6 +187,7 @@ See docs/plans/2025-10-23-oauth-refresh-design.md for detailed plan.
 ```
 
 **Detailed plan structure** (from writing-plans):
+
 - Bite-sized tasks (2-5 minutes each)
 - Explicit RED-GREEN-REFACTOR steps per task
 - Exact file paths and complete code
@@ -181,14 +195,17 @@ See docs/plans/2025-10-23-oauth-refresh-design.md for detailed plan.
 - Frequent commit points
 
 **Example task from detailed plan:**
-```markdown
+
+````markdown
 ### Task 1: Token Refresh Endpoint
 
 **Files:**
+
 - Create: `src/auth/refresh.py`
 - Test: `tests/auth/test_refresh.py`
 
 **Step 1: Write failing test**
+
 ```python
 def test_refresh_token_returns_new_access_token():
     refresh_token = create_valid_refresh_token()
@@ -196,6 +213,7 @@ def test_refresh_token_returns_new_access_token():
     assert response.status == 200
     assert response.access_token is not None
 ```
+````
 
 **Step 2: Run test to verify it fails**
 Run: `pytest tests/auth/test_refresh.py::test_refresh_token_returns_new_access_token -v`
@@ -208,11 +226,13 @@ Expected: FAIL with "refresh_endpoint not defined"
 [... verification ...]
 
 **Step 5: Commit**
+
 ```bash
 git add tests/auth/test_refresh.py src/auth/refresh.py
 git commit -m "feat: add token refresh endpoint"
 ```
-```
+
+````
 
 ### Integration with bd Workflow
 
@@ -239,11 +259,12 @@ git commit -m "feat: add token refresh endpoint"
 bd update oauth-5 --notes "COMPLETED: Token refresh endpoint (5 tasks from plan: endpoint + rotation + tests)
 KEY DECISION: 7-day refresh tokens (vs 30-day) - reduces risk of token theft
 TESTS: All 12 tests passing (auth, rotation, expiry, error handling)"
-```
+````
 
 ### When NOT to Use Detailed Plans
 
 **Red flags:**
+
 - Feature is simple enough to implement in one pass
 - Work is exploratory (discovering patterns, testing APIs)
 - Infrastructure work (OAuth setup, MCP configuration)
@@ -252,6 +273,7 @@ TESTS: All 12 tests passing (auth, rotation, expiry, error handling)"
 **Rule of thumb:** Use detailed plans when systematic breakdown prevents mistakes, not for ceremony.
 
 **Pattern summary**:
+
 - **Simple feature**: bd issue only
 - **Complex feature**: bd issue + TodoWrite
 - **Very complex feature**: bd issue + writing-plans + TodoWrite
@@ -267,7 +289,9 @@ TESTS: All 12 tests passing (auth, rotation, expiry, error handling)"
 **Tools used**: bd-issue-tracking + developing-strategic-documents skill
 
 **Workflow**:
+
 1. Create bd issue for tracking:
+
    ```bash
    bd create "Q4 strategic planning document" -t task -p 0
    bd update strat-1 --claim
@@ -276,6 +300,7 @@ TESTS: All 12 tests passing (auth, rotation, expiry, error handling)"
 2. Use developing-strategic-documents skill for research and writing
 
 3. Update bd notes at milestones:
+
    ```bash
    bd update strat-1 --notes "COMPLETED: Research phase (reviewed 5 competitor docs, 3 internal reports)
    KEY DECISION: Focus on market expansion over cost optimization per exec input
@@ -299,7 +324,9 @@ TESTS: All 12 tests passing (auth, rotation, expiry, error handling)"
 **Tools used**: bd-issue-tracking + systematic-debugging (if issues found)
 
 **Workflow**:
+
 1. Create epic and subtasks:
+
    ```bash
    bd create "Refactor auth system to use JWT" -t epic -p 0
    bd create "Update login endpoint" -t task
@@ -322,6 +349,7 @@ TESTS: All 12 tests passing (auth, rotation, expiry, error handling)"
    ```
 
 2. Work through subtasks in order, using TodoWrite for each:
+
    ```
    Current: login-1
    TodoWrite:
@@ -332,6 +360,7 @@ TESTS: All 12 tests passing (auth, rotation, expiry, error handling)"
    ```
 
 3. Update bd notes as each completes:
+
    ```bash
    bd close login-1 --reason "Updated to JWT. Tests passing. Backward compatible with session auth."
    ```
@@ -346,13 +375,13 @@ TESTS: All 12 tests passing (auth, rotation, expiry, error handling)"
 
 ### Which Tool for Which Purpose?
 
-| Need | Tool | Why |
-|------|------|-----|
-| Track today's execution | TodoWrite | Lightweight, shows current progress |
-| Preserve context across sessions | bd | Survives compaction, persistent memory |
-| Detailed implementation steps | writing-plans | RED-GREEN-REFACTOR breakdown |
-| Research document structure | developing-strategic-documents | Domain-specific framework |
-| Debug complex issue | systematic-debugging | Structured debugging protocol |
+| Need                             | Tool                           | Why                                    |
+| -------------------------------- | ------------------------------ | -------------------------------------- |
+| Track today's execution          | TodoWrite                      | Lightweight, shows current progress    |
+| Preserve context across sessions | bd                             | Survives compaction, persistent memory |
+| Detailed implementation steps    | writing-plans                  | RED-GREEN-REFACTOR breakdown           |
+| Research document structure      | developing-strategic-documents | Domain-specific framework              |
+| Debug complex issue              | systematic-debugging           | Structured debugging protocol          |
 
 ### Decision Tree
 
@@ -381,6 +410,7 @@ Is this specialized domain work?
 ### Integration Anti-Patterns
 
 **Don't**:
+
 - Duplicate TodoWrite tasks into bd notes (different purposes)
 - Create bd issues for single-session linear work (use TodoWrite)
 - Put detailed implementation steps in bd notes (use writing-plans)
@@ -388,6 +418,7 @@ Is this specialized domain work?
 - Use writing-plans for exploratory work (defeats the purpose)
 
 **Do**:
+
 - Update bd when changing tools or reaching milestones
 - Use TodoWrite as "working copy" of bd's NEXT section
 - Link between tools (bd design field → writing-plans file path)

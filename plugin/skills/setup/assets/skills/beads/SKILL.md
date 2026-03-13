@@ -28,12 +28,12 @@ Run `bd <command> --help` for command syntax.
 
 **bd vs TodoWrite:**
 
-| bd (persistent) | TodoWrite (ephemeral) |
-|-----------------|-----------------------|
-| Multi-session work | Single-session tasks |
-| Complex dependencies | Linear execution |
-| Survives compaction | Conversation-scoped |
-| Git-backed, team sync | Local to session |
+| bd (persistent)       | TodoWrite (ephemeral) |
+| --------------------- | --------------------- |
+| Multi-session work    | Single-session tasks  |
+| Complex dependencies  | Linear execution      |
+| Survives compaction   | Conversation-scoped   |
+| Git-backed, team sync | Local to session      |
 
 See [references/BOUNDARIES.md](references/BOUNDARIES.md) for detailed decision criteria.
 
@@ -57,6 +57,16 @@ bd status --json         # database snapshot (like git status)
 ```
 
 If in_progress issues exist from a prior session, run `bd show <id> --json` for each and read the `notes` field to recover context.
+
+**Diagnostics:**
+
+```bash
+bd dolt show             # connection status + remotes + config sources
+bd doctor                # check/fix installation health
+bd prime                 # AI-optimized workflow context
+bd status                # counts by status
+bd list --all            # every issue regardless of status
+```
 
 ## Create — `issue:create`
 
@@ -85,6 +95,11 @@ bd ready --json                               # unblocked issues only
 bd stale --days 30 --json                     # forgotten issues
 ```
 
+**JSON output shapes differ by command:**
+
+- `bd ready --json` / `bd list --json` → flat array `[{id, title, status, ...}]`
+- `bd show <id> --json` → nested object `{issue: {id, title, ...}}`
+
 ## Update — `issue:update`
 
 ```bash
@@ -97,6 +112,9 @@ bd update <id> --notes "COMPLETED: x. IN PROGRESS: y. NEXT: z." --json
 echo 'Updated text' | bd update <id> --description=- --json
 ```
 
+Valid statuses: `open` · `in_progress` · `blocked` · `deferred` · `closed` · `pinned` · `hooked`
+There is NO `failed` status — for failures, use `bd update <id> --status=blocked --append-notes "reason"`.
+
 **DO NOT use `bd edit`** — opens an interactive editor agents cannot use.
 
 See [references/RESUMABILITY.md](references/RESUMABILITY.md) for how to write notes that survive compaction.
@@ -104,14 +122,29 @@ See [references/RESUMABILITY.md](references/RESUMABILITY.md) for how to write no
 ## Close — `issue:update` (complete)
 
 ```bash
-bd close <id> --reason "What was done and why" --json
+bd close <id> --reason "What was done and why" --json   # terminal state — marks work complete
+bd update <id> --status=blocked --append-notes "reason" # non-terminal update
+bd reopen <id>                                          # undo a close
 ```
+
+Do NOT use `bd update --status=closed` — that flag is not the close command. Use `bd close`.
+
+**⚠️ Stale in_progress:** Issues moved to `in_progress` stay there until explicitly closed. Agents MUST call `bd close <id> --reason "..."` at task completion. If a session ends without closing, the issue stays in_progress and must be manually closed next session. Stale in_progress issues cause `bd ready` to be unreliable.
 
 ## Sync
 
 ```bash
 bd sync                 # sync with Dolt remote (if configured)
 bd dolt push            # explicit Dolt push
+```
+
+**Remote wiring — two-step required:**
+
+```bash
+bd dolt remote add origin git+https://github.com/owner/repo.git
+bd dolt remote list   # must show [SQL + CLI], not [CLI only]
+# If [CLI only]: re-run the add command (idempotent), then verify again
+bd dolt push          # only push when [SQL + CLI] confirmed
 ```
 
 ## Dependencies
@@ -189,12 +222,12 @@ See [references/AGENTS.md](references/AGENTS.md) for full agent bead architectur
 
 ## Advanced features
 
-| Feature | Command | Reference |
-|---------|---------|----------|
-| Molecules (templates) | `bd mol --help` | [MOLECULES.md](references/MOLECULES.md) |
-| Chemistry (pour/wisp) | `bd pour --help` | [CHEMISTRY_PATTERNS.md](references/CHEMISTRY_PATTERNS.md) |
-| Agent beads | `bd agent --help` | [AGENTS.md](references/AGENTS.md) |
-| Async gates | `bd gate --help` | [ASYNC_GATES.md](references/ASYNC_GATES.md) |
-| Worktrees | `bd worktree --help` | [WORKTREES.md](references/WORKTREES.md) |
-| Workflows | `bd prime` | [WORKFLOWS.md](references/WORKFLOWS.md) |
-| Full CLI | `bd <cmd> --help` | [CLI_REFERENCE.md](references/CLI_REFERENCE.md) |
+| Feature               | Command              | Reference                                                 |
+| --------------------- | -------------------- | --------------------------------------------------------- |
+| Molecules (templates) | `bd mol --help`      | [MOLECULES.md](references/MOLECULES.md)                   |
+| Chemistry (pour/wisp) | `bd pour --help`     | [CHEMISTRY_PATTERNS.md](references/CHEMISTRY_PATTERNS.md) |
+| Agent beads           | `bd agent --help`    | [AGENTS.md](references/AGENTS.md)                         |
+| Async gates           | `bd gate --help`     | [ASYNC_GATES.md](references/ASYNC_GATES.md)               |
+| Worktrees             | `bd worktree --help` | [WORKTREES.md](references/WORKTREES.md)                   |
+| Workflows             | `bd prime`           | [WORKFLOWS.md](references/WORKFLOWS.md)                   |
+| Full CLI              | `bd <cmd> --help`    | [CLI_REFERENCE.md](references/CLI_REFERENCE.md)           |
