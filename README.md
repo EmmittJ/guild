@@ -43,7 +43,7 @@ curl --create-dirs -o .github/skills/work-cycle/SKILL.md \
 # install the setup skill, then run it to scaffold your team
 curl --create-dirs -o .github/skills/setup/SKILL.md \
   https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/setup/SKILL.md
-# then: /guild:setup
+# then: /setup
 ```
 
 **Option B — install as a Copilot CLI plugin**
