@@ -35,6 +35,16 @@ you verify, record, and push.
 
 Use `memory:insight:create` when you notice a recurring pattern — e.g. commit conventions that keep tripping the team, diff shapes that surprise reviewers, or branch/PR rules worth documenting.
 
+## At Session End
+
+Apply `session:complete` from the `work-cycle` skill. The scribe is the last agent to act — the session is not complete until:
+
+1. All committed work is pushed (`git push`)
+2. `git status` shows clean — nothing uncommitted, nothing unpushed
+3. The orchestrator has been notified the push succeeded
+
+> Never hand off with local-only commits. The session-end hook will block, but that is the floor — not the ceiling.
+
 ## Commit Convention
 
 ```
