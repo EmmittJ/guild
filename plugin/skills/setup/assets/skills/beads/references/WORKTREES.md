@@ -6,12 +6,12 @@
 
 ## When to Use Worktrees
 
-| Scenario | Worktree? | Why |
-|----------|-----------|-----|
-| Parallel agent work | Yes | Each agent gets isolated working directory |
-| Long-running feature | Yes | Avoids stash/switch dance for interruptions |
-| Quick branch switch | No | `git switch` is simpler |
-| PR review isolation | Yes | Review without disturbing main work |
+| Scenario             | Worktree? | Why                                         |
+| -------------------- | --------- | ------------------------------------------- |
+| Parallel agent work  | Yes       | Each agent gets isolated working directory  |
+| Long-running feature | Yes       | Avoids stash/switch dance for interruptions |
+| Quick branch switch  | No        | `git switch` is simpler                     |
+| PR review isolation  | Yes       | Review without disturbing main work         |
 
 ## Why `bd worktree` over `git worktree`
 
@@ -23,6 +23,7 @@ bd worktree remove .worktrees/{name}
 ```
 
 **Why?** `bd worktree` auto-configures:
+
 - Beads database redirect files
 - Proper gitignore entries
 - Embedded mode for worktree operations

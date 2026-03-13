@@ -353,15 +353,17 @@ bd graph --all
 ```
 
 **Display formats:**
+
 - `--box` (default): ASCII boxes showing layers, more detailed
 - `--compact`: Tree format, one line per issue, more scannable
 
 **Graph interpretation:**
+
 - Layer 0 / leftmost = no dependencies (can start immediately)
 - Higher layers depend on lower layers
 - Nodes in the same layer can run in parallel
 
-**Status icons:** ○ open  ◐ in_progress  ● blocked  ✓ closed  ❄ deferred
+**Status icons:** ○ open ◐ in_progress ● blocked ✓ closed ❄ deferred
 
 ## Global Flags
 
@@ -384,6 +386,7 @@ bd --no-auto-flush --no-auto-import <command>
 ```
 
 **What it does:**
+
 - Uses embedded mode (direct database access, no Dolt server needed)
 - Disables auto-sync operations
 
@@ -410,6 +413,7 @@ bd --actor alice <command>
 ```
 
 **See also:**
+
 - [TROUBLESHOOTING.md - Sandboxed environments](TROUBLESHOOTING.md#sandboxed-environments-codex-claude-code-etc) for detailed sandbox troubleshooting
 
 ## Advanced Operations

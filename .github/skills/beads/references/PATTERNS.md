@@ -18,6 +18,7 @@ Practical patterns for using bd effectively across different scenarios.
 **Scenario**: User asks "Help me write a proposal for expanding the analytics platform"
 
 **What you see**:
+
 ```bash
 $ bd ready
 # Returns: bd-42 "Research analytics platform expansion proposal" (in_progress)
@@ -29,6 +30,7 @@ NEXT: Need user input on budget constraints before finalizing recommendations"
 ```
 
 **What you do**:
+
 1. Read notes to understand current state
 2. Create TodoWrite for immediate work:
    ```
@@ -56,6 +58,7 @@ NEXT: Need user input on budget constraints before finalizing recommendations"
 **Scenario**: During main task, discover a problem that needs attention.
 
 **Pattern**:
+
 1. Create issue immediately: `bd create "Found: inventory system needs refactoring"`
 2. Link provenance: `bd dep add new-issue main-task --type discovered-from`
 3. Assess urgency: blocker or can defer?
@@ -88,6 +91,7 @@ Working on "Implement checkout flow" (checkout-1), discover payment validation s
 **Scenario**: Starting work after days or weeks away from a project.
 
 **Pattern (with MCP)**:
+
 1. **Check what's ready**: Use `mcp__plugin_beads_beads__ready` to see available work
 2. **Check what's stuck**: Use `mcp__plugin_beads_beads__blocked` to understand blockers
 3. **Check recent progress**: Use `mcp__plugin_beads_beads__list` with `status:"closed"` to see completions
@@ -98,6 +102,7 @@ Working on "Implement checkout flow" (checkout-1), discover payment validation s
 (CLI: `bd ready`, `bd blocked`, `bd list --status closed`, `bd show <id>`, `bd update <id> --claim`)
 
 **Example**:
+
 ```bash
 $ bd ready
 Ready to work on (3):
@@ -139,12 +144,14 @@ blocked   blocked
 ### When to Use Each Status
 
 **open** (default):
+
 - Issue created but not started
 - Waiting for dependencies to clear
 - Planned work not yet begun
 - **Command**: Issues start as `open` by default
 
 **in_progress**:
+
 - Actively working on this issue right now
 - Has been read and understood
 - Making commits or changes related to this
@@ -152,6 +159,7 @@ blocked   blocked
 - **When**: Start of work session on this issue
 
 **blocked**:
+
 - Cannot proceed due to external blocker
 - Waiting for user input/decision
 - Dependency not completed
@@ -161,6 +169,7 @@ blocked   blocked
 - **Note**: Document blocker in notes field: "BLOCKER: Waiting for API key from ops team"
 
 **closed**:
+
 - Work completed and verified
 - Tests passing
 - Acceptance criteria met
@@ -171,6 +180,7 @@ blocked   blocked
 ### Transition Examples
 
 **Starting work**:
+
 ```bash
 bd ready  # See what's available
 bd update auth-5 --claim
@@ -178,18 +188,21 @@ bd update auth-5 --claim
 ```
 
 **Hit a blocker**:
+
 ```bash
 bd update auth-5 --status blocked --notes "BLOCKER: Need OAuth client ID from product team. Emailed Jane on 2025-10-23."
 # Switch to different issue or create new work
 ```
 
 **Unblocking**:
+
 ```bash
 # Once blocker resolved
 bd update auth-5 --status in_progress --notes "UNBLOCKED: Received OAuth credentials. Resuming implementation."
 ```
 
 **Completing**:
+
 ```bash
 bd close auth-5 --reason "Implemented OAuth refresh with 7-day rotation. Tests passing. PR #42 merged."
 ```
@@ -201,11 +214,13 @@ bd close auth-5 --reason "Implemented OAuth refresh with 7-day rotation. Tests p
 **Scenario**: Conversation history has been compacted. You need to resume work with zero conversation context.
 
 **What survives compaction**:
+
 - All bd issues and notes
 - Complete work history
 - Dependencies and relationships
 
 **What's lost**:
+
 - Conversation history
 - TodoWrite lists
 - Recent discussion
@@ -213,11 +228,13 @@ bd close auth-5 --reason "Implemented OAuth refresh with 7-day rotation. Tests p
 ### Recovery Pattern
 
 1. **Check in-progress work**:
+
    ```bash
    bd list --status in_progress
    ```
 
 2. **Read notes for context**:
+
    ```bash
    bd show issue-id
    # Read notes field - should explain current state
@@ -237,6 +254,7 @@ bd close auth-5 --reason "Implemented OAuth refresh with 7-day rotation. Tests p
 ### Example Recovery
 
 **bd show returns**:
+
 ```
 Issue: bd-42 "OAuth refresh token implementation"
 Status: in_progress
@@ -249,6 +267,7 @@ BLOCKER: None
 ```
 
 **Recovery actions**:
+
 1. Read notes, understand context
 2. Create TodoWrite:
    ```
@@ -270,6 +289,7 @@ BLOCKER: None
 ### Closure Checklist
 
 Before closing, verify:
+
 - [ ] **Acceptance criteria met**: All items checked off
 - [ ] **Tests passing**: If applicable
 - [ ] **Documentation updated**: If needed
@@ -279,11 +299,13 @@ Before closing, verify:
 ### Closure Pattern
 
 **Minimal closure** (simple tasks):
+
 ```bash
 bd close task-123 --reason "Implemented feature X"
 ```
 
 **Detailed closure** (complex work):
+
 ```bash
 # Update notes with final state
 bd update task-123 --notes "COMPLETED: OAuth refresh with 7-day rotation
@@ -329,13 +351,13 @@ bd close auth-5 --reason "OAuth refresh implemented. Discovered perf optimizatio
 
 ## Pattern Summary
 
-| Pattern | When to Use | Key Command | Preserves |
-|---------|-------------|-------------|-----------|
-| **Knowledge Work** | Long-running research, writing | `bd update --notes` | Context across sessions |
-| **Side Quest** | Discovered during other work | `bd dep add --type discovered-from` | Relationship to original |
-| **Multi-Session Resume** | Returning after time away | `bd ready`, `bd show` | Full project state |
-| **Status Transitions** | Tracking work state | `bd update --status` | Current state |
-| **Compaction Recovery** | History lost | Read notes field | All context in notes |
-| **Issue Closure** | Completing work | `bd close --reason` | Decisions and outcomes |
+| Pattern                  | When to Use                    | Key Command                         | Preserves                |
+| ------------------------ | ------------------------------ | ----------------------------------- | ------------------------ |
+| **Knowledge Work**       | Long-running research, writing | `bd update --notes`                 | Context across sessions  |
+| **Side Quest**           | Discovered during other work   | `bd dep add --type discovered-from` | Relationship to original |
+| **Multi-Session Resume** | Returning after time away      | `bd ready`, `bd show`               | Full project state       |
+| **Status Transitions**   | Tracking work state            | `bd update --status`                | Current state            |
+| **Compaction Recovery**  | History lost                   | Read notes field                    | All context in notes     |
+| **Issue Closure**        | Completing work                | `bd close --reason`                 | Decisions and outcomes   |
 
 **For detailed workflows with step-by-step checklists, see:** [WORKFLOWS.md](WORKFLOWS.md)

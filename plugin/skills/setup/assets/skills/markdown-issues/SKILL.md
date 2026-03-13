@@ -71,6 +71,7 @@ Format: COMPLETED: … IN PROGRESS: … NEXT: … KEY DECISIONS: …}
 ```
 
 **Field notes:**
+
 - `type` — optional but recommended; helps agents filter by kind of work
 - `discovered-from` — use when you find side work while working on another issue; creates a lineage trail
 - `## Notes` — the compaction-survival field; see **Compaction Survival** below
@@ -134,6 +135,7 @@ KEY DECISIONS: {choices made that affect future work}
 3. Resume from "NEXT" — do not re-do completed work
 
 **When to write Notes:**
+
 - Before any file-heavy implementation run
 - When ending a session or handing off
 - Any time you would lose context if the conversation reset right now

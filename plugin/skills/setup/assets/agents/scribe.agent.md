@@ -5,6 +5,7 @@ description: >
   Commits completed, reviewed work and opens pull requests on request. Does not implement
   changes — only commits what it receives.
   DO NOT USE FOR: implementing changes, reviewing content quality, or modifying files before committing.
+
 # hooks:  # Uncomment to enable VS Code agent-scoped Stop hook (requires chat.useCustomAgentHooks: true in VS Code settings)
 #   Stop:
 #     - type: command

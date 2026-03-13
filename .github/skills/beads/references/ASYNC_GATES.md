@@ -8,13 +8,13 @@
 
 ## Gate Types
 
-| Type | Await Syntax | Use Case |
-|------|--------------|----------|
-| Human | `human:<prompt>` | Cross-session human approval |
-| CI | `gh:run:<id>` | Wait for GitHub Actions completion |
-| PR | `gh:pr:<id>` | Wait for PR merge/close |
-| Timer | `timer:<duration>` | Deployment propagation delay |
-| Mail | `mail:<pattern>` | Wait for matching email |
+| Type  | Await Syntax       | Use Case                           |
+| ----- | ------------------ | ---------------------------------- |
+| Human | `human:<prompt>`   | Cross-session human approval       |
+| CI    | `gh:run:<id>`      | Wait for GitHub Actions completion |
+| PR    | `gh:pr:<id>`       | Wait for PR merge/close            |
+| Timer | `timer:<duration>` | Deployment propagation delay       |
+| Mail  | `mail:<pattern>`   | Wait for matching email            |
 
 ---
 
@@ -42,10 +42,12 @@ bd gate create --await timer:15m \
 ```
 
 **Required options**:
+
 - `--await <spec>` — Gate condition (see types above)
 - `--timeout <duration>` — Recommended: prevents forever-open gates
 
 **Optional**:
+
 - `--title <text>` — Human-readable description
 - `--notify <recipients>` — Email/beads addresses to notify
 
@@ -62,6 +64,7 @@ bd gate eval --dry-run    # Preview what would close
 ```
 
 **Auto-close behavior** (`bd gate eval`):
+
 - `timer:*` — Closes when duration elapsed
 - `gh:run:*` — Checks GitHub API, closes on success/failure
 - `gh:pr:*` — Checks GitHub API, closes on merge/close
@@ -89,21 +92,25 @@ bd gate eval
 ## Best Practices
 
 1. **Always set timeouts**: Prevents forever-open gates
+
    ```bash
    bd gate create --await human:... --timeout 24h
    ```
 
 2. **Clear titles**: Title should indicate what's being gated
+
    ```bash
    --title "Approve Phase 2: Core Implementation"
    ```
 
 3. **Eval periodically**: Run at session start to close elapsed gates
+
    ```bash
    bd gate eval
    ```
 
 4. **Clean up obsolete gates**: Close gates that are no longer needed
+
    ```bash
    bd gate close <id> --reason "superseded by new approach"
    ```
@@ -117,13 +124,13 @@ bd gate eval
 
 ## Gates vs Issues
 
-| Aspect | Gates (Wisp) | Issues |
-|--------|--------------|--------|
-| Persistence | Ephemeral (not synced) | Permanent (synced to git) |
-| Purpose | Block on external condition | Track work items |
-| Lifecycle | Auto-close when condition met | Manual close |
-| Visibility | `bd gate list` | `bd list` |
-| Use case | CI, approval, timers | Tasks, bugs, features |
+| Aspect      | Gates (Wisp)                  | Issues                    |
+| ----------- | ----------------------------- | ------------------------- |
+| Persistence | Ephemeral (not synced)        | Permanent (synced to git) |
+| Purpose     | Block on external condition   | Track work items          |
+| Lifecycle   | Auto-close when condition met | Manual close              |
+| Visibility  | `bd gate list`                | `bd list`                 |
+| Use case    | CI, approval, timers          | Tasks, bugs, features     |
 
 Gates are designed to be temporary coordination primitives—they exist only until their condition is satisfied.
 

@@ -15,6 +15,7 @@ architect owns architecture decisions, design patterns, technical strategy, and 
 Charter and architect are peers — they collaborate or debate depending on the task.
 
 Updated routing default flow:
+
 ```
 guild-master → charter + architect → engineer/smith/invoker → auditor → scribe
 ```

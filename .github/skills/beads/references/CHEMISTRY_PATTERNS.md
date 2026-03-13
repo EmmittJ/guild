@@ -65,15 +65,15 @@ Will this work be referenced later?
 
 ## Quick Reference
 
-| Scenario | Use | Command | End State |
-|----------|-----|---------|-----------|
-| New feature work | Mol | `bd pour spec` | Close normally |
-| Bug fix | Mol | `bd pour bug` | Close normally |
-| Grooming session | Wisp | `bd wisp create grooming` | Squash → digest |
-| Code review | Wisp | `bd wisp create review` | Squash findings |
-| Research spike | Wisp | `bd wisp create spike` | Squash or burn |
-| Session health check | Wisp | `bd wisp create health` | Burn |
-| Agent coordination | Wisp | `bd wisp create coordinator` | Burn |
+| Scenario             | Use  | Command                      | End State       |
+| -------------------- | ---- | ---------------------------- | --------------- |
+| New feature work     | Mol  | `bd pour spec`               | Close normally  |
+| Bug fix              | Mol  | `bd pour bug`                | Close normally  |
+| Grooming session     | Wisp | `bd wisp create grooming`    | Squash → digest |
+| Code review          | Wisp | `bd wisp create review`      | Squash findings |
+| Research spike       | Wisp | `bd wisp create spike`       | Squash or burn  |
+| Session health check | Wisp | `bd wisp create health`      | Burn            |
+| Agent coordination   | Wisp | `bd wisp create coordinator` | Burn            |
 
 ## Common Patterns
 
@@ -176,21 +176,21 @@ bd mol catalog
 
 ## Storage Locations
 
-| Type | Location | Git Behavior |
-|------|----------|--------------|
-| Proto | `.beads/` | Synced (template label) |
-| Mol | `.beads/` | Synced |
-| Wisp | `.beads-wisp/` | Gitignored |
+| Type  | Location       | Git Behavior            |
+| ----- | -------------- | ----------------------- |
+| Proto | `.beads/`      | Synced (template label) |
+| Mol   | `.beads/`      | Synced                  |
+| Wisp  | `.beads-wisp/` | Gitignored              |
 
 ## Anti-Patterns
 
-| Don't | Do Instead |
-|-------|------------|
-| Create mol for one-time diagnostic | Use wisp, then burn |
-| Create wisp for real feature work | Use mol (needs audit trail) |
-| Burn wisp with valuable findings | Squash first (captures digest) |
-| Let wisps accumulate | Burn or squash at session end |
-| Create ad-hoc epics for repeatable patterns | Distill into proto |
+| Don't                                       | Do Instead                     |
+| ------------------------------------------- | ------------------------------ |
+| Create mol for one-time diagnostic          | Use wisp, then burn            |
+| Create wisp for real feature work           | Use mol (needs audit trail)    |
+| Burn wisp with valuable findings            | Squash first (captures digest) |
+| Let wisps accumulate                        | Burn or squash at session end  |
+| Create ad-hoc epics for repeatable patterns | Distill into proto             |
 
 ## Related Resources
 

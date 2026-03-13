@@ -167,7 +167,7 @@ Each template has structural sections already written. Only fill what's marked a
 
 | Placeholder                | Replace with                                                                                                     |
 | -------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `{ORCHESTRATOR_NAME}`      | The orchestrator agent's name, e.g. guild-master or your themed name                                            |
+| `{ORCHESTRATOR_NAME}`      | The orchestrator agent's name, e.g. guild-master or your themed name                                             |
 | `{HANDOFF_PROMPT}`         | One sentence telling the reviewer what to check — e.g. "Review changes to {artifact} for correctness and style." |
 | `{HANDOFF_LABEL}`          | Short label for the handoff button — e.g. "Escalate Decision"                                                    |
 | `{EXPERTISE_ITEM}` (×7)    | One domain skill per bullet — be specific, not generic                                                           |
@@ -220,11 +220,11 @@ After scaffolding the team, ask which persistence components to install.
 
 **Markdown is the default** — no tools required, covers all three concerns (memory, issues, inbox). Choose a different backend only if you have a specific reason:
 
-| Backend | Replaces | Requires | Use when |
-| ------- | -------- | -------- | -------- |
-| **Markdown** | — (is the default) | nothing | Always works; start here |
-| **Beads** | All of markdown | `bd` CLI v0.47.0+ | You want cross-clone sync via Dolt |
-| **GitHub Issues** | Markdown issues only | `gh` CLI | Your team already lives in GitHub Issues |
+| Backend           | Replaces             | Requires          | Use when                                 |
+| ----------------- | -------------------- | ----------------- | ---------------------------------------- |
+| **Markdown**      | — (is the default)   | nothing           | Always works; start here                 |
+| **Beads**         | All of markdown      | `bd` CLI v0.47.0+ | You want cross-clone sync via Dolt       |
+| **GitHub Issues** | Markdown issues only | `gh` CLI          | Your team already lives in GitHub Issues |
 
 > GitHub Issues replaces issues only — always pair it with markdown memory + inbox (Step 5A).
 

@@ -57,14 +57,14 @@ Before ending any session, complete ALL steps in order:
 
 ## Verb Reference
 
-| Verb                    | When                          | Dispatches to                |
-| ----------------------- | ----------------------------- | ---------------------------- |
-| `session:start`         | Beginning of any work session | This skill (steps 1–4 above) |
-| `session:complete`      | End of any work session       | This skill (steps 1–6 above) |
-| `issue:ready`           | Orient, pre-planning          | Installed backend skill      |
-| `issue:claim`           | Before starting a task        | Installed backend skill      |
-| `issue:create`          | Discovered work, new tasks    | Installed backend skill      |
-| `issue:close`           | Task complete                 | Installed backend skill      |
-| `context:read`   | Session start                 | Installed memory skill       |
-| `context:update` | Session end / handoff         | Installed memory skill       |
-| `message:read`    | Session start                 | Installed inbox skill        |
+| Verb               | When                          | Dispatches to                |
+| ------------------ | ----------------------------- | ---------------------------- |
+| `session:start`    | Beginning of any work session | This skill (steps 1–4 above) |
+| `session:complete` | End of any work session       | This skill (steps 1–6 above) |
+| `issue:ready`      | Orient, pre-planning          | Installed backend skill      |
+| `issue:claim`      | Before starting a task        | Installed backend skill      |
+| `issue:create`     | Discovered work, new tasks    | Installed backend skill      |
+| `issue:close`      | Task complete                 | Installed backend skill      |
+| `context:read`     | Session start                 | Installed memory skill       |
+| `context:update`   | Session end / handoff         | Installed memory skill       |
+| `message:read`     | Session start                 | Installed inbox skill        |

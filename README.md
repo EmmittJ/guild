@@ -34,11 +34,13 @@ Three paths to the same result. Pick the one that fits your setup.
 Works in any agent — Claude Code, Cursor, VS Code, anything that reads `.github/skills/` (or `.claude/skills/`). No plugin manager required.
 
 **macOS / Linux:**
+
 ```sh
 sh <(curl -fsSL https://raw.githubusercontent.com/EmmittJ/guild/main/scripts/install.sh)
 ```
 
 **Windows (PowerShell):**
+
 ```powershell
 irm https://raw.githubusercontent.com/EmmittJ/guild/main/scripts/install.ps1 | iex
 ```

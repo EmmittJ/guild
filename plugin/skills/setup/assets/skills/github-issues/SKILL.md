@@ -170,6 +170,7 @@ gh issue comment -R ${github_repo} {number} -b $progress
 ```
 
 **When to post a progress comment:**
+
 - Before any file-heavy implementation run
 - When ending a session or handing off
 - Any time you would lose context if the conversation reset right now

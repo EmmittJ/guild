@@ -6,19 +6,20 @@
 
 ### What Changed
 
-| Old Name | New Name | Role |
-| --- | --- | --- |
-| product-owner | charter | Product owner — requirements, user stories, backlog |
-| skill-writer | smith | Skill writer — writes and reviews SKILL.md files |
-| reviewer | auditor | Quality reviewer — signs off before committing |
-| copilot-cli | invoker | CLI integration — plugin manifests and marketplace |
-| engineer | engineer | **Unchanged** — implementation and file creation |
-| scribe | scribe | **Unchanged** — version control and commits |
-| guild-master | guild-master | **Unchanged** — orchestration and delegation |
+| Old Name      | New Name     | Role                                                |
+| ------------- | ------------ | --------------------------------------------------- |
+| product-owner | charter      | Product owner — requirements, user stories, backlog |
+| skill-writer  | smith        | Skill writer — writes and reviews SKILL.md files    |
+| reviewer      | auditor      | Quality reviewer — signs off before committing      |
+| copilot-cli   | invoker      | CLI integration — plugin manifests and marketplace  |
+| engineer      | engineer     | **Unchanged** — implementation and file creation    |
+| scribe        | scribe       | **Unchanged** — version control and commits         |
+| guild-master  | guild-master | **Unchanged** — orchestration and delegation        |
 
 ### Why
 
 Thematic naming creates brand cohesion with Guild's craftsmanship aesthetic:
+
 - **charter** = the guiding mission and requirements
 - **smith** = craftsmanship and skill development
 - **auditor** = quality assurance and validation

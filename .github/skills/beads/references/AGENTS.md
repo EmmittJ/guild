@@ -6,20 +6,20 @@
 
 ## When to Use Agent Beads
 
-| Scenario | Agent Bead? | Why |
-|----------|-------------|-----|
-| Multi-agent orchestration | Yes | Persistent identity, hook-based work dispatch |
-| Single-session throwaway work | No | Overkill—just use regular beads |
-| Long-running background agents | Yes | Heartbeats enable liveness detection |
-| Role-based agent systems | Yes | Shared role beads define capabilities once |
-| Agents that survive across sessions | Yes | Agent bead carries state between sessions |
+| Scenario                            | Agent Bead? | Why                                           |
+| ----------------------------------- | ----------- | --------------------------------------------- |
+| Multi-agent orchestration           | Yes         | Persistent identity, hook-based work dispatch |
+| Single-session throwaway work       | No          | Overkill—just use regular beads               |
+| Long-running background agents      | Yes         | Heartbeats enable liveness detection          |
+| Role-based agent systems            | Yes         | Shared role beads define capabilities once    |
+| Agents that survive across sessions | Yes         | Agent bead carries state between sessions     |
 
 ## Bead Types
 
-| Type | Purpose | Has Slots? | Pinned? |
-|------|---------|------------|--------|
-| `agent` | Persistent agent identity | Yes (hook, role) | Yes |
-| `role` | Shared role definition | No | Yes |
+| Type    | Purpose                   | Has Slots?       | Pinned? |
+| ------- | ------------------------- | ---------------- | ------- |
+| `agent` | Persistent agent identity | Yes (hook, role) | Yes     |
+| `role`  | Shared role definition    | No               | Yes     |
 
 Other types (`task`, `bug`, `feature`, `epic`) remain unchanged — they are regular work beads.
 
@@ -84,10 +84,10 @@ The `dead` state is set by Witness (monitoring system) via heartbeat timeout —
 
 Slots are named references from agent beads to other beads:
 
-| Slot | Cardinality | Purpose |
-|------|-------------|---------|
-| `hook` | 0..1 | Current work item attached to this agent |
-| `role` | 1 | Role definition bead (required, shared) |
+| Slot   | Cardinality | Purpose                                  |
+| ------ | ----------- | ---------------------------------------- |
+| `hook` | 0..1        | Current work item attached to this agent |
+| `role` | 1           | Role definition bead (required, shared)  |
 
 ### The Hook
 

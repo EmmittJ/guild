@@ -91,22 +91,22 @@ Apply this sequence at the start of every session. Work begins only after all st
 
 Verbs are colon-namespaced commands dispatched to the backing skill that implements them (listed in the **Installed Skills** table in the routing skill). Standard families:
 
-| Verb | Description | Returns |
-| ---- | ----------- | ------- |
-| `decision:create` | Record a meaningful choice with rationale | Confirmation |
-| `decision:read` | Review prior decisions | Stored decisions |
-| `insight:create` | Record a non-obvious discovery or pattern | Confirmation |
-| `insight:read` | Review known patterns and gotchas | Stored insights |
-| `context:update` | Save working state before session ends or handoff | Confirmation |
-| `context:read` | Restore working state at session start | Prior context |
-| `issue:ready` | List unblocked issues ready to claim, sorted by priority | Issue list |
-| `issue:create` | Create a tracked issue with description and priority | Issue ID |
-| `issue:claim` | Atomically take ownership of an issue before starting work | Updated issue |
-| `issue:update` | Update metadata, priority, notes, or status on an issue | Updated issue |
-| `issue:close` | Mark an issue complete with a reason | Closed issue |
-| `issue:read` | Read issue details or list issues | Issue data |
-| `message:create` | Leave an async message for another agent to act on | Confirmation |
-| `message:read` | Check and process waiting messages | Messages |
+| Verb              | Description                                                | Returns          |
+| ----------------- | ---------------------------------------------------------- | ---------------- |
+| `decision:create` | Record a meaningful choice with rationale                  | Confirmation     |
+| `decision:read`   | Review prior decisions                                     | Stored decisions |
+| `insight:create`  | Record a non-obvious discovery or pattern                  | Confirmation     |
+| `insight:read`    | Review known patterns and gotchas                          | Stored insights  |
+| `context:update`  | Save working state before session ends or handoff          | Confirmation     |
+| `context:read`    | Restore working state at session start                     | Prior context    |
+| `issue:ready`     | List unblocked issues ready to claim, sorted by priority   | Issue list       |
+| `issue:create`    | Create a tracked issue with description and priority       | Issue ID         |
+| `issue:claim`     | Atomically take ownership of an issue before starting work | Updated issue    |
+| `issue:update`    | Update metadata, priority, notes, or status on an issue    | Updated issue    |
+| `issue:close`     | Mark an issue complete with a reason                       | Closed issue     |
+| `issue:read`      | Read issue details or list issues                          | Issue data       |
+| `message:create`  | Leave an async message for another agent to act on         | Confirmation     |
+| `message:read`    | Check and process waiting messages                         | Messages         |
 
 The verb namespace is open — backends and skills may introduce new verb domains. New verbs should be registered in the **Installed Skills** table in the routing skill and documented in the implementing skill's body.
 
@@ -275,6 +275,7 @@ Enforce this strictly in every peer review brief — the reviewing specialist re
 These verbs are provided by whichever backing skill is listed in the routing skill's **Installed Skills** table. Apply the skill for the verb when these situations arise:
 
 **Memory:**
+
 - `decision:create` — a meaningful choice was made
 - `decision:read` — reviewing prior decisions
 - `insight:create` — something non-obvious was discovered
@@ -283,6 +284,7 @@ These verbs are provided by whichever backing skill is listed in the routing ski
 - `context:read` — picking up from a prior session
 
 **Issues:**
+
 - `issue:ready` — at session start and before planning new work, call this first to get actionable issues sorted by priority
 - `issue:create` — work needs to be tracked across sessions
 - `issue:claim` — atomically take ownership of an issue before starting; prevents two agents from working the same task
@@ -291,6 +293,7 @@ These verbs are provided by whichever backing skill is listed in the routing ski
 - `issue:read` — checking available or in-progress work
 
 **Inbox:**
+
 - `message:create` — another agent needs to act in a future session
 - `message:read` — checking for waiting messages
 
@@ -337,13 +340,13 @@ If a spawned agent produces stray files, delete them and re-capture the content 
 
 Guild Master owns delegated work from creation through closure.
 
-| Step        | Owner                     | What happens                                              |
-| ----------- | ------------------------- | --------------------------------------------------------- |
-| 1. Create   | Guild Master              | Create tracking issue with clear "Done When" criteria     |
-| 2. Delegate | Guild Master → Specialist | Brief specialist; specialist claims issue (`in-progress`) |
-| 3. Monitor  | Guild Master              | Poll progress; intervene if stalled                       |
+| Step        | Owner                      | What happens                                              |
+| ----------- | -------------------------- | --------------------------------------------------------- |
+| 1. Create   | Guild Master               | Create tracking issue with clear "Done When" criteria     |
+| 2. Delegate | Guild Master → Specialist  | Brief specialist; specialist claims issue (`in-progress`) |
+| 3. Monitor  | Guild Master               | Poll progress; intervene if stalled                       |
 | 4. Review   | peer reviewer (specialist) | Validate against acceptance criteria                      |
-| 5. Commit   | version control agent     | Commit changes; issue closes                              |
+| 5. Commit   | version control agent      | Commit changes; issue closes                              |
 
 **Guild Master's task is not complete until the issue is closed.** If an issue is `in-progress` with no activity, check in — ask "what's blocking?" Escalate to the user only when genuinely blocked: external dependency or a stall exceeding 24 hours.
 
@@ -353,12 +356,12 @@ Every delegation that produces an artifact gets a tracking issue. No invisible w
 
 ## Quick Reference
 
-| Task                      | What to do                                                                                                                     |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| Ambiguous request         | Ask one clarifying question before planning                                                                                    |
+| Task                      | What to do                                                                                                              |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Ambiguous request         | Ask one clarifying question before planning                                                                             |
 | Blocked or stalled task   | Follow escalation ladder: feedback → re-decompose → re-route → surface to user (call `context:update` before surfacing) |
-| Agent out of scope        | Re-route to correct specialist                                                                                                 |
-| No specialist available   | Explain the gap; offer to train a new agent via `train-agent`                                                                  |
-| Repeated failure          | Cap at 3 attempts, escalate                                                                                                    |
-| End of session            | Trigger `context:update`; trigger `message:create` if handoff needed                                              |
+| Agent out of scope        | Re-route to correct specialist                                                                                          |
+| No specialist available   | Explain the gap; offer to train a new agent via `train-agent`                                                           |
+| Repeated failure          | Cap at 3 attempts, escalate                                                                                             |
+| End of session            | Trigger `context:update`; trigger `message:create` if handoff needed                                                    |
 | Stray files found in repo | Delete them; re-capture content via `insight:create`                                                                    |

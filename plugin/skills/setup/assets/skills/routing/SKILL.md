@@ -54,11 +54,12 @@ Skills installed by `/guild:setup`. Update this table when adding, removing, or 
 Orchestrate reads this at session start and applies each skill in order.
 
 <!-- If using beads: -->
-| Order | Skill directory | Session-start action                                                        |
-| ----- | --------------- | --------------------------------------------------------------------------- |
-| 1     | `beads/`        | `context:read` — load context, decisions, insights, per-agent notes  |
-| 2     | `beads/`        | `issue:ready` — surface actionable work                                     |
-| 3     | `beads/`        | `message:read` — check waiting messages from other agents             |
+
+| Order | Skill directory | Session-start action                                                |
+| ----- | --------------- | ------------------------------------------------------------------- |
+| 1     | `beads/`        | `context:read` — load context, decisions, insights, per-agent notes |
+| 2     | `beads/`        | `issue:ready` — surface actionable work                             |
+| 3     | `beads/`        | `message:read` — check waiting messages from other agents           |
 
 <!-- If using markdown components instead:
 | Order | Skill directory    | Session-start action                                             |

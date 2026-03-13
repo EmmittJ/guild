@@ -6,11 +6,11 @@
 
 ### What Changed
 
-| Old Name | New Name |
-| --- | --- |
+| Old Name | New Name       |
+| -------- | -------------- |
 | `memory` | `guild-memory` |
-| `tasks` | `guild-tasks` |
-| `inbox` | `guild-inbox` |
+| `tasks`  | `guild-tasks`  |
+| `inbox`  | `guild-inbox`  |
 
 ### Why
 

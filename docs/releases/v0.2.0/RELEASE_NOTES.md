@@ -6,11 +6,11 @@ Released: 2026-03-10
 
 All built-in Guild skills now use the `guild-` prefix to avoid namespace collisions with other skill ecosystems (Copilot CLI, third-party plugins, etc.).
 
-| Old Name | New Name |
-|----------|----------|
+| Old Name | New Name       |
+| -------- | -------------- |
 | `memory` | `guild-memory` |
-| `tasks` | `guild-tasks` |
-| `inbox` | `guild-inbox` |
+| `tasks`  | `guild-tasks`  |
+| `inbox`  | `guild-inbox`  |
 
 ## Why This Matters
 

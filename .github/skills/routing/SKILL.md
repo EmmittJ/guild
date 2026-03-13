@@ -12,23 +12,23 @@ metadata:
 
 ## Team
 
-| Agent        | Role              | File                                   | Use for                                                              |
-| ------------ | ----------------- | -------------------------------------- | -------------------------------------------------------------------- |
-| guild-master | orchestration     | `guild-master.agent.md` | Default — orchestrates everything                                                    |
-| steward      | planning + design | `steward.agent.md`      | Requirements, user stories, architecture, trade-offs, feature briefs                 |
-| wright       | implementation    | `wright.agent.md`       | File creation, editing, skills, scripts, manifests                                   |
-| scribe       | version control   | `scribe.agent.md`       | Commits, branches, pull requests                                                     |
+| Agent        | Role              | File                    | Use for                                                              |
+| ------------ | ----------------- | ----------------------- | -------------------------------------------------------------------- |
+| guild-master | orchestration     | `guild-master.agent.md` | Default — orchestrates everything                                    |
+| steward      | planning + design | `steward.agent.md`      | Requirements, user stories, architecture, trade-offs, feature briefs |
+| wright       | implementation    | `wright.agent.md`       | File creation, editing, skills, scripts, manifests                   |
+| scribe       | version control   | `scribe.agent.md`       | Commits, branches, pull requests                                     |
 
 ---
 
 ## Routing Rules
 
-| Pattern                                                                                          | Role                                          |
-| ------------------------------------------------------------------------------------------------ | --------------------------------------------- |
-| requirements, user stories, PRD, acceptance criteria, architecture, design, trade-offs           | planning + design role (agent: steward)       |
-| file creation, editing, scripts, implementation, skills, manifests, plugin                       | implementation role (agent: wright)           |
-| review, quality gate, approve                                                                    | planning + design role (agent: steward)       |
-| commit, PR, branch, push                                                                         | version control role (agent: scribe)          |
+| Pattern                                                                                | Role                                    |
+| -------------------------------------------------------------------------------------- | --------------------------------------- |
+| requirements, user stories, PRD, acceptance criteria, architecture, design, trade-offs | planning + design role (agent: steward) |
+| file creation, editing, scripts, implementation, skills, manifests, plugin             | implementation role (agent: wright)     |
+| review, quality gate, approve                                                          | planning + design role (agent: steward) |
+| commit, PR, branch, push                                                               | version control role (agent: scribe)    |
 
 ---
 
@@ -48,11 +48,11 @@ guild-master → steward (planning + design) → wright (implementation) → ste
 Skills installed by `/guild:setup`. Update this table when adding, removing, or renaming a skill.
 Orchestrate reads this at session start and applies each skill in order.
 
-| Order | Skill directory | Session-start action                                                        |
-| ----- | --------------- | --------------------------------------------------------------------------- |
-| 1     | `beads/`        | `context:read` — load context, decisions, insights, per-agent notes  |
-| 2     | `beads/`        | `issue:ready` — surface actionable work                                     |
-| 3     | `beads/`        | `message:read` — check waiting messages from other agents             |
+| Order | Skill directory | Session-start action                                                |
+| ----- | --------------- | ------------------------------------------------------------------- |
+| 1     | `beads/`        | `context:read` — load context, decisions, insights, per-agent notes |
+| 2     | `beads/`        | `issue:ready` — surface actionable work                             |
+| 3     | `beads/`        | `message:read` — check waiting messages from other agents           |
 
 ---
 
