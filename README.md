@@ -10,16 +10,16 @@ Nothing to run. Nothing to install before you start. One `/guild:setup` command 
 
 ## What It Is
 
-Guild is a **Guild Master** agent file and a set of skills in the [agentskills.io](https://agentskills.io) open format. The agents coordinate through skills — structured instructions the AI loads on demand — rather than through a service or runtime.
+Guild is a set of skills in the [agentskills.io](https://agentskills.io) open format. The setup skill scaffolds a full agent team for your repo — orchestrator, builders, advisor, scribe — in whatever universe you choose. Agents coordinate through skills rather than through a service or runtime.
 
 Install as a Copilot CLI plugin or copy the files in directly. Either way, you get:
 
-- **Guild Master** — orchestrates work, delegates to specialists, synthesizes results
-- **Setup skill** — scaffolds your team, memory, and issue tracking in one session
-- **Orchestrate, train-agent, train-skill** — core skills for coordination and team growth
+- **Setup skill** — scans your repo, scaffolds a themed team (your orchestrator, builders, advisor, scribe), and installs memory and issue tracking
+- **Orchestrate** — core coordination skill your orchestrator uses to delegate, parallelize, and synthesize
+- **Train-agent, train-skill** — grow your team or add new skills at any time
 - **Work-cycle** — backend-agnostic session discipline: orient, claim, work, land cleanly
 
-Memory and issue tracking default to plain markdown files — no install. Switch to [beads](https://github.com/EmmittJ/gastown) when you want cross-clone sync and dependency graphs.
+Run `/guild:setup` once. It creates your team in the voice and universe you choose — the orchestrator it builds is your repo's, not Guild's.
 
 ---
 
@@ -28,10 +28,6 @@ Memory and issue tracking default to plain markdown files — no install. Switch
 **Option A — copy into your repo**
 
 ```sh
-# grab the agent
-curl --create-dirs -o .github/agents/guild-master.agent.md \
-  https://raw.githubusercontent.com/EmmittJ/guild/main/.github/agents/guild-master.agent.md
-
 # grab the core plugin skills
 curl --create-dirs -o .github/skills/orchestrate/SKILL.md \
   https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/orchestrate/SKILL.md
@@ -41,11 +37,13 @@ curl --create-dirs -o .github/skills/train-agent/SKILL.md \
   https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/train-agent/SKILL.md
 curl --create-dirs -o .github/skills/train-skill/SKILL.md \
   https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/train-skill/SKILL.md
+curl --create-dirs -o .github/skills/work-cycle/SKILL.md \
+  https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/work-cycle/SKILL.md
 
-# optional: run /guild:setup interactively to scaffold your team + install memory/issues/inbox
-# or install the setup skill manually:
+# install the setup skill, then run it to scaffold your team
 curl --create-dirs -o .github/skills/setup/SKILL.md \
   https://raw.githubusercontent.com/EmmittJ/guild/main/plugin/skills/setup/SKILL.md
+# then: /guild:setup
 ```
 
 **Option B — install as a Copilot CLI plugin**
@@ -120,15 +118,15 @@ Guild installs two kinds of files into your repo. Know which is which before edi
 
 These files are scaffolded once and then belong to your repo. Edit them freely:
 
-| File / Directory                  | What to put there                                         |
-| --------------------------------- | --------------------------------------------------------- |
-| `AGENTS.md`                       | Platform, conventions, team constitution                  |
-| `.github/agents/*.agent.md`       | Your team's agent files, created by `/guild:setup`        |
-| `.github/skills/routing/SKILL.md` | Team roster, routing rules, **model names for each tier** |
+| File / Directory                  | What to put there                                             |
+| --------------------------------- | ------------------------------------------------------------- |
+| `AGENTS.md`                       | Platform, conventions, team constitution                      |
+| `.github/agents/*.agent.md`       | Your team's agent files, created by `/guild:setup`            |
+| `.github/skills/routing/SKILL.md` | Team roster, routing rules, **model names for each tier**     |
 | `.beads/`                         | Beads database — issues, decisions, insights (if using beads) |
-| `.agents/memory/`                  | Decisions, insights, context (if using markdown memory)   |
-| `.agents/issues/`                  | Work items (if using markdown issues)                     |
-| `.agents/inbox/`                   | Agent-to-agent messages (if using markdown inbox)         |
+| `.agents/memory/`                 | Decisions, insights, context (if using markdown memory)       |
+| `.agents/issues/`                 | Work items (if using markdown issues)                         |
+| `.agents/inbox/`                  | Agent-to-agent messages (if using markdown inbox)             |
 
 The `routing` skill is the primary configuration surface. It's where you set the model names that correspond to the Fast / Standard / Premium tiers used by the orchestrate skill.
 
@@ -149,8 +147,8 @@ If you need to change how orchestration works, open an issue on the Guild repo o
 
 These skills are copied into your repo by `/guild:setup`. Once installed, they belong to your repo — edit them freely:
 
-| File / Directory                  | Installed by   |
-| --------------------------------- | -------------- |
+| File / Directory                  | Installed by              |
+| --------------------------------- | ------------------------- |
 | `.github/skills/markdown-memory/` | `/guild:setup` (markdown) |
 | `.github/skills/github-issues/`   | `/guild:setup` (github)   |
 | `.github/skills/markdown-inbox/`  | `/guild:setup` (markdown) |
@@ -233,11 +231,11 @@ plugin/
 
 Start with markdown. It works immediately — no tools to install, no accounts to configure, nothing that can break in CI. Upgrade to beads when you want more.
 
-| Backend | What it covers | Requires |
-| ------- | -------------- | -------- |
-| **Markdown** | Memory, issues, inbox | nothing |
-| **Beads** | All of the above + cross-clone sync | `bd` CLI v0.47.0+ |
-| **GitHub Issues** | Issues only (pair with markdown memory) | `gh` CLI |
+| Backend           | What it covers                          | Requires          |
+| ----------------- | --------------------------------------- | ----------------- |
+| **Markdown**      | Memory, issues, inbox                   | nothing           |
+| **Beads**         | All of the above + cross-clone sync     | `bd` CLI v0.47.0+ |
+| **GitHub Issues** | Issues only (pair with markdown memory) | `gh` CLI          |
 
 ### Markdown (Default — start here)
 
