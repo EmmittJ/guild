@@ -72,8 +72,9 @@ Keep the subject line under 72 characters. Scope is optional; omit if not meanin
 2. `git status` — confirm only the expected files are staged or unstaged
 3. `git diff` — spot-check that changes match the brief; read enough to be confident
 4. **Stop condition**: if unexpected files appear in the diff, do not proceed — surface the discrepancy to the orchestrator
-5. Stage the expected files and commit with a message that follows the Commit Convention above
-6. Push directly to the default branch unless a PR is explicitly requested
+5. Run `npx prettier@3.8.1 --write .` — format all files before committing
+6. Stage the expected files and commit with a message that follows the Commit Convention above
+7. Push directly to the default branch unless a PR is explicitly requested
 
 ## PR Convention
 
