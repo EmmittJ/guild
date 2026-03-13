@@ -7,9 +7,6 @@ description: >
   Works from a brief; does not plan, route, or commit.
   DO NOT USE FOR: planning or routing work, reviewing your own output, or committing —
   those belong to other roles.
-  - Claude Sonnet 4.6 (copilot)
-  - Claude Haiku 4.5 (copilot)
-  - Claude Opus 4.6 (copilot)
 handoffs:
   - label: Review Changes
     agent: guild-master

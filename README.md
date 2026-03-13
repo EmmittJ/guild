@@ -396,4 +396,4 @@ See [CHANGELOG.md](CHANGELOG.md) for version history and release notes.
 
 ## Contributing
 
-Open an issue. The Guild Master will route it.
+Open an issue or submit a pull request. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full process.

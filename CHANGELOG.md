@@ -7,10 +7,18 @@ All notable changes to this project are documented here.
 Setup consolidation, skill renames, documentation, and template improvements.
 See [release notes](docs/releases/v0.5.0/RELEASE_NOTES.md).
 
+### Changed
+
 - Merged `guild-setup`, `guild-setup-markdown`, and `guild-setup-github` into a single `setup` skill — one command (`/guild:setup`) handles team scaffolding and component installation
 - Renamed `guild-tasks` to `github-issues` — skill activation verbs are now `issue:create`, `issue:update`, `issue:read`, `issue:ready`
 - Moved plugin skills from `.github/skills/` to `plugin/skills/` — plugin-owned files no longer live alongside host-owned installed components
 - Updated `metadata.asset:` paths in `markdown-memory`, `markdown-inbox`, `github-issues`, `routing` to point to new `plugin/skills/setup/assets/` location
+
+### Breaking
+
+- Installed skill directories renamed: `guild-memory` → `markdown-memory`, `guild-inbox` → `markdown-inbox`, `guild-issues` → `github-issues` — re-run `/guild:setup` or rename manually
+- Plugin skills moved from `.github/skills/` to `plugin/skills/` — update any agent files referencing old paths
+- Setup commands consolidated — `guild-setup`, `guild-setup-markdown`, `guild-setup-github` replaced by `/guild:setup`
 
 ## [v0.4.0] — 2026-03-10
 
