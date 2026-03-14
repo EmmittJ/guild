@@ -119,17 +119,20 @@ Example: "Auth controller written, tests failing on token expiry — next: fix e
 
 ## Scribe Commits
 
-When work is complete and ready to commit:
+When work is complete and ready to commit, route to the scribe with the following:
 
-1. Guild Master (or designated scribe agent) runs the commit — never the implementing agent
-2. Commit message format:
+1. **Include a handoff block** using the output contract format — the scribe needs:
+   - The exact list of expected changed files (from the Changes section)
+   - The intended commit type, scope, and one-line description
+   - Whether to push directly to `main` or open a PR
+2. **Scribe does not modify code** — if a commit requires changes, it will send back to the implementing agent
 
-   ```
-   {type}({scope}): {description}
+Commit message format:
 
-   {body — what changed and why, referencing decisions if relevant}
+```
+{type}({scope}): {description}
 
-   Co-authored-by: {agent name} <agent>
-   ```
+{body — what changed and why, referencing decisions if relevant}
 
-3. Scribe does not modify code — if a commit requires changes, send back to the implementing agent
+Co-authored-by: {agent name} <agent>
+```
