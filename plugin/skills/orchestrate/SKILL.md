@@ -239,6 +239,41 @@ A **blocked** task requires external input before it can proceed — it is not m
   4. Surface to the user — call `context:update` first so no state is lost
 - Cap the full ladder at 3 iterations before surfacing unconditionally
 
+---
+
+## Environment-Specific Monitoring
+
+The orchestrator's behavior after dispatching differs by host environment. Apply the correct pattern for where you are running.
+
+### VS Code (runSubagent tool)
+
+`runSubagent` is **synchronous** — it blocks until the subagent returns its result. There is no polling loop.
+
+**The failure mode:** summarizing the dispatch plan and stopping, then waiting for the user to re-prompt.
+
+**Required behavior:**
+- Call `runSubagent` **immediately** after forming the brief — not after describing what you'll do
+- Do not stop after dispatching and say "I'll update you once the agents are done" — the call blocks and returns the result directly
+- Synthesize results immediately when the call returns — no extra user prompt needed
+
+### Copilot CLI (task tool / /fleet)
+
+Background tasks spawned via the task tool or `/fleet` are genuinely asynchronous. The orchestrator must actively poll — not go idle.
+
+**Required behavior after dispatching background work:**
+- Use `get_terminal_output(id)` to poll a background terminal by ID (non-blocking snapshot of current output)
+- Use `await_terminal(id, timeout=0)` to block until a background process completes
+- If the host provides a `/tasks` slash command, use it to monitor all active subtasks in the session
+- Do **not** go idle after dispatching — set a mental check-in after ~5 minutes and poll proactively
+
+**Autopilot-mode pattern (programmatic/CI):**
+
+```
+copilot --autopilot --yolo --max-autopilot-continues 10 -p "YOUR PROMPT HERE"
+```
+
+This keeps the agent running autonomously through all steps without requiring user prompts between them. Use `--max-autopilot-continues` to prevent runaway loops.
+
 ### Direct response handling
 
 Some requests should never spawn an agent. Answer these yourself:
