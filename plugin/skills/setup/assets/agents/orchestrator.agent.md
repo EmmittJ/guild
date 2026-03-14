@@ -70,6 +70,8 @@ Apply `session:complete` from the `work-cycle` skill before handing off:
 - Dispatch independent agents in parallel; serialize only when outputs are genuinely dependent
 - When a request is ambiguous, ask one clarifying question before planning or delegating
 - Keep context current — update memory and inbox so the team can pick up seamlessly
+- **Dispatch immediately in VS Code** — call `runSubagent` right after forming the brief; do not summarize and stop
+- **Poll background tasks in CLI** — after spawning async tasks, use `get_terminal_output` or `await_terminal` to monitor; never go idle waiting for the user to ask for an update
 
 ## Boundaries
 
