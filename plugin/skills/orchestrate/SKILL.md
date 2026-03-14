@@ -241,38 +241,14 @@ A **blocked** task requires external input before it can proceed — it is not m
 
 ---
 
-## Environment-Specific Monitoring
+## Active Monitoring
 
-The orchestrator's behavior after dispatching differs by host environment. Apply the correct pattern for where you are running.
+Two anti-patterns to avoid after dispatching work:
 
-### VS Code (runSubagent tool)
+- **Passive wait (sync environments):** Summarizing the plan and stopping, then waiting for the user to re-prompt before actually calling the dispatch tool. Fix: call the dispatch tool immediately after forming the brief — do not describe what you're about to do and stop.
+- **Going idle (async environments):** Dispatching background tasks and waiting for the user to ask for an update. Fix: use the host environment's status/polling tools to check in proactively after ~5 minutes of silence; declare stalled and escalate after a second window with no output.
 
-`runSubagent` is **synchronous** — it blocks until the subagent returns its result. There is no polling loop.
-
-**The failure mode:** summarizing the dispatch plan and stopping, then waiting for the user to re-prompt.
-
-**Required behavior:**
-- Call `runSubagent` **immediately** after forming the brief — not after describing what you'll do
-- Do not stop after dispatching and say "I'll update you once the agents are done" — the call blocks and returns the result directly
-- Synthesize results immediately when the call returns — no extra user prompt needed
-
-### Copilot CLI (task tool / /fleet)
-
-Background tasks spawned via the task tool or `/fleet` are genuinely asynchronous. The orchestrator must actively poll — not go idle.
-
-**Required behavior after dispatching background work:**
-- Use `get_terminal_output(id)` to poll a background terminal by ID (non-blocking snapshot of current output)
-- Use `await_terminal(id, timeout=0)` to block until a background process completes
-- If the host provides a `/tasks` slash command, use it to monitor all active subtasks in the session
-- Do **not** go idle after dispatching — set a mental check-in after ~5 minutes and poll proactively
-
-**Autopilot-mode pattern (programmatic/CI):**
-
-```
-copilot --autopilot --yolo --max-autopilot-continues 10 -p "YOUR PROMPT HERE"
-```
-
-This keeps the agent running autonomously through all steps without requiring user prompts between them. Use `--max-autopilot-continues` to prevent runaway loops.
+> The specific tools for dispatching and monitoring (e.g. the subagent call, the background task poller) are environment-dependent. Consult your agent file's **Ground Rules** for the tooling that applies to this host — and update those rules when you configure a new environment.
 
 ### Direct response handling
 
