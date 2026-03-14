@@ -9,10 +9,10 @@ description: >
 license: MIT
 metadata:
   asset: ../../../plugin/skills/orchestrate/SKILL.md
-  version: "0.5"
+  version: "0.6"
 ---
 
-> **Read this entire file before acting.** This skill is approximately 355 lines. If your first `read_file` call did not return the full content, call it again with a higher `endLine` (e.g. 400) to retrieve the remaining sections — Maker-Checker, Memory/Issues/Inbox, Conflict Resolution, Synthesizing Results, File Output Discipline, Issue Lifecycle, and Quick Reference are all below the midpoint.
+> **Read this entire file before acting.** This skill is approximately 385 lines. If your first `read_file` call did not return the full content, call it again with a higher `endLine` (e.g. 400) to retrieve the remaining sections — Maker-Checker, Memory/Issues/Inbox, Conflict Resolution, Synthesizing Results, File Output Discipline, Issue Lifecycle, and Quick Reference are all below the midpoint.
 
 ## Pattern Selection
 
@@ -75,7 +75,7 @@ When spawning agents, match the model tier to the operation. Tier names are fixe
 
 ---
 
-## Guild Master Initialization
+## Orchestrator Initialization
 
 Apply this sequence at the start of every session. Work begins only after all steps complete.
 
@@ -187,7 +187,7 @@ Answer directly (no spawn) for:
 
 Spawn for everything else. **Default to spawning eagerly** — if an agent could usefully start work, start them. Don't wait to spawn Agent B until Agent A finishes unless B's work literally depends on A's output.
 
-**Anticipatory spawning (opt-in).** For substantial tasks, you may optionally spawn downstream agents on _setup work_ while the primary builder works — scaffolding test environments, writing stubs, preparing fixtures. Do not spawn agents to run tests against incomplete output. If the primary builder's output is rejected and the spec changes, Guild Master owns re-briefing any anticipatorily-spawned agents.
+**Anticipatory spawning (opt-in).** For substantial tasks, you may optionally spawn downstream agents on _setup work_ while the primary builder works — scaffolding test environments, writing stubs, preparing fixtures. Do not spawn agents to run tests against incomplete output. If the primary builder's output is rejected and the spec changes, the orchestrator owns re-briefing any anticipatorily-spawned agents.
 
 ### Single vs. parallel spawning
 
@@ -202,9 +202,9 @@ Spawn for everything else. **Default to spawning eagerly** — if an agent could
 
 **Parallel is the default.** Sequential is only justified when there's a real data dependency.
 
-**Before spawning a second concurrent builder on a system another builder is already modifying:** call a Design Review — bring both builders and Guild Master to align on interfaces, contracts, and risk before work diverges. Record the outcome via `decision:create`.
+**Before spawning a second concurrent builder on a system another builder is already modifying:** call a Design Review — bring both builders and the orchestrator to align on interfaces, contracts, and risk before work diverges. Record the outcome via `decision:create`.
 
-**After a peer reviewer rejects the same work twice:** call a Retrospective — builder, reviewer, and Guild Master discuss what failed, root cause, and what changes. Record the pattern via `insight:create`.
+**After a peer reviewer rejects the same work twice:** call a Retrospective — builder, reviewer, and the orchestrator discuss what failed, root cause, and what changes. Record the pattern via `insight:create`.
 
 ### Briefing quality
 
@@ -220,6 +220,16 @@ A poor brief produces poor output and requires re-work. Before spawning any agen
 ### Failure handling
 
 A **blocked** task requires external input before it can proceed — it is not merely slow. A slow task is still making progress. The distinction matters: slow tasks get more time; blocked tasks get the escalation ladder immediately.
+
+**Do not wait passively.** After spawning an agent, set a mental check-in point. If you hear nothing, follow this table:
+
+| Signal                                           | Classification | Action                                                            |
+| ------------------------------------------------ | -------------- | ----------------------------------------------------------------- |
+| Agent progressing — varied actions, new output   | Active         | Continue; do not interrupt                                        |
+| Same action repeated 3+ times with no new output | Stalled        | Trigger escalation ladder immediately                             |
+| No output or progress signal for ~5 minutes      | Suspect        | Send a status prompt: "Still working? What is your current step?" |
+| No response after a second ~5-minute window      | Stalled        | Begin escalation ladder                                           |
+| Agent explicitly declares it is blocked          | Blocked        | Skip to escalation step 3 (re-route)                              |
 
 - One agent failing does not stop others — continue parallel work and surface the failure
 - If an agent returns output that doesn't meet the output contract, send it back with specific feedback (see Maker-Checker)
@@ -349,17 +359,17 @@ If a spawned agent produces stray files, delete them and re-capture the content 
 
 ## Issue Lifecycle Management
 
-Guild Master owns delegated work from creation through closure.
+The orchestrator owns delegated work from creation through closure.
 
-| Step        | Owner                      | What happens                                              |
-| ----------- | -------------------------- | --------------------------------------------------------- |
-| 1. Create   | Guild Master               | Create tracking issue with clear "Done When" criteria     |
-| 2. Delegate | Guild Master → Specialist  | Brief specialist; specialist claims issue (`in-progress`) |
-| 3. Monitor  | Guild Master               | Poll progress; intervene if stalled                       |
-| 4. Review   | peer reviewer (specialist) | Validate against acceptance criteria                      |
-| 5. Commit   | version control agent      | Commit changes; issue closes                              |
+| Step        | Owner                      | What happens                                                                    |
+| ----------- | -------------------------- | ------------------------------------------------------------------------------- |
+| 1. Create   | Orchestrator               | Create tracking issue with clear "Done When" criteria                           |
+| 2. Delegate | Orchestrator → Specialist  | Brief specialist; specialist claims issue (`in-progress`)                       |
+| 3. Monitor  | Orchestrator               | Check in after ~5 min silence; declare stalled after a second window of nothing |
+| 4. Review   | peer reviewer (specialist) | Validate against acceptance criteria                                            |
+| 5. Commit   | version control agent      | Commit changes; issue closes                                                    |
 
-**Guild Master's task is not complete until the issue is closed.** If an issue is `in-progress` with no activity, check in — ask "what's blocking?" Escalate to the user only when genuinely blocked: external dependency or a stall exceeding 24 hours.
+**The orchestrator's task is not complete until the issue is closed.** Do not wait passively — monitor actively using the stall detection thresholds in the Failure Handling section. Send a status prompt after ~5 minutes of silence; declare stalled and escalate after a second window with no response. Escalate to the user only when genuinely blocked by an external dependency or after the 3-iteration escalation cap.
 
 Every delegation that produces an artifact gets a tracking issue. No invisible work. Exception: quick clarifications that produce no artifact output do not require an issue.
 

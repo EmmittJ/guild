@@ -27,7 +27,6 @@ Common issues encountered when using bd and how to resolve them.
 - [Database Errors on Cloud Storage](#database-errors-on-cloud-storage)
 - [Database Not Initialized](#database-not-initialized)
 - [Version Requirements](#version-requirements)
-- [Remote Not Wired (CLI only)](#remote-not-wired-cli-only)
 
 ---
 
@@ -433,39 +432,6 @@ bd show task-2
 
 ---
 
-## Remote Not Wired (CLI only)
-
-After `bd dolt remote add origin <url>`, the remote must be wired to both the SQL layer and the CLI layer before push will work.
-
-### Symptom
-
-```bash
-bd dolt remote list
-# Shows: origin [CLI only]
-# Push hangs or fails silently
-```
-
-### Resolution
-
-Re-run the add command (it is idempotent) until `remote list` shows `[SQL + CLI]`:
-
-```bash
-bd dolt remote add origin git+https://github.com/owner/repo.git
-bd dolt remote list   # must show: origin [SQL + CLI]
-bd dolt push
-```
-
-**Pattern for reliable remote setup:**
-
-```bash
-bd dolt remote add origin git+https://github.com/owner/repo.git
-bd dolt remote list   # check state
-# If [CLI only]: run remote add again, verify again
-# Only push when [SQL + CLI] is confirmed
-```
-
----
-
 ## Getting Help
 
 ### Debug Checklist
@@ -520,15 +486,14 @@ If the **bd-issue-tracking skill** provides incorrect guidance:
 
 ## Quick Reference: Common Fixes
 
-| Problem                         | Quick Fix                                                      |
-| ------------------------------- | -------------------------------------------------------------- |
-| Dependencies not saving         | Upgrade to bd v0.15.0+                                         |
-| Status updates lag              | Use server mode (ensure Dolt server is running)                |
-| Dolt server won't start         | Run `git init` first                                           |
-| Database errors on Google Drive | Move to local filesystem                                       |
-| Database not initialized        | Run `bd init` in the project directory                         |
-| Dependencies backwards (MCP)    | Update to v0.15.0+, use `issue_id/depends_on_id` correctly     |
-| Remote shows `[CLI only]`       | Re-run `bd dolt remote add origin <url>`, verify `[SQL + CLI]` |
+| Problem                         | Quick Fix                                                  |
+| ------------------------------- | ---------------------------------------------------------- |
+| Dependencies not saving         | Upgrade to bd v0.15.0+                                     |
+| Status updates lag              | Use server mode (ensure Dolt server is running)            |
+| Dolt server won't start         | Run `git init` first                                       |
+| Database errors on Google Drive | Move to local filesystem                                   |
+| Database not initialized        | Run `bd init` in the project directory                     |
+| Dependencies backwards (MCP)    | Update to v0.15.0+, use `issue_id/depends_on_id` correctly |
 
 ---
 
