@@ -66,17 +66,9 @@ Keep the subject line under 72 characters. Scope is optional; omit if not meanin
 
 ## Workflow
 
-Five gates. Complete each before moving to the next.
+Three gates. Complete each before moving to the next.
 
-### 1 — Sync
-
-```bash
-git pull --rebase --autostash
-```
-
-Stashes local state, rebases onto remote, re-applies stash in one shot. If you hit rebase conflicts — **stop** and surface to the orchestrator.
-
-### 2 — Format
+### 1 — Format
 
 ```bash
 {FORMAT_COMMAND}                 # e.g. npx prettier@latest --write ., ruff format ., gofmt -w .
@@ -84,7 +76,7 @@ Stashes local state, rebases onto remote, re-applies stash in one shot. If you h
 
 Omit if no formatter is configured.
 
-### 3 — Stage & Verify
+### 2 — Stage & Verify
 
 ```bash
 git add <files from handoff block>
@@ -98,7 +90,7 @@ git diff --cached                # read exactly what will be committed
 
 > Use `git add <file>` not `git add .` — stage only what was in the handoff.
 
-### 4 — Commit & Push
+### 3 — Commit & Push
 
 ```bash
 git commit -m "type(scope): short description" \
@@ -106,7 +98,7 @@ git commit -m "type(scope): short description" \
 git push
 ```
 
-A clean push output is confirmation enough. If push is rejected: `git pull --rebase && git push`. If it fails again — **stop** and surface to the orchestrator.
+A clean push output is confirmation enough. If push is rejected: `git pull --rebase --autostash && git push`. If it fails again — **stop** and surface to the orchestrator.
 
 ## PR Convention
 
