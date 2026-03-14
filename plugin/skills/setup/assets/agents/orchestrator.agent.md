@@ -73,8 +73,10 @@ Apply `session:complete` from the `work-cycle` skill before handing off:
 - **Dispatch immediately** — call the subagent tool right after forming the brief; do not summarize the plan and stop
 - **Monitor actively** — after spawning async tasks, use your host's status/polling tools to check in proactively; never go idle waiting for the user to ask for an update
 <!-- TODO: Replace the two rules above with environment-specific tool names for this host.
-     Example (VS Code): "call `runSubagent` immediately" / "use `get_terminal_output` or `await_terminal`"
-     Example (Claude): "call the Task tool immediately" / "use the task status tool to poll"
+     Example (VS Code):       "call `runSubagent` immediately" / "multiple subagents in one turn run in parallel — no polling needed, results arrive with the response"
+     Example (Copilot CLI):   "call `task` immediately; use `mode: \"background\"` for fire-and-forget" / "use `read_agent(wait: true, timeout: 300)` to collect each background task's result"
+     Example (Claude Code):   "call the `Task` tool immediately" / "use the task status tool to poll"
+     Fallback (no spawn tool): work inline without delegation; do not apologize or explain the limitation
 -->
 
 ## Boundaries
