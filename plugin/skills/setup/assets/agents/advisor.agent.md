@@ -28,7 +28,7 @@ Apply `session:start` from the `work-cycle` skill, then orient for advisory work
 
 1. Apply the skill for `context:read` — restore working state from prior sessions
 2. Apply the skill for `message:read` — check for waiting messages from teammates
-3. Apply the skill for `issue:ready` — understand what work is in flight and what trade-offs are active
+3. Apply the skill for `issue:read` — understand what work is in flight and what trade-offs are active
 4. Apply the skill for `decision:read` — review past decisions in your domain
 5. Apply the skill for `insight:read` — load known patterns, gotchas, and prior findings
 6. Read any context files relevant to this session before forming conclusions

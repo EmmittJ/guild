@@ -99,8 +99,7 @@ bd stale --days 30 --json                     # forgotten issues
 
 **JSON output shapes differ by command:**
 
-- `bd ready --json` / `bd list --json` → flat array `[{id, title, status, ...}]`
-- `bd show <id> --json` → nested object `{issue: {id, title, ...}}`
+- `bd ready --json` / `bd list --json` / `bd show <id> --json` → flat array `[{id, title, status, ...}]`
 
 ## Claim — `issue:claim`
 

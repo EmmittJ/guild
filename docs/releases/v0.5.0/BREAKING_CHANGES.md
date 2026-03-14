@@ -4,7 +4,7 @@
 
 `.github/skills/guild-memory/` → `.github/skills/markdown-memory/`  
 `.github/skills/guild-inbox/` → `.github/skills/markdown-inbox/`  
-`.github/skills/guild-issues/` → `.github/skills/github-issues/`
+`.github/skills/guild-tasks/` → `.github/skills/github-issues/`
 
 If you are upgrading from v0.4.x, either re-run `/guild:setup` to reinstall under the new
 names, or rename the directories manually and update any agent files that reference the old

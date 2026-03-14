@@ -231,6 +231,8 @@ plugin/
       SKILL.md
     train-skill/
       SKILL.md
+    work-cycle/
+      SKILL.md
 
 # installed components — copied into your repo by /guild:setup
 .github/
