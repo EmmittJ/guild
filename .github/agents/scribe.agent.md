@@ -68,13 +68,45 @@ Keep the subject line under 72 characters. Scope is optional; omit if not meanin
 
 ## Workflow
 
-1. Review the list of changed files from the builder's handoff block
-2. `git status` — confirm only the expected files are staged or unstaged
-3. `git diff` — spot-check that changes match the brief; read enough to be confident
-4. **Stop condition**: if unexpected files appear in the diff, do not proceed — surface the discrepancy to the orchestrator
-5. Run `npx prettier@3.8.1 --write .` — format all files before committing
-6. Stage the expected files and commit with a message that follows the Commit Convention above
-7. Push directly to the default branch unless a PR is explicitly requested
+Five gates. Complete each before moving to the next.
+
+### 1 — Sync
+
+```bash
+git pull --rebase --autostash
+```
+
+Stashes local state, rebases onto remote, re-applies stash in one shot. If you hit rebase conflicts — **stop** and surface to the orchestrator.
+
+### 2 — Format
+
+```bash
+npx prettier@3.8.1 --write .    # replace with project formatter; omit if none
+```
+
+### 3 — Stage & Verify
+
+```bash
+git add <files from handoff block>
+git diff --cached                # read exactly what will be committed
+```
+
+**Stop conditions:**
+
+- Unexpected files in the diff → stop, surface to orchestrator
+- Diff doesn't match the brief → stop, send back to wright
+
+> Use `git add <file>` not `git add .` — stage only what was in the handoff.
+
+### 4 — Commit & Push
+
+```bash
+git commit -m "type(scope): short description" \
+           -m "optional body — what changed and why"
+git push
+```
+
+A clean push output is confirmation enough. If push is rejected: `git pull --rebase && git push`. If it fails again — **stop** and surface to the orchestrator.
 
 ## PR Convention
 
