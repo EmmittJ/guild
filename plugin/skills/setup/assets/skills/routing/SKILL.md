@@ -37,11 +37,33 @@ metadata:
 
 ---
 
+## SDLC Phases
+
+Map your agents to each phase in the Team table. The orchestrator routes work through these stages.
+
+| Phase         | Responsibility                                                      | When                                                |
+| ------------- | ------------------------------------------------------------------- | --------------------------------------------------- |
+| **Design**    | Requirements, acceptance criteria, architecture, trade-off analysis | New features, ambiguous requests, significant scope |
+| **Implement** | Code, files, configuration, scripts, artifacts                      | Spec is clear; design phase complete or skipped     |
+| **Verify**    | Tests, linters, builds — automated quality gates                    | After every implementation; never skipped           |
+| **Review**    | Peer validation of output against acceptance criteria               | Behavioral changes, shared-contract impact          |
+| **Integrate** | Commit, branch, pull request, version history                       | Verify passes; review passes or is skipped          |
+
 ## Default Flow
 
+**Full path** — new features, behavioral changes, shared-contract impact:
+
 ```
-guild-master → {advisor-name} (planning + design) → {builder-name} (implementation) → {advisor-name} (peer review) → {scribe-name}
+Design → Implement → Verify → Review → Integrate
 ```
+
+**Fast path** — bounded tasks, no shared-contract impact:
+
+```
+Implement → Verify → Integrate
+```
+
+See the Maker-Checker skip criteria in the `orchestrate` skill to determine which path applies.
 
 ---
 

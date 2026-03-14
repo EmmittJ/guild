@@ -32,11 +32,33 @@ metadata:
 
 ---
 
+## SDLC Phases
+
+| Phase         | Responsibility                                                      | Agent   | When                                                |
+| ------------- | ------------------------------------------------------------------- | ------- | --------------------------------------------------- |
+| **Design**    | Requirements, acceptance criteria, architecture, trade-off analysis | steward | New features, ambiguous requests, significant scope |
+| **Implement** | Code, files, configuration, scripts, artifacts                      | wright  | Spec is clear; design phase complete or skipped     |
+| **Verify**    | Tests, linters, builds — automated quality gates                    | wright  | After every implementation; never skipped           |
+| **Review**    | Peer validation of output against acceptance criteria               | steward | Behavioral changes, shared-contract impact          |
+| **Integrate** | Commit, branch, pull request, version history                       | scribe  | Verify passes; review passes or is skipped          |
+
 ## Default Flow
 
+**Full path** — new features, behavioral changes, shared-contract impact:
+
 ```
-guild-master → steward (planning + design) → wright (implementation) → steward (peer review) → scribe
+Design → Implement → Verify → Review → Integrate
+(steward) (wright)    (wright)  (steward) (scribe)
 ```
+
+**Fast path** — bounded tasks, no shared-contract impact:
+
+```
+Implement → Verify  → Integrate
+(wright)    (wright)   (scribe)
+```
+
+See the Maker-Checker skip criteria in the `orchestrate` skill to determine which path applies.
 
 ---
 

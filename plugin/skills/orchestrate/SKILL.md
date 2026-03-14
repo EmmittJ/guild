@@ -268,6 +268,16 @@ When the checker is a specialist performing peer review, apply **blind validatio
 
 Enforce this strictly in every peer review brief — the reviewing specialist receives artifacts only, never the maker's working notes or intent.
 
+### When to skip Maker-Checker
+
+Skip the review gate when **all three** conditions are met:
+
+- **Bounded output** — the task has a mechanical, unambiguous output contract; the correct result is obvious from the spec alone
+- **No shared-contract impact** — the change does not touch public interfaces, shared contracts, system behavior, or anything downstream consumers depend on
+- **Self-validated** — the implementing agent verified its output against the stated output contract before marking complete
+
+Default to maker-checker whenever in doubt. It is always required for interface changes, architectural decisions, or anything that changes observable system behavior.
+
 ---
 
 ## Memory, Issues, and Inbox
