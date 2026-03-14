@@ -1,7 +1,7 @@
 ---
 name: routing
 description: >
-  Maps thematic agent names to functional roles. Team roster and routing rules for this repo's agent team. Applied by guild-master at session 
+  Maps thematic agent names to functional roles. Team roster and routing rules for this repo's agent team. Applied by the orchestrator at session
   start. Scaffolded by `/guild:setup` — edit this file to change who is on the team, what they do,
   and how work gets routed.
 license: MIT
@@ -95,7 +95,7 @@ Orchestrate reads this at session start and applies each skill in order.
 
 ## Model Tiers
 
-Used by guild-master when spawning tasks via the Copilot CLI (`tasks` tool supports model selection; VS Code `runSubagent` does not). Fill in the models available in your environment using the CLI format.
+Used by the orchestrator when spawning tasks via the Copilot CLI (`tasks` tool supports model selection; VS Code `runSubagent` does not). Fill in the models available in your environment using the CLI format.
 
 | Tier     | Model | Use for                             |
 | -------- | ----- | ----------------------------------- |

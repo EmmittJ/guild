@@ -35,7 +35,7 @@ Four pre-built category templates live at `plugin/skills/setup/assets/agents/`. 
 
 | Category     | Template file           | Best for                                                   |
 | ------------ | ----------------------- | ---------------------------------------------------------- |
-| Orchestrator | `orchestrator.agent.md` | Guild Master, team leads, coordinators                     |
+| Orchestrator | `orchestrator.agent.md` | Orchestrators, team leads, coordinators                    |
 | Builder      | `builder.agent.md`      | Engineers, ops, QA, writers — anyone who creates artifacts |
 | Advisor      | `advisor.agent.md`      | Architects, product owners, reviewers, domain experts      |
 | Scribe       | `scribe.agent.md`       | Version control, commit discipline, release management     |
@@ -54,7 +54,7 @@ Agents are `.agent.md` files. VS Code, Copilot CLI, Claude Code, and other compa
 ---
 name: { Display Name }
 description: >
-  {One or two sentences. Shown as placeholder text in chat and used by Guild Master for routing.
+  {One or two sentences. Shown as placeholder text in chat and used by the orchestrator for routing.
   Include key domain words and explicit DO NOT USE FOR exclusions.}
 handoffs:
   - label: { Action label shown on button }
@@ -140,7 +140,7 @@ handoffs:
 ## Writing a Good Description
 
 Description serves two purposes: placeholder text in the VS Code/Copilot CLI chat input, and the routing
-signal Guild Master uses to pick the right agent. Make it specific and keyword-rich:
+routing signal the orchestrator uses to pick the right agent. Make it specific and keyword-rich:
 
 ```yaml
 # Bad — too vague
@@ -168,7 +168,7 @@ This prevents confirmation bias where a reviewer who knows what was attempted ra
 1. Add the agent to `AGENTS.md` team table
 2. Update the `routing` skill — Team table, Routing Rules table, and Default Flow
 3. Use `insight:create` to seed a per-agent insight entry for this role (even if empty — signals to future agents that insights should accumulate here)
-4. Tell Guild Master: "I've added a {name} agent for {domain}"
+4. Tell the orchestrator: "I've added a {name} agent for {domain}"
 5. If this agent needs memory access, ensure the memory skill is installed in the repo
 6. **If beads is active** — register the agent in beads (see below)
 

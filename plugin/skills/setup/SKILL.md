@@ -393,6 +393,6 @@ AGENTS.md                                  ← constitutional rules (if absent)
 
 ## After Setup
 
-Guild Master applies all installed skills automatically at session start — no registration or AGENTS.md updates needed.
+The orchestrator applies all installed skills automatically at session start — no registration or AGENTS.md updates needed.
 
 The routing skill drives orchestration. Edit `.github/skills/routing/SKILL.md` to adjust your team roster or routing rules.

@@ -127,7 +127,7 @@ Insights capture patterns and gotchas that help agents avoid repeating mistakes.
 
 `{agent-name}/` directories under `insights/` capture learnings about a specific agent's behavior, tendencies, or gotchas in this repo. Each file covers one topic. Created when an agent is trained; populated as the team works with that agent.
 
-**When to write:** When Guild Master (or any agent) notices a pattern about how a specific agent behaves.
+**When to write:** When the orchestrator (or any agent) notices a pattern about how a specific agent behaves.
 
 - "engineer tends to skip the `.ps1` partner script when creating Unix-first features — always check"
 - "reviewer returns false positives on generated files — scope its brief explicitly"
@@ -142,7 +142,7 @@ Insights capture patterns and gotchas that help agents avoid repeating mistakes.
 
 **Rules:**
 
-- Guild Master reads the agent's insight directory before briefing that agent
+- The orchestrator reads the agent's insight directory before briefing that agent
 - The agent itself reads its own directory at session start (per session start checklist)
 - One file per topic — split concerns, don't pile everything into one file
 - Populate gradually — start empty, fill as patterns emerge
