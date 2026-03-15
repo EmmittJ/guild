@@ -48,6 +48,6 @@ body:
       placeholder: |
         Agent: (VS Code / Copilot CLI / Claude Code / other)
         OS: 
-        bd version (if using beads): 
+        bd version (if using beads):
     validations:
       required: false
