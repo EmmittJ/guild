@@ -1,6 +1,6 @@
 # Guild Core Pillars
 
-These are the five design commitments that explain everything Guild is, everything it refuses to be, and what makes it structurally different from other agent frameworks. They are constraints, not features. Violating any one of them would force Guild into a different product category.
+These are the four design commitments that explain everything Guild is, everything it refuses to be, and what makes it structurally different from other agent frameworks. They are constraints, not features. Violating any one of them would force Guild into a different product category.
 
 Read these before proposing changes to the architecture, public APIs, or skill contracts.
 
@@ -31,6 +31,7 @@ Team structure, routing rules, and installed capabilities are version-controlled
 - `routing.md` is the authoritative specification of who does what; you change team structure by editing a Markdown table, not by modifying code or re-installing anything
 - `/guild:setup` produces files in your repo — the team it scaffolds belongs to you; Guild only ships the skill that creates it
 - Adding a capability means copying a SKILL.md file; removing it means deleting it — no compilation, registration call, or service restart
+- Guild does not enforce any particular structure for `routing.md` — the format is a convention the host owns; agents read it as markdown and the host decides how to organize it
 
 **The test:** A proposal violates this pillar if changing team structure or adding a capability requires writing code rather than editing a config file.
 
@@ -47,6 +48,7 @@ Skills speak in stable verbs (`issue:ready`, `decision:create`, `message:read`) 
 - `work-cycle` runs identically against beads, markdown-issues, or github-issues without modification; the verb convention is durable even as backends change
 - Swapping backends requires updating routing config, not rewriting skills
 - Skills authored for one repo are portable to any repo regardless of its backend choices — the verb pattern is the unit of portability, not the implementation
+- The colon-namespaced verb pattern (`issue:ready`, `decision:create`, `message:read`) is a routing idiom that skills have adopted as a useful abstraction — not a formal specification or external standard; skills use it because it works, not because a contract requires it
 
 **The test:** A proposal violates this pillar if a skill hardcodes a specific backend, CLI name, or API rather than dispatching through an abstract verb.
 
