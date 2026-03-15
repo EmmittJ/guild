@@ -390,6 +390,12 @@ Guild uses itself. The agents and skills in this repo are the team that works on
 
 ---
 
+## Pairing with Ralph
+
+Guild handles one session: orient, execute, and land cleanly. For autonomous multi-session loops — keep working until all stories pass without human prompting — pair it with [Ralph](https://github.com/snarktank/ralph). Ralph is a bash loop that spawns a fresh agent instance per story, using `prd.json` + `progress.txt` for state, and exits when it gets `<promise>COMPLETE</promise>`. Guild runs inside each Ralph iteration; Ralph drives the iterations.
+
+---
+
 ## Releases
 
 See [CHANGELOG.md](CHANGELOG.md) for version history and release notes.
