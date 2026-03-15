@@ -13,7 +13,6 @@ See [release notes](docs/releases/v0.6.0/RELEASE_NOTES.md).
 - `beads` skill — full agentskills.io-compliant wrapper for `bd` CLI issue tracker; adopted as default issue backend for this repo
 - `sync-skills.sh` / `sync-skills.ps1` — syncs plugin skills to installed locations
 - Prettier CI workflow — `npx prettier@3.8.1 --check .` on push/PR; Node.js 18+ required
-- PreCompact snapshot hook and session-end git gate as plugin hooks
 - Security Engineer role template in `train-agent`
 
 ### Changed
