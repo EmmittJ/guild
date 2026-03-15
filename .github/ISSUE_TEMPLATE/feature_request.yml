@@ -1,0 +1,33 @@
+name: Feature request
+description: Suggest an improvement or new capability
+labels: ["feature"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Describe the solution you'd like
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: pillars
+    attributes:
+      label: Is this consistent with Guild's design pillars?
+      options:
+        - label: "I've read [PILLARS.md](docs/design/PILLARS.md) and this proposal doesn't violate any pillar"
+    validations:
+      required: false

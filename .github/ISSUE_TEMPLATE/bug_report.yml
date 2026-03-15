@@ -1,0 +1,53 @@
+name: Bug report
+description: Something isn't working
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: What component is affected?
+      options:
+        - orchestrate skill
+        - setup skill
+        - train-agent skill
+        - train-skill skill
+        - work-cycle skill
+        - beads skill
+        - routing skill
+        - agent file
+        - install script
+        - other
+    validations:
+      required: false
+
+  - type: textarea
+    id: what_happened
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: |
+        Agent: (VS Code / Copilot CLI / Claude Code / other)
+        OS: 
+        bd version (if using beads): 
+    validations:
+      required: false
