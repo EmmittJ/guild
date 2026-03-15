@@ -96,13 +96,13 @@ copilot plugin install guild@guild            # includes setup, orchestrate, tra
 
 ---
 
-Create an `AGENTS.md` at your repo root to tell Guild Master how your repo works.
+Create an `AGENTS.md` at your repo root to tell your orchestrator how your repo works.
 
 ---
 
 ## AGENTS.md
 
-Guild Master reads this file first. It's where your repo's platform, conventions, and ground rules live — not in Guild itself.
+Your orchestrator reads this file first. It's where your repo's platform, conventions, and ground rules live — not in Guild itself.
 
 ```markdown
 # AGENTS.md
@@ -301,7 +301,7 @@ Issues support type, priority, `blocked-by`, `discovered-from` lineage, and a `#
 
 [Beads (`bd`)](https://github.com/EmmittJ/gastown) is a Git-backed issue tracker powered by Dolt. It covers everything markdown does, plus dependency graphs, cross-clone sync, and richer compaction survival. Once you switch to beads, you don't need the markdown components — select it in `/guild:setup` and skip the rest.
 
-Ready to upgrade? Install `bd` and run `/guild:setup` — or just run `bd init` and let Guild Master switch the team over.
+Ready to upgrade? Install `bd` and run `/guild:setup` — or just run `bd init` and let your orchestrator switch the team over.
 
 ```bash
 bd init                          # Initialize beads database
@@ -344,14 +344,14 @@ See [CHANGELOG.md](CHANGELOG.md) for breaking changes and migration notes before
 
 ## Adding Your Team
 
-Your team lives in `.github/agents/` (or `.claude/agents/`, `.agents/` — wherever your platform looks). Ask Guild Master to build it:
+Your team lives in `.github/agents/` (or `.claude/agents/`, `.agents/` — wherever your platform looks). Ask your orchestrator to build it:
 
 ```
 train me an engineer agent for a TypeScript monorepo
 train me a security-auditor agent that reviews PRs for CVEs
 ```
 
-Or write one directly. Guild Master accepts any agent format your tool supports. For Copilot CLI:
+Or write one directly. Your orchestrator accepts any agent format your tool supports. For Copilot CLI:
 
 ```markdown
 ---

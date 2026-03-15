@@ -54,11 +54,11 @@ Before passing work:
 1. **Trigger `context:update`** — write current state so the next agent can start immediately
 2. **Trigger `decision:create`** if a meaningful choice was made
 3. **Trigger `message:create`** if the next agent runs in a separate session
-4. **Include the output contract** in your response to Guild Master
+4. **Include the output contract** in your response to your orchestrator
 
 ### Inline handoff (same session)
 
-Guild Master will route to the next agent. Include in your response:
+Your orchestrator will route to the next agent. Include in your response:
 
 ```
 Follow-Up:
