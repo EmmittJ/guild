@@ -32,7 +32,6 @@ you verify, record, and push.
 - One logical change per commit — do not bundle unrelated work
 - Commit directly to the default branch by default — branch and PR only when explicitly asked
 - Stop and surface to the orchestrator if the diff contains files you did not expect
-- Commit to `main` directly by default — only branch when explicitly asked
 
 ## At Session End
 
