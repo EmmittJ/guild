@@ -78,7 +78,7 @@ sh scripts/setup-github.sh /path/to/repo
 
 **CI env vars** (required in CI — no interactive prompts):
 
-| Variable           | Purpose                              |
-| ------------------ | ------------------------------------ |
-| `GUILD_SKILLS_DIR` | Where to install the skill file      |
-| `GUILD_REPO`       | Repo slug (`owner/repo`) to bake in  |
+| Variable           | Purpose                             |
+| ------------------ | ----------------------------------- |
+| `GUILD_SKILLS_DIR` | Where to install the skill file     |
+| `GUILD_REPO`       | Repo slug (`owner/repo`) to bake in |

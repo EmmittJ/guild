@@ -9,11 +9,11 @@ under `.agents/`.
 Three independent components are available. Install all of them unless you have a specific
 reason to skip one:
 
-| Component | Purpose                                       | Replaceable by |
-| --------- | --------------------------------------------- | -------------- |
-| memory    | Decisions, insights, and session context      | Beads          |
-| issues    | Directory-as-status task tracking             | Beads, GitHub  |
-| inbox     | Async agent-to-agent messaging                | Beads          |
+| Component | Purpose                                  | Replaceable by |
+| --------- | ---------------------------------------- | -------------- |
+| memory    | Decisions, insights, and session context | Beads          |
+| issues    | Directory-as-status task tracking        | Beads, GitHub  |
+| inbox     | Async agent-to-agent messaging           | Beads          |
 
 ## Components
 
@@ -65,11 +65,11 @@ Markdown files dropped there. Reading a message means deleting it.
 
 The default roots can be changed at install time:
 
-| Component | Default root       |
-| --------- | ------------------ |
-| memory    | `.agents/memory`   |
-| issues    | `.agents/issues`   |
-| inbox     | `.agents/inbox`    |
+| Component | Default root     |
+| --------- | ---------------- |
+| memory    | `.agents/memory` |
+| issues    | `.agents/issues` |
+| inbox     | `.agents/inbox`  |
 
 The installed SKILL.md for each component is stamped with the configured root during
 setup — the `${memory_root}`, `${issues_root}`, and `${inbox_root}` placeholders are
@@ -101,10 +101,10 @@ sh scripts/setup-markdown.sh /path/to/repo
 
 **CI env vars** (suppresses all interactive prompts):
 
-| Variable             | Purpose                                           |
-| -------------------- | ------------------------------------------------- |
-| `GUILD_COMPONENTS`   | Comma-separated list: `memory,issues,inbox` / `all` |
-| `GUILD_SKILLS_DIR`   | Where to install skill files                      |
-| `GUILD_MEMORY_ROOT`  | Override default `.agents/memory`                 |
-| `GUILD_ISSUES_ROOT`  | Override default `.agents/issues`                 |
-| `GUILD_INBOX_ROOT`   | Override default `.agents/inbox`                  |
+| Variable            | Purpose                                             |
+| ------------------- | --------------------------------------------------- |
+| `GUILD_COMPONENTS`  | Comma-separated list: `memory,issues,inbox` / `all` |
+| `GUILD_SKILLS_DIR`  | Where to install skill files                        |
+| `GUILD_MEMORY_ROOT` | Override default `.agents/memory`                   |
+| `GUILD_ISSUES_ROOT` | Override default `.agents/issues`                   |
+| `GUILD_INBOX_ROOT`  | Override default `.agents/inbox`                    |
