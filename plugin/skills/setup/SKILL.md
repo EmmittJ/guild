@@ -269,6 +269,8 @@ For each selected component, prompt for:
 {skills-dir}/markdown-inbox/SKILL.md
 ```
 
+See [references/markdown-setup.md](references/markdown-setup.md) for full component details.
+
 ### Step 5B: Beads (Replaces markdown — persistent sync)
 
 > Do you want to use **beads** instead of markdown for issue tracking and memory?
@@ -329,6 +331,8 @@ If yes:
 | `priority:low`    | `#cfd3d7` | Nice-to-have        |
 
 - Copies `github-issues/SKILL.md` with repo slug baked in (replaces any markdown issues skill)
+
+See [references/github-setup.md](references/github-setup.md) for the full setup workflow.
 
 ### Running the Scripts
 
