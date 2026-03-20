@@ -1,5 +1,5 @@
 ---
-name: guild-issues
+name: markdown-issues
 description: >
   File-based issue store for a team of agents. Issues live as Markdown files in
   ${issues_root}/open/, in_progress/, and closed/ — the directory is the status, moving a file
