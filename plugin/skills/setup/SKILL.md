@@ -294,7 +294,7 @@ bd dolt remote add origin git+ssh://git@github.com/{owner}/{repo}.git
 bd dolt push
 ```
 
-6. **Register agents and roles** — see [references/beads-setup.md](assets/references/beads-setup.md) for the full workflow
+6. **Register agents and roles** — see [references/beads-setup.md](references/beads-setup.md) for the full workflow
 7. **Install the beads skill**:
 
 ```
