@@ -1,80 +1,85 @@
 ---
 name: work-cycle
 description: >
-  Work discipline for agent sessions. Apply at session start (session:start) and session end
-  (session:complete). Covers: orient before acting (check ready work), claim atomically before
-  starting, link discovered work with parent context, and land the plane before stopping
-  (file remaining issues, close done work, push to remote, verify clean).
+  Work discipline for worker agents executing assigned tasks. Apply when claiming and implementing
+  an issue delegated by an orchestrator. Covers: claim before starting, discover and link new work,
+  self-check before reporting done, and close the issue on completion.
   Backend-agnostic — works with beads, markdown-issues, or github-issues.
-  DO NOT USE FOR: single-step tasks that don't involve issue tracking or session handoff.
+  DO NOT USE FOR: orchestrator session management (see orchestrate skill); single-step tasks
+  that don't involve issue tracking.
 license: MIT
 metadata:
-  version: "0.1"
+  version: "0.5"
 ---
 
-## session:start — Orient Before Acting
+## orient — Before You Claim Anything
 
-Before working on anything, orient:
+When you receive a brief or are about to start work in a fresh session:
 
-1. **Read context** — apply `context:read` to restore working state from prior sessions
-2. **Check inbox** — apply `message:read` to see waiting messages from teammates
-3. **Find ready work** — apply `issue:ready` to see unblocked issues sorted by priority
-4. **Claim your task** — apply `issue:claim` to take atomic ownership before starting
+1. **Read context** — apply `context:read` to load working state from prior sessions; understand what's already known before touching anything
+2. **Check inbox** — apply `message:read` to see if the orchestrator left updated instructions or context
 
-> Do not start work on an unclaimed issue. Claiming is the contract that prevents two agents from working the same task.
+> Skip context:read only if you have explicit in-session context from the orchestrator's brief. When in doubt, read it.
 
-## During Work — Discover and Link
+---
 
-When you discover new work while executing a task:
+## claim — Before You Touch Anything
 
-1. **File it immediately** — apply `issue:create` with a link to the parent (`discovered-from: <parent-id>`)
-2. **Do not context-switch** — file the issue, note it, finish the current task first
-3. **One claim at a time** — never hold more than one claimed issue unless explicitly parallelizing
+Once oriented:
+
+1. **Claim your issue** — apply `issue:claim` before touching any files or writing any output
+2. **Implement** — work the task as briefed; report back when done or blocked
+
+> Do not implement against an unclaimed issue. Claiming is the contract that prevents two agents from working the same task.
+
+---
+
+## During Work — Discover, Record, and Link
+
+While executing your assigned task:
+
+1. **File discovered work immediately** — apply `issue:create` with `discovered-from: <parent-id>` for anything new that surfaces; do not context-switch, just file it and continue
+2. **Record decisions** — when you make a meaningful choice (architecture, approach, trade-off), apply `decision:create` before moving on; don't let it disappear into conversation history
+3. **Record insights** — when you discover something non-obvious (a gotcha, a pattern, a constraint), apply `insight:create` so future agents inherit the knowledge
+4. **One claim at a time** — do not claim a second issue while one is in progress unless explicitly parallelizing
 
 > Discovered work without a parent link is orphaned work. Always link it.
+> Decisions and insights not written down are invisible to the next session.
 
-## Integration Cadence — Implement More, Review Less Often
+---
 
-Review gates have real cost. Apply CI principles to keep throughput high:
+## Done — Self-Check and Close
 
-- **Self-check always** — before marking any task complete, the implementing agent validates its output against the stated output contract; this is lightweight and always required
-- **Peer review proportionally** — trigger a peer review pass at logical completion points (a coherent feature, a set of related tasks), not after every individual task
-- **Batch related work** — complete a set of related bounded tasks, then trigger one review against their shared acceptance scope; do not request a separate review per individual task
+Before reporting done to the orchestrator:
 
-> Many small implementations feeding few well-timed reviews — not one review per implementation. This is how review overhead stays proportional to implementation volume.
+1. **Validate output** — check your work against the stated output contract in your brief
+2. **File remaining discovered work** — any uncovered issues still need `issue:create` with a parent link
+3. **Persist working state** — apply `context:update` with a summary of what was done, what was found, and what's next; this is what survives session boundaries
+4. **Close your issue** — apply `issue:close` with a reason
+5. **Report back** — signal completion; hand off any artifacts to the orchestrator
 
-## session:complete — Land the Plane
-
-Before ending any session, complete ALL steps in order:
-
-1. **File remaining work** — apply `issue:create` for anything that needs follow-up, with context for future sessions
-2. **Run quality gates** — run tests, linters, and builds; trigger peer review for behavioral or architectural changes; skip peer review for bounded mechanical changes (see Integration Cadence above)
-3. **Update issue status** — apply `issue:close` for finished work; update notes on in-progress items
-4. **Update context** — apply `context:update` so the next session can orient quickly
-5. **Push to remote** — `git pull --rebase` then `git push`; verify `git status` shows clean
-6. **Verify** — do not hand off until git is clean and pushed
-
-> The session is not complete until `git push` succeeds and `git status` is clean.
-> Never hand off with local-only commits. That strands work.
+---
 
 ## Rules
 
-- **Orient first, always** — `issue:ready` before planning or asking "what should I work on?"
 - **Claim before starting** — never implement against an unclaimed issue
+- **One claim at a time** — finish one before claiming another
 - **Link discovered work** — every new issue gets a `discovered-from` parent
-- **Land the plane** — session:complete is mandatory, not optional
-- **Git is the gate** — clean push is the definition of done for a session
+- **Write it down** — decisions and insights not recorded are lost; record them as they happen, not after
+- **Self-check is not optional** — validate against the output contract before signaling done
+
+---
 
 ## Verb Reference
 
-| Verb               | When                          | Dispatches to                |
-| ------------------ | ----------------------------- | ---------------------------- |
-| `session:start`    | Beginning of any work session | This skill (steps 1–4 above) |
-| `session:complete` | End of any work session       | This skill (steps 1–6 above) |
-| `issue:ready`      | Orient, pre-planning          | Installed backend skill      |
-| `issue:claim`      | Before starting a task        | Installed backend skill      |
-| `issue:create`     | Discovered work, new tasks    | Installed backend skill      |
-| `issue:close`      | Task complete                 | Installed backend skill      |
-| `context:read`     | Session start                 | Installed memory skill       |
-| `context:update`   | Session end / handoff         | Installed memory skill       |
-| `message:read`     | Session start                 | Installed inbox skill        |
+| Verb               | When                                        | Dispatches to           |
+| ------------------ | ------------------------------------------- | ----------------------- |
+| `context:read`     | Session start, before claiming              | Installed memory skill  |
+| `message:read`     | Session start, before claiming              | Installed inbox skill   |
+| `issue:claim`      | Before starting an assigned issue           | Installed backend skill |
+| `issue:create`     | Filing discovered work                      | Installed backend skill |
+| `decision:create`  | Meaningful choice made during work          | Installed memory skill  |
+| `insight:create`   | Non-obvious discovery during work           | Installed memory skill  |
+| `context:update`   | Before closing issue; persist working state | Installed memory skill  |
+| `issue:close`      | Task complete                               | Installed backend skill |
+| `message:create`   | Async handoff or status to the orchestrator | Installed inbox skill   |
