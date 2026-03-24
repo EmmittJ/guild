@@ -11,7 +11,7 @@ metadata:
   version: "0.6"
 ---
 
-> **Read this entire file before acting.** This skill is approximately 410 lines. If your first `read_file` call did not return the full content, call it again with a higher `endLine` (e.g. 425) to retrieve the remaining sections — session:start, Review Cadence, Maker-Checker, Memory/Issues/Inbox, Conflict Resolution, Synthesizing Results, File Output Discipline, Issue Lifecycle, session:complete, and Quick Reference are all below the midpoint.
+> **Read this entire file before acting.** This skill is approximately 415 lines. If your first `read_file` call did not return the full content, call it again with a higher `endLine` (e.g. 430) to retrieve the remaining sections — session:start, Review Cadence, Maker-Checker, Memory/Issues/Inbox, Conflict Resolution, Synthesizing Results, File Output Discipline, Issue Lifecycle, session:complete, and Quick Reference are all below the midpoint.
 
 ## Pattern Selection
 
@@ -43,12 +43,12 @@ Start with the lowest-complexity pattern that fits. Escalate only when needed.
 
 Match agent investment to task complexity. Overpowering simple tasks wastes budget; underpowering complex ones misses errors.
 
-| Tier            | When                                  | Agent count |
-| --------------- | ------------------------------------- | ----------- |
-| **Direct**      | Answerable now, no agent needed       | 0           |
-| **Lightweight** | Narrow, well-defined, low-stakes      | 1           |
-| **Standard**    | Typical implementation or review      | 1–2         |
-| **Full**        | Architecture, multi-step, high-stakes | 2–5         |
+| Tier            | Use for                                                  | Agents |
+| --------------- | -------------------------------------------------------- | ------ |
+| **Direct**      | Answerable now without spawning                          | 0      |
+| **Lightweight** | Research, exploration, narrow well-scoped tasks          | 1      |
+| **Standard**    | Typical implementation, reviews, most agent work         | 1–2    |
+| **Full**        | Architecture, multi-step, high-stakes, complex reasoning | 2–5    |
 
 **Rule:** Choose the tier that matches the operation, not the agent. A senior agent doing a narrow task is still Lightweight.
 
@@ -56,7 +56,7 @@ Match agent investment to task complexity. Overpowering simple tasks wastes budg
 
 ## Model Selection
 
-For deciding how many agents to spawn, see **Agent Count Tiers** in the Decomposing Work section.
+For deciding how many agents to spawn, see **Response Tiers** above.
 
 When spawning agents, match the model tier to the operation. Tier names are fixed; model names are host-configured in the `routing` skill.
 
@@ -152,16 +152,6 @@ These rules apply to the orchestrator only. Specialists escalate unclear scope �
 
 **No specialist found: explain the gap.** Do not guess or assign to the closest match. Surface the gap to the user and offer to train a new agent via the `train-agent` skill.
 
-### Agent Count Tiers
-
-These tiers describe how many agents to spawn and how much coordination overhead is warranted — not which model to use. For model selection, see **Model Selection** below.
-
-| Tier        | Use for                                                                   |
-| ----------- | ------------------------------------------------------------------------- |
-| Lightweight | Research, exploration, narrow well-scoped tasks                           |
-| Standard    | Typical implementation, reviews, most agent work                          |
-| Full        | Architecture decisions, high-stakes reviews, complex multi-step reasoning |
-
 ### Prompt construction
 
 Each agent prompt has four parts:
@@ -186,16 +176,7 @@ Output: {exactly what to produce and in what format}
 
 > **What can I launch right now?** That is always the first question. Default to parallel. Serialize only when a task genuinely requires the previous output to proceed. If in doubt, start it — don't wait.
 
-### When to spawn vs. answer directly
-
-Answer directly (no spawn) for:
-
-- Status queries — "what's in progress?", "who's on the team?"
-- Help and capability questions — "what can you do?"
-- Greetings and clarifications
-- Config questions — "which model are you using?"
-
-Spawn for everything else. **Default to spawning eagerly** — if an agent could usefully start work, start them. Don't wait to spawn Agent B until Agent A finishes unless B's work literally depends on A's output.
+**Default to spawning eagerly** — if an agent could usefully start work, start them. Don't wait to spawn Agent B until Agent A finishes unless B's work literally depends on A's output. For requests that should never spawn, see **Active Monitoring — Direct response handling** below.
 
 **Anticipatory spawning (opt-in).** For substantial tasks, you may optionally spawn downstream agents on _setup work_ while the primary builder works — scaffolding test environments, writing stubs, preparing fixtures. Do not spawn agents to run tests against incomplete output. If the primary builder's output is rejected and the spec changes, the orchestrator owns re-briefing any anticipatorily-spawned agents.
 
