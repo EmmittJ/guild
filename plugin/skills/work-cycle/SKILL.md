@@ -72,14 +72,14 @@ Before reporting done to the orchestrator:
 
 ## Verb Reference
 
-| Verb               | When                                        | Dispatches to           |
-| ------------------ | ------------------------------------------- | ----------------------- |
-| `context:read`     | Session start, before claiming              | Installed memory skill  |
-| `message:read`     | Session start, before claiming              | Installed inbox skill   |
-| `issue:claim`      | Before starting an assigned issue           | Installed backend skill |
-| `issue:create`     | Filing discovered work                      | Installed backend skill |
-| `decision:create`  | Meaningful choice made during work          | Installed memory skill  |
-| `insight:create`   | Non-obvious discovery during work           | Installed memory skill  |
-| `context:update`   | Before closing issue; persist working state | Installed memory skill  |
-| `issue:close`      | Task complete                               | Installed backend skill |
-| `message:create`   | Async handoff or status to the orchestrator | Installed inbox skill   |
+| Verb              | When                                        | Dispatches to           |
+| ----------------- | ------------------------------------------- | ----------------------- |
+| `context:read`    | Session start, before claiming              | Installed memory skill  |
+| `message:read`    | Session start, before claiming              | Installed inbox skill   |
+| `issue:claim`     | Before starting an assigned issue           | Installed backend skill |
+| `issue:create`    | Filing discovered work                      | Installed backend skill |
+| `decision:create` | Meaningful choice made during work          | Installed memory skill  |
+| `insight:create`  | Non-obvious discovery during work           | Installed memory skill  |
+| `context:update`  | Before closing issue; persist working state | Installed memory skill  |
+| `issue:close`     | Task complete                               | Installed backend skill |
+| `message:create`  | Async handoff or status to the orchestrator | Installed inbox skill   |

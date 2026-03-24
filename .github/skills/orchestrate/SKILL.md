@@ -12,7 +12,7 @@ metadata:
   version: "0.6"
 ---
 
-> **Read this entire file before acting.** This skill is approximately 385 lines. If your first `read_file` call did not return the full content, call it again with a higher `endLine` (e.g. 400) to retrieve the remaining sections — Maker-Checker, Memory/Issues/Inbox, Conflict Resolution, Synthesizing Results, File Output Discipline, Issue Lifecycle, and Quick Reference are all below the midpoint.
+> **Read this entire file before acting.** This skill is approximately 410 lines. If your first `read_file` call did not return the full content, call it again with a higher `endLine` (e.g. 425) to retrieve the remaining sections — session:start, Review Cadence, Maker-Checker, Memory/Issues/Inbox, Conflict Resolution, Synthesizing Results, File Output Discipline, Issue Lifecycle, session:complete, and Quick Reference are all below the midpoint.
 
 ## Pattern Selection
 
@@ -75,9 +75,11 @@ When spawning agents, match the model tier to the operation. Tier names are fixe
 
 ---
 
-## Orchestrator Initialization
+## session:start
 
 Apply this sequence at the start of every session. Work begins only after all steps complete.
+
+### Load skills and team context
 
 | Step | Action                                                                                                            |
 | ---- | ----------------------------------------------------------------------------------------------------------------- |
@@ -85,6 +87,15 @@ Apply this sequence at the start of every session. Work begins only after all st
 | 2    | Apply each skill listed under **Installed Skills** in routing, in order. Skip steps whose skill is not installed. |
 
 **Fallback (routing not installed, or Installed Skills table is absent or empty):** Apply skills by verb — attempt `context:read`, then `issue:ready`, then `message:read`. Skip any that produce no result.
+
+### Orient to work state
+
+1. **Read context** — apply `context:read` to restore working state from prior sessions
+2. **Check inbox** — apply `message:read` to see waiting messages from teammates
+3. **Find ready work** — apply `issue:ready` to see unblocked issues sorted by priority
+4. **Decompose and delegate** — break work into bounded tasks; create an issue for each via `issue:create`; brief the right worker; the worker claims their assigned issue
+
+> Orchestrators create and assign issues; workers claim them. The `work-cycle` skill governs the worker side of this contract.
 
 ---
 
@@ -256,6 +267,28 @@ For everything else, route. The orchestrator does not implement, research, write
 
 ---
 
+## Active Monitoring
+
+Two anti-patterns to avoid after dispatching work:
+
+- **Passive wait (sync environments):** Summarizing the plan and stopping, then waiting for the user to re-prompt before actually calling the dispatch tool. Fix: call the dispatch tool immediately after forming the brief — do not describe what you're about to do and stop.
+- **Going idle (async environments):** Dispatching background tasks and waiting for the user to ask for an update. Fix: use the host environment's status/polling tools to check in proactively after ~5 minutes of silence; declare stalled and escalate after a second window with no output.
+
+> The specific tools for dispatching and monitoring (e.g. the subagent call, the background task poller) are environment-dependent. Consult your agent file's **Ground Rules** for the tooling that applies to this host — and update those rules when you configure a new environment.
+
+---
+
+## Review Cadence
+
+Review gates have real cost. Apply CI principles to keep throughput high:
+
+- **Peer review proportionally** — trigger a peer review pass at logical completion points (a coherent feature, a set of related tasks), not after every individual task
+- **Batch related work** — complete a set of related bounded tasks, then trigger one review against their shared acceptance scope; do not request a separate review per individual task
+
+> Many small implementations feeding few well-timed reviews — not one review per implementation. This is how review overhead stays proportional to implementation volume.
+
+---
+
 ## Maker-Checker
 
 Use when output quality matters and a second perspective catches real problems.
@@ -375,6 +408,22 @@ Every delegation that produces an artifact gets a tracking issue. No invisible w
 
 ---
 
+## session:complete — Land the Plane
+
+Before ending any session, complete ALL steps in order:
+
+1. **File remaining work** — apply `issue:create` for anything that needs follow-up, with context for future sessions
+2. **Confirm quality gates** — ensure tests, linters, and builds passed; confirm peer review was triggered where warranted (see Review Cadence)
+3. **Close finished issues** — apply `issue:close` for all completed work; update notes on in-progress items
+4. **Update context** — apply `context:update` so the next session can orient quickly
+5. **Push to remote** — `git pull --rebase` then `git push`; verify `git status` shows clean
+6. **Verify** — do not hand off until git is clean and pushed
+
+> The session is not complete until `git push` succeeds and `git status` is clean.
+> Never hand off with local-only commits. That strands work.
+
+---
+
 ## Quick Reference
 
 | Task                      | What to do                                                                                                              |
@@ -384,5 +433,5 @@ Every delegation that produces an artifact gets a tracking issue. No invisible w
 | Agent out of scope        | Re-route to correct specialist                                                                                          |
 | No specialist available   | Explain the gap; offer to train a new agent via `train-agent`                                                           |
 | Repeated failure          | Cap at 3 attempts, escalate                                                                                             |
-| End of session            | Trigger `context:update`; trigger `message:create` if handoff needed                                                    |
+| End of session            | Apply `session:complete` steps above — file remaining work, close issues, push, verify clean                            |
 | Stray files found in repo | Delete them; re-capture content via `insight:create`                                                                    |
